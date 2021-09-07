@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using motoShop.Models;
 
 namespace motoShop.Data
 {
@@ -14,6 +13,6 @@ namespace motoShop.Data
         {
         }
 
-        public DbSet<motoShop.Models.Product> Product { get; set; }
+        public DbSet<Products> Products { get; set; }
     }
 }

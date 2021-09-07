@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using motoShop.Data;
-using motoShop.Models;
 
 namespace motoShop.Controllers
 {
@@ -22,7 +21,7 @@ namespace motoShop.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.ToListAsync());
+            return View(await _context.Products.ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -33,14 +32,14 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
-                .FirstOrDefaultAsync(m => m.PruductId == id);
-            if (product == null)
+            var products = await _context.Products
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (products == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(products);
         }
 
         // GET: Products/Create
@@ -54,15 +53,15 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PruductId")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale")] Products products)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                _context.Add(products);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(products);
         }
 
         // GET: Products/Edit/5
@@ -73,12 +72,12 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product.FindAsync(id);
-            if (product == null)
+            var products = await _context.Products.FindAsync(id);
+            if (products == null)
             {
                 return NotFound();
             }
-            return View(product);
+            return View(products);
         }
 
         // POST: Products/Edit/5
@@ -86,9 +85,9 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PruductId")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale")] Products products)
         {
-            if (id != product.PruductId)
+            if (id != products.Id)
             {
                 return NotFound();
             }
@@ -97,12 +96,12 @@ namespace motoShop.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    _context.Update(products);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.PruductId))
+                    if (!ProductsExists(products.Id))
                     {
                         return NotFound();
                     }
@@ -113,7 +112,7 @@ namespace motoShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(products);
         }
 
         // GET: Products/Delete/5
@@ -124,14 +123,14 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
-                .FirstOrDefaultAsync(m => m.PruductId == id);
-            if (product == null)
+            var products = await _context.Products
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (products == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(products);
         }
 
         // POST: Products/Delete/5
@@ -139,15 +138,15 @@ namespace motoShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Product.FindAsync(id);
-            _context.Product.Remove(product);
+            var products = await _context.Products.FindAsync(id);
+            _context.Products.Remove(products);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(int id)
+        private bool ProductsExists(int id)
         {
-            return _context.Product.Any(e => e.PruductId == id);
+            return _context.Products.Any(e => e.Id == id);
         }
     }
 }
