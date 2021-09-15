@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+namespace motoShop.Models
+{
     public class Quantity
     {
         public int Id { get; set; }
@@ -11,3 +13,4 @@ using System.Threading.Tasks;
 
         public int Amount { get; set; }
     }
+}

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+namespace motoShop.Models
+{
     public class Motorcycle : Products
     {
         public String Model { get; set; }
@@ -13,3 +15,4 @@ using System.Threading.Tasks;
 
         public String LicenseType { get; set; }
     }
+}

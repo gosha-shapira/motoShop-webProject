@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
+namespace motoShop.Models
+{
     public class Order
     {
         [Key]
@@ -18,3 +20,4 @@ using System.Threading.Tasks;
 
         public String ShippingAdress { get; set; }
     }
+}

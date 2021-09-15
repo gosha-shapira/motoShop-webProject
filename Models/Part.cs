@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+namespace motoShop.Models
+{
     public class Part : Products
     {
 
@@ -11,3 +13,4 @@ using System.Threading.Tasks;
         public IEnumerable<Motorcycle> Compatibility { get; set; }
 
     }
+}

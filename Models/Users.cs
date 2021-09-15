@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
+namespace motoShop.Models
+{
     public class Users
     {
         [Key]
@@ -22,3 +24,4 @@ using System.Threading.Tasks;
 
         public String Adress { get; set; }
     }
+}

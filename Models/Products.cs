@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
+namespace motoShop.Models
+{
     public class Products
     {
         [Key]
@@ -27,4 +29,5 @@ using System.Threading.Tasks;
 
         public int Stock { get; set; }
 
+    }
 }

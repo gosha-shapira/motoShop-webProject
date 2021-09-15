@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
+namespace motoShop.Models
+{
     public class Clothing : Products
     {
         public String Gender { get; set; }
@@ -11,3 +13,4 @@ using System.Threading.Tasks;
         public int Size { get; set; }
 
     }
+}
