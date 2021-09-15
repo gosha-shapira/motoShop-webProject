@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-    public class Person
+    public class Users
     {
         [Key]
         public int Id { get; set; }

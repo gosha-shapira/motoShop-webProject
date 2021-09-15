@@ -9,22 +9,22 @@ using motoShop.Data;
 
 namespace motoShop.Controllers
 {
-    public class PeopleController : Controller
+    public class UsersController : Controller
     {
         private readonly motoShopContext _context;
 
-        public PeopleController(motoShopContext context)
+        public UsersController(motoShopContext context)
         {
             _context = context;
         }
 
-        // GET: People
+        // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Person.ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
-        // GET: People/Details/5
+        // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Person
+            var users = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (person == null)
+            if (users == null)
             {
                 return NotFound();
             }
 
-            return View(person);
+            return View(users);
         }
 
-        // GET: People/Create
+        // GET: Users/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: People/Create
+        // POST: Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,Username,Password,FirstName,LastName,Adress")] Person person)
+        public async Task<IActionResult> Create([Bind("Id,Type,Username,Password,FirstName,LastName,Adress")] Users users)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(person);
+                _context.Add(users);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(person);
+            return View(users);
         }
 
-        // GET: People/Edit/5
+        // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Person.FindAsync(id);
-            if (person == null)
+            var users = await _context.Users.FindAsync(id);
+            if (users == null)
             {
                 return NotFound();
             }
-            return View(person);
+            return View(users);
         }
 
-        // POST: People/Edit/5
+        // POST: Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Username,Password,FirstName,LastName,Adress")] Person person)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Username,Password,FirstName,LastName,Adress")] Users users)
         {
-            if (id != person.Id)
+            if (id != users.Id)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace motoShop.Controllers
             {
                 try
                 {
-                    _context.Update(person);
+                    _context.Update(users);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonExists(person.Id))
+                    if (!UsersExists(users.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace motoShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(person);
+            return View(users);
         }
 
-        // GET: People/Delete/5
+        // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Person
+            var users = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (person == null)
+            if (users == null)
             {
                 return NotFound();
             }
 
-            return View(person);
+            return View(users);
         }
 
-        // POST: People/Delete/5
+        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var person = await _context.Person.FindAsync(id);
-            _context.Person.Remove(person);
+            var users = await _context.Users.FindAsync(id);
+            _context.Users.Remove(users);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PersonExists(int id)
+        private bool UsersExists(int id)
         {
-            return _context.Person.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace motoShop.Data
 
         public DbSet<Part> Part { get; set; }
 
-        public DbSet<Person> Person { get; set; }
+        public DbSet<Users> Users { get; set; }
 
         public DbSet<ProductImg> ProductImg { get; set; }
 
