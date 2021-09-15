@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Products>
+﻿@model IEnumerable<Motorcycle>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,6 +12,18 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EngineSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LicenseType)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Manufacturer)
             </th>
@@ -42,6 +54,18 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EngineSize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LicenseType)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Manufacturer)
             </td>

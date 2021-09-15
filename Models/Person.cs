@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
     public class Person
     {
+        [Key]
         public int Id { get; set; }
 
         public String Type { get; set; }
-
+        [Required]
         public String Username { get; set; }
-
+        [Required]
         public String Password { get; set; }
 
         public String FirstName { get; set; }

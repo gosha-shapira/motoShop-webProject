@@ -9,22 +9,22 @@ using motoShop.Data;
 
 namespace motoShop.Controllers
 {
-    public class ProductsController : Controller
+    public class QuantitiesController : Controller
     {
         private readonly motoShopContext _context;
 
-        public ProductsController(motoShopContext context)
+        public QuantitiesController(motoShopContext context)
         {
             _context = context;
         }
 
-        // GET: Products
+        // GET: Quantities
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            return View(await _context.Quantity.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: Quantities/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products
+            var quantity = await _context.Quantity
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (products == null)
+            if (quantity == null)
             {
                 return NotFound();
             }
 
-            return View(products);
+            return View(quantity);
         }
 
-        // GET: Products/Create
+        // GET: Quantities/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Quantities/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Products products)
+        public async Task<IActionResult> Create([Bind("Id,ProductId,Amount")] Quantity quantity)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(products);
+                _context.Add(quantity);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(products);
+            return View(quantity);
         }
 
-        // GET: Products/Edit/5
+        // GET: Quantities/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products.FindAsync(id);
-            if (products == null)
+            var quantity = await _context.Quantity.FindAsync(id);
+            if (quantity == null)
             {
                 return NotFound();
             }
-            return View(products);
+            return View(quantity);
         }
 
-        // POST: Products/Edit/5
+        // POST: Quantities/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Products products)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductId,Amount")] Quantity quantity)
         {
-            if (id != products.Id)
+            if (id != quantity.Id)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace motoShop.Controllers
             {
                 try
                 {
-                    _context.Update(products);
+                    _context.Update(quantity);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductsExists(products.Id))
+                    if (!QuantityExists(quantity.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace motoShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(products);
+            return View(quantity);
         }
 
-        // GET: Products/Delete/5
+        // GET: Quantities/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products
+            var quantity = await _context.Quantity
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (products == null)
+            if (quantity == null)
             {
                 return NotFound();
             }
 
-            return View(products);
+            return View(quantity);
         }
 
-        // POST: Products/Delete/5
+        // POST: Quantities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var products = await _context.Products.FindAsync(id);
-            _context.Products.Remove(products);
+            var quantity = await _context.Quantity.FindAsync(id);
+            _context.Quantity.Remove(quantity);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductsExists(int id)
+        private bool QuantityExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.Quantity.Any(e => e.Id == id);
         }
     }
 }

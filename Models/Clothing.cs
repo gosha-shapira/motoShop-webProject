@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,6 +8,6 @@ using System.Threading.Tasks;
     {
         public String Gender { get; set; }
 
-        public List<int> Stock { get; set; }
+        public int Size { get; set; }
 
     }

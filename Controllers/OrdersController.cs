@@ -9,22 +9,22 @@ using motoShop.Data;
 
 namespace motoShop.Controllers
 {
-    public class ProductsController : Controller
+    public class OrdersController : Controller
     {
         private readonly motoShopContext _context;
 
-        public ProductsController(motoShopContext context)
+        public OrdersController(motoShopContext context)
         {
             _context = context;
         }
 
-        // GET: Products
+        // GET: Orders
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            return View(await _context.Order.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (products == null)
+            var order = await _context.Order
+                .FirstOrDefaultAsync(m => m.OrderId == id);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(products);
+            return View(order);
         }
 
-        // GET: Products/Create
+        // GET: Orders/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Orders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Products products)
+        public async Task<IActionResult> Create([Bind("OrderId,BuyerId,TotalPrice,ShippingAdress")] Order order)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(products);
+                _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(products);
+            return View(order);
         }
 
-        // GET: Products/Edit/5
+        // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products.FindAsync(id);
-            if (products == null)
+            var order = await _context.Order.FindAsync(id);
+            if (order == null)
             {
                 return NotFound();
             }
-            return View(products);
+            return View(order);
         }
 
-        // POST: Products/Edit/5
+        // POST: Orders/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Products products)
+        public async Task<IActionResult> Edit(int id, [Bind("OrderId,BuyerId,TotalPrice,ShippingAdress")] Order order)
         {
-            if (id != products.Id)
+            if (id != order.OrderId)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace motoShop.Controllers
             {
                 try
                 {
-                    _context.Update(products);
+                    _context.Update(order);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductsExists(products.Id))
+                    if (!OrderExists(order.OrderId))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace motoShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(products);
+            return View(order);
         }
 
-        // GET: Products/Delete/5
+        // GET: Orders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (products == null)
+            var order = await _context.Order
+                .FirstOrDefaultAsync(m => m.OrderId == id);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(products);
+            return View(order);
         }
 
-        // POST: Products/Delete/5
+        // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var products = await _context.Products.FindAsync(id);
-            _context.Products.Remove(products);
+            var order = await _context.Order.FindAsync(id);
+            _context.Order.Remove(order);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductsExists(int id)
+        private bool OrderExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.Order.Any(e => e.OrderId == id);
         }
     }
 }

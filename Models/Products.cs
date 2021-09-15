@@ -17,12 +17,14 @@ using System.Threading.Tasks;
 
         public String Description { get; set; }
 
-        public List<ProductImg> Photos { get; set; }
+        public IEnumerable<ProductImg> Photos { get; set; }
 
         public int UnitsSold { get; set; }
 
-        public DateTime EntryDate { get; set; }
+        public DateTime EntryDate { get; set; } = DateTime.Now;
 
         public int Sale { get; set; }
 
-    }
+        public int Stock { get; set; }
+
+}

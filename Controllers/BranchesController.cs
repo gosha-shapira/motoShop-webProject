@@ -9,22 +9,22 @@ using motoShop.Data;
 
 namespace motoShop.Controllers
 {
-    public class ProductsController : Controller
+    public class BranchesController : Controller
     {
         private readonly motoShopContext _context;
 
-        public ProductsController(motoShopContext context)
+        public BranchesController(motoShopContext context)
         {
             _context = context;
         }
 
-        // GET: Products
+        // GET: Branches
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            return View(await _context.Branches.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: Branches/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (products == null)
+            var branches = await _context.Branches
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (branches == null)
             {
                 return NotFound();
             }
 
-            return View(products);
+            return View(branches);
         }
 
-        // GET: Products/Create
+        // GET: Branches/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Branches/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Products products)
+        public async Task<IActionResult> Create([Bind("ID,Adress")] Branches branches)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(products);
+                _context.Add(branches);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(products);
+            return View(branches);
         }
 
-        // GET: Products/Edit/5
+        // GET: Branches/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products.FindAsync(id);
-            if (products == null)
+            var branches = await _context.Branches.FindAsync(id);
+            if (branches == null)
             {
                 return NotFound();
             }
-            return View(products);
+            return View(branches);
         }
 
-        // POST: Products/Edit/5
+        // POST: Branches/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Products products)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Adress")] Branches branches)
         {
-            if (id != products.Id)
+            if (id != branches.ID)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace motoShop.Controllers
             {
                 try
                 {
-                    _context.Update(products);
+                    _context.Update(branches);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductsExists(products.Id))
+                    if (!BranchesExists(branches.ID))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace motoShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(products);
+            return View(branches);
         }
 
-        // GET: Products/Delete/5
+        // GET: Branches/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (products == null)
+            var branches = await _context.Branches
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (branches == null)
             {
                 return NotFound();
             }
 
-            return View(products);
+            return View(branches);
         }
 
-        // POST: Products/Delete/5
+        // POST: Branches/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var products = await _context.Products.FindAsync(id);
-            _context.Products.Remove(products);
+            var branches = await _context.Branches.FindAsync(id);
+            _context.Branches.Remove(branches);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductsExists(int id)
+        private bool BranchesExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.Branches.Any(e => e.ID == id);
         }
     }
 }

@@ -14,5 +14,21 @@ namespace motoShop.Data
         }
 
         public DbSet<Products> Products { get; set; }
+
+        public DbSet<Branches> Branches { get; set; }
+
+        public DbSet<Motorcycle> Motorcycle { get; set; }
+
+        public DbSet<Clothing> Clothing { get; set; }
+
+        public DbSet<Order> Order { get; set; }
+
+        public DbSet<Part> Part { get; set; }
+
+        public DbSet<Person> Person { get; set; }
+
+        public DbSet<ProductImg> ProductImg { get; set; }
+
+        public DbSet<Quantity> Quantity { get; set; }
     }
 }

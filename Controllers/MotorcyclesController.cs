@@ -9,22 +9,22 @@ using motoShop.Data;
 
 namespace motoShop.Controllers
 {
-    public class ProductsController : Controller
+    public class MotorcyclesController : Controller
     {
         private readonly motoShopContext _context;
 
-        public ProductsController(motoShopContext context)
+        public MotorcyclesController(motoShopContext context)
         {
             _context = context;
         }
 
-        // GET: Products
+        // GET: Motorcycles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            return View(await _context.Motorcycle.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: Motorcycles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products
+            var motorcycle = await _context.Motorcycle
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (products == null)
+            if (motorcycle == null)
             {
                 return NotFound();
             }
 
-            return View(products);
+            return View(motorcycle);
         }
 
-        // GET: Products/Create
+        // GET: Motorcycles/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Motorcycles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Products products)
+        public async Task<IActionResult> Create([Bind("Model,Year,EngineSize,LicenseType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Motorcycle motorcycle)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(products);
+                _context.Add(motorcycle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(products);
+            return View(motorcycle);
         }
 
-        // GET: Products/Edit/5
+        // GET: Motorcycles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products.FindAsync(id);
-            if (products == null)
+            var motorcycle = await _context.Motorcycle.FindAsync(id);
+            if (motorcycle == null)
             {
                 return NotFound();
             }
-            return View(products);
+            return View(motorcycle);
         }
 
-        // POST: Products/Edit/5
+        // POST: Motorcycles/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Products products)
+        public async Task<IActionResult> Edit(int id, [Bind("Model,Year,EngineSize,LicenseType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Motorcycle motorcycle)
         {
-            if (id != products.Id)
+            if (id != motorcycle.Id)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace motoShop.Controllers
             {
                 try
                 {
-                    _context.Update(products);
+                    _context.Update(motorcycle);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductsExists(products.Id))
+                    if (!MotorcycleExists(motorcycle.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace motoShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(products);
+            return View(motorcycle);
         }
 
-        // GET: Products/Delete/5
+        // GET: Motorcycles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace motoShop.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products
+            var motorcycle = await _context.Motorcycle
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (products == null)
+            if (motorcycle == null)
             {
                 return NotFound();
             }
 
-            return View(products);
+            return View(motorcycle);
         }
 
-        // POST: Products/Delete/5
+        // POST: Motorcycles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var products = await _context.Products.FindAsync(id);
-            _context.Products.Remove(products);
+            var motorcycle = await _context.Motorcycle.FindAsync(id);
+            _context.Motorcycle.Remove(motorcycle);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductsExists(int id)
+        private bool MotorcycleExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.Motorcycle.Any(e => e.Id == id);
         }
     }
 }

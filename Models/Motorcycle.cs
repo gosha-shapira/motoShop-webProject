@@ -12,6 +12,4 @@ using System.Threading.Tasks;
         public double EngineSize { get; set; }
 
         public String LicenseType { get; set; }
-
-        public int Stock { get; set; }
     }
