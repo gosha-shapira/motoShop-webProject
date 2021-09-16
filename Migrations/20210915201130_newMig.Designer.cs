@@ -10,7 +10,7 @@ using motoShop.Data;
 namespace motoShop.Migrations
 {
     [DbContext(typeof(motoShopContext))]
-    [Migration("20210915171420_newMig")]
+    [Migration("20210915201130_newMig")]
     partial class newMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace motoShop.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Branches", b =>
+            modelBuilder.Entity("motoShop.Models.Branches", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -45,7 +45,7 @@ namespace motoShop.Migrations
                     b.ToTable("Branches");
                 });
 
-            modelBuilder.Entity("Order", b =>
+            modelBuilder.Entity("motoShop.Models.Order", b =>
                 {
                     b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,7 @@ namespace motoShop.Migrations
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("ProductImg", b =>
+            modelBuilder.Entity("motoShop.Models.ProductImg", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,7 +86,7 @@ namespace motoShop.Migrations
                     b.ToTable("ProductImg");
                 });
 
-            modelBuilder.Entity("Products", b =>
+            modelBuilder.Entity("motoShop.Models.Products", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -128,7 +128,7 @@ namespace motoShop.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Products");
                 });
 
-            modelBuilder.Entity("Quantity", b =>
+            modelBuilder.Entity("motoShop.Models.Quantity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -151,14 +151,12 @@ namespace motoShop.Migrations
                     b.ToTable("Quantity");
                 });
 
-            modelBuilder.Entity("Users", b =>
+            modelBuilder.Entity("motoShop.Models.Users", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Adress")
+                    b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -171,21 +169,17 @@ namespace motoShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
+                    b.HasKey("Username");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Clothing", b =>
+            modelBuilder.Entity("motoShop.Models.Clothing", b =>
                 {
-                    b.HasBaseType("Products");
+                    b.HasBaseType("motoShop.Models.Products");
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
@@ -196,9 +190,9 @@ namespace motoShop.Migrations
                     b.HasDiscriminator().HasValue("Clothing");
                 });
 
-            modelBuilder.Entity("Motorcycle", b =>
+            modelBuilder.Entity("motoShop.Models.Motorcycle", b =>
                 {
-                    b.HasBaseType("Products");
+                    b.HasBaseType("motoShop.Models.Products");
 
                     b.Property<double>("EngineSize")
                         .HasColumnType("float");
@@ -220,9 +214,9 @@ namespace motoShop.Migrations
                     b.HasDiscriminator().HasValue("Motorcycle");
                 });
 
-            modelBuilder.Entity("Part", b =>
+            modelBuilder.Entity("motoShop.Models.Part", b =>
                 {
-                    b.HasBaseType("Products");
+                    b.HasBaseType("motoShop.Models.Products");
 
                     b.Property<int>("MotorcycleId")
                         .HasColumnType("int");
@@ -230,9 +224,9 @@ namespace motoShop.Migrations
                     b.HasDiscriminator().HasValue("Part");
                 });
 
-            modelBuilder.Entity("ProductImg", b =>
+            modelBuilder.Entity("motoShop.Models.ProductImg", b =>
                 {
-                    b.HasOne("Products", "Product")
+                    b.HasOne("motoShop.Models.Products", "Product")
                         .WithMany("Photos")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -241,31 +235,31 @@ namespace motoShop.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Quantity", b =>
+            modelBuilder.Entity("motoShop.Models.Quantity", b =>
                 {
-                    b.HasOne("Order", null)
+                    b.HasOne("motoShop.Models.Order", null)
                         .WithMany("ProductsList")
                         .HasForeignKey("OrderId");
                 });
 
-            modelBuilder.Entity("Motorcycle", b =>
+            modelBuilder.Entity("motoShop.Models.Motorcycle", b =>
                 {
-                    b.HasOne("Part", null)
+                    b.HasOne("motoShop.Models.Part", null)
                         .WithMany("Compatibility")
                         .HasForeignKey("PartId");
                 });
 
-            modelBuilder.Entity("Order", b =>
+            modelBuilder.Entity("motoShop.Models.Order", b =>
                 {
                     b.Navigation("ProductsList");
                 });
 
-            modelBuilder.Entity("Products", b =>
+            modelBuilder.Entity("motoShop.Models.Products", b =>
                 {
                     b.Navigation("Photos");
                 });
 
-            modelBuilder.Entity("Part", b =>
+            modelBuilder.Entity("motoShop.Models.Part", b =>
                 {
                     b.Navigation("Compatibility");
                 });

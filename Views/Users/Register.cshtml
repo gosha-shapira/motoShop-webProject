@@ -1,22 +1,17 @@
 ﻿@model Users
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Register";
+    Layout = "_LoginLayout";
 }
 
-<h1>Create</h1>
+<h1 class="text-center">Register to the Shop</h1>
 
-<h4>Users</h4>
-<hr />
-<div class="row">
+
+<div class="row justify-content-center">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Register">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
                 <input asp-for="Username" class="form-control" />
@@ -38,19 +33,23 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Adress" class="control-label"></label>
-                <input asp-for="Adress" class="form-control" />
-                <span asp-validation-for="Adress" class="text-danger"></span>
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group text-center" >
+                <input type="submit" value="Register" class="btn btn-primary" />
             </div>
+            @if (!String.IsNullOrEmpty(ViewBag.Error))
+            {
+                <div class="text-danger text-center">@ViewBag.Error</div>
+            }
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="text-center">
+    <a asp-action="Login">Click here</a> if you already registerd.
 </div>
 
 @section Scripts {

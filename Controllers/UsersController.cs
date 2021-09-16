@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using motoShop.Data;
+using motoShop.Models;
 
 namespace motoShop.Controllers
 {
+    
     public class UsersController : Controller
     {
         private readonly motoShopContext _context;
@@ -18,22 +25,23 @@ namespace motoShop.Controllers
             _context = context;
         }
 
-        // GET: Users
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Users.ToListAsync());
         }
 
         // GET: Users/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string? username)
         {
-            if (id == null)
+            if (username == null)
             {
                 return NotFound();
             }
 
             var users = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Username == username);
             if (users == null)
             {
                 return NotFound();
@@ -42,37 +50,106 @@ namespace motoShop.Controllers
             return View(users);
         }
 
-        // GET: Users/Create
-        public IActionResult Create()
+        private async void loginUser(string username, UserType type)
+        {
+            HttpContext.Session.SetString("username", username);
+
+            var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, username),
+                    new Claim(ClaimTypes.Role, type.ToString()),
+                };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10)
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction(nameof(Login));
+        }
+
+
+        // GET: Users Registration
+        public IActionResult Register()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Users Registration
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,Username,Password,FirstName,LastName,Adress")] Users users)
+        public async Task<IActionResult> Register([Bind("Username,Password,FirstName,LastName,Adress")] Users users)
         {
             if (ModelState.IsValid)
             {
+                if (_context.Users.FirstOrDefault(u => u.Username == users.Username) != null)
+                {
+                    ViewData["Error"] = "Cannot creat username";
+                    return View(users);
+                }
                 _context.Add(users);
                 await _context.SaveChangesAsync();
+
+                loginUser(users.Username, UserType.Client);
                 return RedirectToAction(nameof(Index));
             }
             return View(users);
         }
 
-        // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: Users Login
+        public IActionResult Login()
         {
-            if (id == null)
+            return View();
+        }
+
+        // POST: Users Login
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login([Bind("Username,Password")] Users users)
+        {
+            if (ModelState.IsValid)
+            {
+                var q = from u in _context.Users
+                        where u.Username == users.Username && u.Password == users.Password
+                        select u;
+
+                if (q.Count() > 0)
+                {
+                    loginUser(q.First().Username, q.First().Type);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewData["Error"] = "Invalid username/password";
+                }
+            }
+            return View(users);
+        }
+
+        // GET: Users/Edit/5
+        public async Task<IActionResult> Edit(string? username)
+        {
+            if (username == null)
             {
                 return NotFound();
             }
 
-            var users = await _context.Users.FindAsync(id);
+            var users = await _context.Users.FindAsync(username);
             if (users == null)
             {
                 return NotFound();
@@ -85,9 +162,9 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Username,Password,FirstName,LastName,Adress")] Users users)
+        public async Task<IActionResult> Edit(string username, [Bind("Type,Username,Password,FirstName,LastName,Adress")] Users users)
         {
-            if (id != users.Id)
+            if (username != users.Username)
             {
                 return NotFound();
             }
@@ -101,7 +178,7 @@ namespace motoShop.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsersExists(users.Id))
+                    if (!UsersExists(users.Username))
                     {
                         return NotFound();
                     }
@@ -116,15 +193,15 @@ namespace motoShop.Controllers
         }
 
         // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string? username)
         {
-            if (id == null)
+            if (username == null)
             {
                 return NotFound();
             }
 
             var users = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Username == username);
             if (users == null)
             {
                 return NotFound();
@@ -136,17 +213,22 @@ namespace motoShop.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string username)
         {
-            var users = await _context.Users.FindAsync(id);
+            var users = await _context.Users.FindAsync(username);
             _context.Users.Remove(users);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UsersExists(int id)
+        private bool UsersExists(string username)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Username == username);
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

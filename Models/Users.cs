@@ -7,21 +7,28 @@ using System.Threading.Tasks;
 
 namespace motoShop.Models
 {
+    public enum UserType
+    {
+        Client,
+        Employee,
+        Admin
+    }
     public class Users
     {
-        [Key]
-        public int Id { get; set; }
+        public UserType Type { get; set; } = UserType.Client;
 
-        public String Type { get; set; }
+        [Key]
         [Required]
         public String Username { get; set; }
+
         [Required]
+        [DataType(DataType.Password)]
         public String Password { get; set; }
 
         public String FirstName { get; set; }
 
         public String LastName { get; set; }
 
-        public String Adress { get; set; }
+        public String Address { get; set; }
     }
 }

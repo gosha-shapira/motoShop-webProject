@@ -25,6 +25,18 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            <div> Hello @Context.User.Identity.Name </div>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Logout">Logout</a>
+                        }
+                        else
+                        {
+                            //<div> Hello @Context.User.Identity.Name </div>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Login">Login/Register</a>
+                        }
+                    }
                 </div>
             </div>
         </nav>

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using motoShop.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace motoShop
 {
@@ -30,7 +31,17 @@ namespace motoShop
             services.AddDbContext<motoShopContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("motoShopContext")));
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+                option =>
+                {
+                    option.LoginPath = "/Users/Login";
+                    option.AccessDeniedPath = "/Users/AccessDenied";
+                });
 
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,13 +62,17 @@ namespace motoShop
 
             app.UseRouting();
 
+            app.UseSession();
+
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{username?}");
             });
         }
     }
