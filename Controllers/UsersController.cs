@@ -26,10 +26,17 @@ namespace motoShop.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "employee", "admin")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            if (User.Identity.IsAuthenticated && User.IsInRole("Admin")) // my own authontication - because the attribute doesn't work
+            {
+                return View(await _context.Users.ToListAsync());
+            }
+            else
+            {
+                return RedirectToAction(nameof(AccessDenied));
+            }
         }
 
         // GET: Users/Details/5
@@ -120,7 +127,7 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([Bind("Username,Password")] Users users)
+        public async Task<IActionResult> Login([Bind("Username,Password,FirstName,LastName,Adress")] Users users)
         {
             if (ModelState.IsValid)
             {
@@ -131,7 +138,8 @@ namespace motoShop.Controllers
                 if (q.Count() > 0)
                 {
                     loginUser(q.First().Username, q.First().Type);
-                    return RedirectToAction(nameof(Index));
+                    //return RedirectToAction(nameof(Register));
+                    return RedirectToAction("Index");
                 }
                 else
                 {

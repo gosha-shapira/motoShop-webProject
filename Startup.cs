@@ -59,13 +59,9 @@ namespace motoShop
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
-            app.UseRouting();
-
             app.UseSession();
-
+            app.UseRouting();
             app.UseAuthorization();
-
             app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
@@ -74,6 +70,10 @@ namespace motoShop
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{username?}");
             });
+
+            
+
+            
         }
     }
 }
