@@ -26,17 +26,11 @@ namespace motoShop.Controllers
         }
 
 
-        //[Authorize(Roles = "employee", "admin")]
+        [Authorize (Roles = "Admin")] // <-----------------------
         public async Task<IActionResult> Index()
         {
-            if (User.Identity.IsAuthenticated && User.IsInRole("Admin")) // my own authontication - because the attribute doesn't work
-            {
-                return View(await _context.Users.ToListAsync());
-            }
-            else
-            {
-                return RedirectToAction(nameof(AccessDenied));
-            }
+            
+            return View(await _context.Users.ToListAsync()); 
         }
 
         // GET: Users/Details/5
@@ -72,7 +66,7 @@ namespace motoShop.Controllers
 
             var authProperties = new AuthenticationProperties
             {
-                //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10)
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10)
             };
 
             await HttpContext.SignInAsync(
@@ -117,7 +111,7 @@ namespace motoShop.Controllers
         }
 
         // GET: Users Login
-        public IActionResult Login()
+        public IActionResult Login(string ReturnUrl)
         {
             return View();
         }

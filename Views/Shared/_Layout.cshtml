@@ -29,12 +29,11 @@
                         if (User.Identity.IsAuthenticated)
                         {
                             <div> Hello @Context.User.Identity.Name </div>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Logout">Logout</a>
+                            <a class="nav-link text-light btn btn-primary" asp-area="" asp-controller="Users" asp-action="Logout">Logout</a>
                         }
                         else
                         {
-                            //<div> Hello @Context.User.Identity.Name </div>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Login">Login/Register</a>
+                            <a class="nav-link text-light btn btn-primary" asp-area="" asp-controller="Users" asp-action="Login">Login/Register</a>
                         }
                     }
                 </div>

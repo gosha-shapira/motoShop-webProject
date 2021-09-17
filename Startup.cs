@@ -61,8 +61,9 @@ namespace motoShop
             app.UseStaticFiles();
             app.UseSession();
             app.UseRouting();
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
