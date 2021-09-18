@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Manufacturer)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Model)
             </th>
             <th>
@@ -23,9 +26,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LicenseType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Manufacturer)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Type)
@@ -55,6 +55,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Manufacturer)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Model)
             </td>
             <td>
@@ -66,9 +69,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.LicenseType)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manufacturer)
-            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
