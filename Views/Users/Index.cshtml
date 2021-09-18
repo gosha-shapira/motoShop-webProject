@@ -33,7 +33,7 @@
 @foreach (var item in Model) {
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Username)
+                @Html.DisplayFor(model => item.Username)
             </th>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)

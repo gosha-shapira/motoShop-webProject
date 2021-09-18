@@ -27,7 +27,7 @@
                         @{
                             if (User.IsInRole("Admin")) {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="ListUsers">Users</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
                             </li>
                                 }
                             }
@@ -35,8 +35,8 @@
                     @{
                         if (User.Identity.IsAuthenticated)
                         {
-                            <div> Hello @Context.User.Identity.Name </div>
-                            <a class="nav-link text-light btn btn-primary" asp-area="" asp-controller="Users" asp-action="Logout">Logout</a>
+                            <div> Hello @Context.User.Identity.Name  </div>
+                            <a class="nav-link text-light btn btn-primary" asp-area="" asp-controller="Users" asp-action="Logout"> Logout</a>
                         }
                         else
                         {
