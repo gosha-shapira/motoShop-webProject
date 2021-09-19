@@ -3,7 +3,7 @@
 <h1> Users List </h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Register">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -51,9 +51,9 @@
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-username="@item.Username">Edit</a> |
-                <a asp-action="Details" asp-route-username="@item.Username">Details</a> |
-                <a asp-action="Delete" asp-route-username="@item.Username">Delete</a>
+                <a asp-action="Edit" asp-route-username="@item.Username">Manage User</a> 
+                @*<a asp-action="Details" asp-route-username="@item.Username">Details</a> |
+                <a asp-action="Delete" asp-route-username="@item.Username">Delete</a>*@
             </td>
         </tr>
 }
