@@ -5,39 +5,39 @@
     Layout = "_LoginLayout";
 }
 
-<h1 class="text-center">Register to the Shop</h1>
+<h1 class="text-center m-5">Register to the Shop</h1>
 
 
-<div class="row justify-content-center">
-    <div class="col-md-4">
+<div class="row justify-content-center m-5">
+    <div class="col-md-4 p-2">
         <form asp-action="Register">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group p-2">
                 <label asp-for="Username" class="control-label"></label>
                 <input asp-for="Username" class="form-control" />
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group p-2">
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group p-2">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group p-2">
                 <label asp-for="LastName" class="control-label"></label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group p-2">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            <div class="form-group text-center" >
+            <div class="form-group text-center p-2" >
                 <input type="submit" value="Register" class="btn btn-primary" />
             </div>
             @if (!String.IsNullOrEmpty(ViewBag.Error))
@@ -49,7 +49,7 @@
 </div>
 
 <div class="text-center">
-    <a asp-action="Login">Click here</a> if you already registerd.
+    Already registerd? <a asp-action="Login">Log in!</a> 
 </div>
 
 @section Scripts {
