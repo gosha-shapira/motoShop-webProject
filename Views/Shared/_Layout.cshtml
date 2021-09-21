@@ -31,12 +31,16 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="Index">Parts</a>
                         </li>
                         @{
-                            if (User.IsInRole("Admin")) {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
-                            </li>
-                                }
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                                </li>
                             }
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCarts" asp-action="Index">Cart</a>
+                        </li>
                     </ul>
                     @{
                         if (User.Identity.IsAuthenticated)
