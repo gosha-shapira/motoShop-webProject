@@ -73,9 +73,9 @@
         @Subtotal$
     </td>
     <td class="center-td">
-        <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-bookid="@item.Product.Id"><i class="fa fa-plus-circle"></i></a> |
-        <a asp-controller="ShoppingCarts" asp-action="RemoveFromShoppingCart" asp-route-bookid="@item.Product.Id"><i class="fa fa-minus-circle"></i></a> |
-        <a asp-controller="ShoppingCarts" asp-action="ClearFromShoppingCart" asp-route-bookId="@item.Product.Id"><i class="fa fa-trash"></i></a>
+        <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Product.Id">Add<i class="fa fa-plus-circle"></i></a> |
+        <a asp-controller="ShoppingCarts" asp-action="RemoveFromShoppingCart" asp-route-id="@item.Product.Id">Delete<i class="fa fa-minus-circle"></i></a> |
+        <a asp-controller="ShoppingCarts" asp-action="ClearFromShoppingCart" asp-route-id="@item.Product.Id">Empty<i class="fa fa-trash"></i></a>
     </td>
 </tr>}
     </tbody>

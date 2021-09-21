@@ -44,9 +44,9 @@ namespace motoShop.Controllers
 
 
 
-        public async Task<RedirectToActionResult> RemoveFromShoppingCart(int prodId)
+        public async Task<RedirectToActionResult> RemoveFromShoppingCart(int id)
         {
-            var selectedProduct = GetAllProducts.FirstOrDefault(c => c.Id == prodId);
+            var selectedProduct = GetAllProducts.FirstOrDefault(c => c.Id == id);
 
             if (selectedProduct != null)
             {
@@ -68,9 +68,9 @@ namespace motoShop.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<RedirectToActionResult> ClearFromShoppingCart(int prodId)
+        public async Task<RedirectToActionResult> ClearFromShoppingCart(int id)
         {
-            var selectedProduct = GetAllProducts.FirstOrDefault(c => c.Id == prodId);
+            var selectedProduct = GetAllProducts.FirstOrDefault(c => c.Id == id);
 
             if (selectedProduct != null)
             {
