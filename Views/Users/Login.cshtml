@@ -5,25 +5,25 @@
     Layout = "_LoginLayout";
 }
 
-<h1 class="text-center">Login to the Shop</h1>
+<h1 class="text-center m-5">Login to the Shop</h1>
 
 
-<div class="row justify-content-center">
-    <div class="col-md-4">
+<div class="row justify-content-center m-5">
+    <div class="col-md-4 p-2">
         <form asp-action="Login">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             
-            <div class="form-group">
+            <div class="form-group p-2">
             <label asp-for="Username" class="control-label"></label>
             <input asp-for="Username" class="form-control" />
             <span asp-validation-for="Username" class="text-danger"></span>
         </div>
-        <div class="form-group">
+        <div class="form-group p-2">
             <label asp-for="Password" class="control-label"></label>
             <input asp-for="Password" class="form-control" />
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
-            <div class="form-group text-center">
+            <div class="form-group text-center p-2">
                 <input type="submit" value="Log In" class="btn btn-primary" />
             </div>
             @if (!String.IsNullOrEmpty(ViewBag.Error))
@@ -34,11 +34,11 @@
     </div>
 </div>
 
-<div class="text-center">
-    If you are new to the site, you car register by <a asp-action="Register">Clicking here</a> 
+<div class="text-center p-2">
+    Not registerd?  <a asp-action="Register">click here to register</a> 
 </div>
-<div class="text-center">
-    <a asp-controller="Home" asp-action="Index">Click here</a> to go back to the home page
+<div class="text-center p-2">
+    <a asp-controller="Home" asp-action="Index">Go to the home page</a> 
 </div>
 
 @section Scripts {
