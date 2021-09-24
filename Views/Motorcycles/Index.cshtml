@@ -7,22 +7,31 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+    {
+        <a asp-action="Create">Create New</a>
+    }
 </p>
-<table class="table">
+<table class="table" style="font-size: 90%">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Manufacturer)
+                @Html.ActionLink("↑", "Index", new { Sorting_Order = "Man_Up" })
+                @Html.ActionLink("↓", "Index", new { Sorting_Order = "Man_Down" })
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Model)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Year)
+                @Html.ActionLink("↑", "Index", new { Sorting_Order = "Year_Up" })
+                @Html.ActionLink("↓", "Index", new { Sorting_Order = "Year_Down" })
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EngineSize)
+                @Html.ActionLink("↑", "Index", new { Sorting_Order = "Engine_Up" })
+                @Html.ActionLink("↓", "Index", new { Sorting_Order = "Engine_Down" })
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LicenseType)
@@ -40,22 +49,32 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
+                @Html.ActionLink("↑", "Index", new { Sorting_Order = "Price_Up" })
+                @Html.ActionLink("↓", "Index", new { Sorting_Order = "Price_Down" })
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UnitsSold)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EntryDate)
-            </th>
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitsSold)
+                </th>
+            }
+        <th>
+            @Html.DisplayNameFor(model => model.EntryDate)
+            @Html.ActionLink("↑", "Index", new { Sorting_Order = "Date_Up" })
+            @Html.ActionLink("↓", "Index", new { Sorting_Order = "Date_Down" })
+        </th>
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+            {
             <th>
                 @Html.DisplayNameFor(model => model.Sale)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Stock)
             </th>
+            }
             <th>
                 @Html.DisplayNameFor(model => model.Branch)
             </th>
@@ -96,19 +115,34 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+            {
             <td>
                 @Html.DisplayFor(modelItem => item.UnitsSold)
             </td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.EntryDate)
             </td>
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+            {
             <td>
                 @Html.DisplayFor(modelItem => item.Sale)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Stock)
             </td>
+            }
             <td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                }
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                @if (User.IsInRole("Admin")|| User.IsInRole("Employee"))
+                {
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                }
                 @Html.DisplayFor(modelItem => item.Branch.Address)
             </td>
             <td>
@@ -116,6 +150,7 @@
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
+            
         </tr>
 }
     </tbody>

@@ -21,8 +21,37 @@ namespace motoShop.Controllers
         }
 
         // GET: Motorcycles
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string Sorting_Order)
         {
+            Console.Out.WriteLine(Sorting_Order);
+            //ViewBag.SortingName = String.IsNullOrEmpty(Sorting_Order) ? "Manufacturer" : "";
+            //ViewBag.SortingDate = Sorting_Order == "Date_Up" ? "Date_Up" : "Date_Down";
+            switch (Sorting_Order)
+            {
+                case "Man_Up":
+                    return View(await _context.Motorcycle.OrderBy(a => a.Manufacturer).ToListAsync());
+                case "Man_Down":
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.Manufacturer).ToListAsync());
+                case "Date_Up":
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.EntryDate).ToListAsync());
+                case "Date_Down":
+                    return View(await _context.Motorcycle.OrderBy(a => a.EntryDate).ToListAsync());
+                case "Year_Up":
+                    return View(await _context.Motorcycle.OrderBy(a => a.Year).ToListAsync());
+                case "Year_Down":
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.Year).ToListAsync());
+                case "Engine_Up":
+                    return View(await _context.Motorcycle.OrderBy(a => a.EngineSize).ToListAsync());
+                case "Engine_Down":
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.EngineSize).ToListAsync());
+                case "Price_Up":
+                    return View(await _context.Motorcycle.OrderBy(a => a.Price).ToListAsync());
+                case "Price_Down":
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.Price).ToListAsync());
+                default:
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.EntryDate).ToListAsync());
+            }
+            return View(await _context.Motorcycle.ToListAsync());
             var motoShopContext = _context.Motorcycle.Include(m => m.Branch);
             return View(await motoShopContext.ToListAsync());
         }
@@ -34,7 +63,7 @@ namespace motoShop.Controllers
             {
                 return NotFound();
             }
-
+            var motorcycle = await _context.Motorcycle.Include(x => x.Photos)
             var motorcycle = await _context.Motorcycle
                 .Include(m => m.Branch)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -59,10 +88,13 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Create([Bind("Model,Year,EngineSize,LicenseType,SubType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId")] Motorcycle motorcycle)
         {
             if (ModelState.IsValid)
             {
+                motorcycle.Photos = new List<ProductImg>();
+                motorcycle.EntryDate = DateTime.Now;
                 _context.Add(motorcycle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
