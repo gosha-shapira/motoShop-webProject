@@ -14,15 +14,15 @@ namespace motoShop.Models
         public String Manufacturer { get; set; }
 
         public String Type { get; set; }
-
+        [Required]
         public double Price { get; set; }
 
         public String Description { get; set; }
 
-        public IEnumerable<ProductImg> Photos { get; set; }
-
+        public IEnumerable<ProductImg> Photos { get; set; } = new List<ProductImg>();
+        [Display(Name = "Units Sold")]
         public int UnitsSold { get; set; }
-
+        [Display(Name = "Entry Date")]
         public DateTime EntryDate { get; set; } = DateTime.Now;
 
         public int Sale { get; set; }
