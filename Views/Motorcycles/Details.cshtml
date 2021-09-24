@@ -157,7 +157,10 @@
     }
 </div>
 <div>
-    <a asp-action="AddToCart" asp-route-id="@Model.Id">Add To Cart</a> |
+    <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@Model.Id">add to shopping cart</a>
+    <a >Lets try</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+
     @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
     {
         <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> <content>|</content>

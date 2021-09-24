@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using motoShop.Data;
 
 namespace motoShop.Migrations
 {
     [DbContext(typeof(motoShopContext))]
-    partial class motoShopContextModelSnapshot : ModelSnapshot
+    [Migration("20210921122302_shopCart1")]
+    partial class shopCart1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,9 +93,6 @@ namespace motoShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BranchId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -116,15 +115,13 @@ namespace motoShop.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UnitsSold")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BranchId");
 
                     b.ToTable("Products");
 
@@ -244,9 +241,6 @@ namespace motoShop.Migrations
                     b.Property<int?>("PartId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SubType")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
@@ -276,17 +270,6 @@ namespace motoShop.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("motoShop.Models.Products", b =>
-                {
-                    b.HasOne("motoShop.Models.Branches", "Branch")
-                        .WithMany("Products")
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Branch");
-                });
-
             modelBuilder.Entity("motoShop.Models.Quantity", b =>
                 {
                     b.HasOne("motoShop.Models.Order", null)
@@ -312,11 +295,6 @@ namespace motoShop.Migrations
                     b.HasOne("motoShop.Models.Part", null)
                         .WithMany("Compatibility")
                         .HasForeignKey("PartId");
-                });
-
-            modelBuilder.Entity("motoShop.Models.Branches", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("motoShop.Models.Order", b =>

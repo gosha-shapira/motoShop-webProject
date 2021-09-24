@@ -31,5 +31,8 @@ namespace motoShop.Data
         public DbSet<ProductImg> ProductImg { get; set; }
 
         public DbSet<Quantity> Quantity { get; set; }
+
+        public DbSet<motoShop.Models.ShoppingCart> ShoppingCart { get; set; }
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
     }
 }

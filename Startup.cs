@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using motoShop.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using motoShop.Models;
 
 namespace motoShop
 {
@@ -27,6 +28,10 @@ namespace motoShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddHttpContextAccessor();
+
+            services.AddScoped<ShoppingCart>(sc => ShoppingCart.GetCart(sc));
 
             services.AddDbContext<motoShopContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("motoShopContext")));
@@ -48,7 +53,7 @@ namespace motoShop
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
