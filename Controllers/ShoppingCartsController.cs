@@ -116,7 +116,7 @@ namespace motoShop.Controllers
 
 
 
-            // if If the condition is true: We are creating a new instance of ShoppingCartItem with the Product's data (not instance of Shopping Cart)
+            // If the condition is true: We are creating a new instance of ShoppingCartItem with the Product's data (not instance of Shopping Cart)
             if (shoppingCartItem == null)
             {
                 shoppingCartItem = new ShoppingCartItem
