@@ -8,7 +8,7 @@ using motoShop.Data;
 
 namespace motoShop.Migrations.motoShopContextLocalMigrations
 {
-    [DbContext(typeof(motoShopContextLocal))]
+    [DbContext(typeof(motoShopContext))]
     partial class motoShopContextLocalModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

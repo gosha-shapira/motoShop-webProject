@@ -12,9 +12,9 @@ namespace motoShop.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly motoShopContextLocal _context;
+        private readonly motoShopContext _context;
 
-        public ProductsController(motoShopContextLocal context)
+        public ProductsController(motoShopContext context)
         {
             _context = context;
         }

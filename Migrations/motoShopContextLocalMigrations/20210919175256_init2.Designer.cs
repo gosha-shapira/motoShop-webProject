@@ -9,7 +9,7 @@ using motoShop.Data;
 
 namespace motoShop.Migrations.motoShopContextLocalMigrations
 {
-    [DbContext(typeof(motoShopContextLocal))]
+    [DbContext(typeof(motoShopContext))]
     [Migration("20210919175256_init2")]
     partial class init2
     {
