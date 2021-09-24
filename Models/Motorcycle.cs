@@ -14,5 +14,9 @@ namespace motoShop.Models
         public double EngineSize { get; set; }
 
         public String LicenseType { get; set; }
+
+        public String SubType { get; set; }
+
+
     }
 }

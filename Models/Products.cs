@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace motoShop.Models
 {
+
+    public enum ProductType
+    {
+        Motorcycle = 1,
+        Part = 2,
+        Clothing = 3
+    }
     public class Products
     {
         [Key]
@@ -13,7 +20,7 @@ namespace motoShop.Models
 
         public String Manufacturer { get; set; }
 
-        public String Type { get; set; }
+        public ProductType Type { get; set; } // changed from String  to Enum
 
         public double Price { get; set; }
 
@@ -28,6 +35,12 @@ namespace motoShop.Models
         public int Sale { get; set; }
 
         public int Stock { get; set; }
+
+        public Branches Branch { get; set; }
+        public int BranchId { get; set; } // check Controller?
+
+
+
 
     }
 }

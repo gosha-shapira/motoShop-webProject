@@ -1,4 +1,4 @@
-﻿@model Motorcycle
+﻿@model motoShop.Models.Motorcycle
 
 @{
     ViewData["Title"] = "Edit";
@@ -32,6 +32,11 @@
                 <input asp-for="LicenseType" class="form-control" />
                 <span asp-validation-for="LicenseType" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="SubType" class="control-label"></label>
+                <input asp-for="SubType" class="form-control" />
+                <span asp-validation-for="SubType" class="text-danger"></span>
+            </div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Manufacturer" class="control-label"></label>
@@ -40,7 +45,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
+                <select asp-for="Type" class="form-control"></select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -72,6 +77,11 @@
                 <label asp-for="Stock" class="control-label"></label>
                 <input asp-for="Stock" class="form-control" />
                 <span asp-validation-for="Stock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BranchId" class="control-label"></label>
+                <select asp-for="BranchId" class="form-control" asp-items="ViewBag.BranchId"></select>
+                <span asp-validation-for="BranchId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

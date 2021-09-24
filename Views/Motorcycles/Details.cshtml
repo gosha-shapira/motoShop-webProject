@@ -1,4 +1,4 @@
-﻿@model Motorcycle
+﻿@model motoShop.Models.Motorcycle
 
 @{
     ViewData["Title"] = "Details";
@@ -40,7 +40,23 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LicenseType)
         </dd>
+
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SubType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SubType)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Manufacturer)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Manufacturer)
+        </dd>
+        <dt class = "col-sm-2">
+
         <dt class="col-sm-2">
+
             @Html.DisplayNameFor(model => model.Type)
         </dt>
         <dd class="col-sm-10">
@@ -81,6 +97,12 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Stock)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Branch)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Branch.Address)
         </dd>
     </dl>
 </div>

@@ -23,7 +23,8 @@ namespace motoShop.Controllers
         // GET: Motorcycles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Motorcycle.ToListAsync());
+            var motoShopContext = _context.Motorcycle.Include(m => m.Branch);
+            return View(await motoShopContext.ToListAsync());
         }
 
         // GET: Motorcycles/Details/5
@@ -35,6 +36,7 @@ namespace motoShop.Controllers
             }
 
             var motorcycle = await _context.Motorcycle
+                .Include(m => m.Branch)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (motorcycle == null)
             {
@@ -48,6 +50,7 @@ namespace motoShop.Controllers
         [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address");
             return View();
         }
 
@@ -56,7 +59,7 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Model,Year,EngineSize,LicenseType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Motorcycle motorcycle)
+        public async Task<IActionResult> Create([Bind("Model,Year,EngineSize,LicenseType,SubType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId")] Motorcycle motorcycle)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +67,7 @@ namespace motoShop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);
             return View(motorcycle);
         }
 
@@ -81,6 +85,7 @@ namespace motoShop.Controllers
             {
                 return NotFound();
             }
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);
             return View(motorcycle);
         }
 
@@ -89,7 +94,7 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Model,Year,EngineSize,LicenseType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Motorcycle motorcycle)
+        public async Task<IActionResult> Edit(int id, [Bind("Model,Year,EngineSize,LicenseType,SubType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId")] Motorcycle motorcycle)
         {
             if (id != motorcycle.Id)
             {
@@ -116,6 +121,7 @@ namespace motoShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);
             return View(motorcycle);
         }
 
@@ -129,6 +135,7 @@ namespace motoShop.Controllers
             }
 
             var motorcycle = await _context.Motorcycle
+                .Include(m => m.Branch)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (motorcycle == null)
             {

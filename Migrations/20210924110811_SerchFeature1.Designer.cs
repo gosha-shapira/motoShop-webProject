@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using motoShop.Data;
 
 namespace motoShop.Migrations
 {
     [DbContext(typeof(motoShopContext))]
-    partial class motoShopContextModelSnapshot : ModelSnapshot
+    [Migration("20210924110811_SerchFeature1")]
+    partial class SerchFeature1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -208,9 +210,6 @@ namespace motoShop.Migrations
 
                     b.Property<int?>("PartId")
                         .HasColumnType("int");
-
-                    b.Property<string>("SubType")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");
