@@ -118,7 +118,7 @@ namespace motoShop.Controllers
 
         // GET: Users Login
         [AllowAnonymous]
-        public IActionResult Login(string ReturnUrl)
+        public IActionResult Login()
         {
             return View();
         }
@@ -137,7 +137,11 @@ namespace motoShop.Controllers
                         where u.Username == users.Username && u.Password == users.Password
                         select u;
 
-                if (q.Count() > 0)
+                if (!q.Any())
+                {
+                    ViewData["Error"] = "Invalid username/password";
+                }
+                else
                 {
                     loginUser(q.First().Username, q.First().Type);
                     //return RedirectToAction(nameof(Register));
@@ -150,10 +154,6 @@ namespace motoShop.Controllers
                     {
                         return Redirect("~/Home/Index");
                     }
-                }
-                else
-                {
-                    ViewData["Error"] = "Invalid username/password";
                 }
             }
             return View(users);
