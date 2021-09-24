@@ -15,7 +15,7 @@ namespace motoShop.Models
 
         public String LicenseType { get; set; }
 
-        public string SubType { get; set; }
+        public String SubType { get; set; }
 
 
     }

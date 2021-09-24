@@ -12,9 +12,9 @@ namespace motoShop.Controllers
 {
     public class MotorcyclesController : Controller
     {
-        private readonly motoShopContextLocal _context;
+        private readonly motoShopContext _context;
 
-        public MotorcyclesController(motoShopContextLocal context)
+        public MotorcyclesController(motoShopContext context)
         {
             _context = context;
         }
@@ -22,59 +22,8 @@ namespace motoShop.Controllers
         // GET: Motorcycles
         public async Task<IActionResult> Index()
         {
-            // GET THE LIST OF THE BRANCHES
-            var branches = _context.Branches.ToList();
-
-            MotorCycleViewModel viewModel = new MotorCycleViewModel()
-            {
-                Branches = branches,
-                SelectedBranch = 0,
-                Motorcycles = await _context.Motorcycle.ToListAsync()
-            };
-
-
-            return View(viewModel);
-        }
-
-        //serach method
-        public async Task<IActionResult> Search(string title, int branchId)
-        {
-            var query = await _context.Motorcycle
-                                .Where(k => k.BranchId == branchId) 
-                                .ToListAsync();
-
-            // GET THE LIST OF THE BRANCHES
-            var branches = _context.Branches.ToList();
-
-            MotorCycleViewModel viewModel = new MotorCycleViewModel()
-            {
-                Branches = branches,
-                SelectedBranch = branchId,
-                Motorcycles = query
-            };
-
-            return View("Index", viewModel);
-        }
-        public async Task<IActionResult> SearchJson(string title, int branchId)
-        {
-            var query = await _context.Motorcycle
-                                .Where(k => k.BranchId == branchId)
-                                .ToListAsync();
-
-            // GET THE LIST OF THE BRANCHES
-            var branches = _context.Branches.ToList();
-
-            MotorCycleViewModel viewModel = new MotorCycleViewModel()
-            {
-                Branches = branches,
-                SelectedBranch = branchId,
-                Motorcycles = query
-            };
-
-
-
-            //return Json(viewModel.Branches.ToList());
-            return Json(viewModel.Branches.ToList()); 
+            var motoShopContext = _context.Motorcycle.Include(m => m.Branch);
+            return View(await motoShopContext.ToListAsync());
         }
 
         // GET: Motorcycles/Details/5
@@ -86,6 +35,7 @@ namespace motoShop.Controllers
             }
 
             var motorcycle = await _context.Motorcycle
+                .Include(m => m.Branch)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (motorcycle == null)
             {
@@ -96,12 +46,9 @@ namespace motoShop.Controllers
         }
 
         // GET: Motorcycles/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            //return all branches as a list
-
-            ViewData["Branches"] = new SelectList(await _context.Branches.ToListAsync(), nameof(Branches.ID), nameof(Branches.BranchName));
-
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address");
             return View();
         }
 
@@ -110,16 +57,15 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Model,Year,EngineSize,LicenseType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Motorcycle motorcycle, int Branch)
+        public async Task<IActionResult> Create([Bind("Model,Year,EngineSize,LicenseType,SubType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId")] Motorcycle motorcycle)
         {
             if (ModelState.IsValid)
             {
-                motorcycle.Branch = await _context.Branches.FirstAsync(x => x.ID == Branch); // returns the first Branch-ID 
-
                 _context.Add(motorcycle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);
             return View(motorcycle);
         }
 
@@ -136,6 +82,7 @@ namespace motoShop.Controllers
             {
                 return NotFound();
             }
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);
             return View(motorcycle);
         }
 
@@ -144,7 +91,7 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Model,Year,EngineSize,LicenseType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Motorcycle motorcycle)
+        public async Task<IActionResult> Edit(int id, [Bind("Model,Year,EngineSize,LicenseType,SubType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId")] Motorcycle motorcycle)
         {
             if (id != motorcycle.Id)
             {
@@ -171,6 +118,7 @@ namespace motoShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);
             return View(motorcycle);
         }
 
@@ -183,6 +131,7 @@ namespace motoShop.Controllers
             }
 
             var motorcycle = await _context.Motorcycle
+                .Include(m => m.Branch)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (motorcycle == null)
             {
