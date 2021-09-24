@@ -49,7 +49,8 @@ namespace motoShop.Controllers
         // GET: ProductImgs/Create
         public IActionResult Create()
         {
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id");
+            //String var = nameof(Products.Manufacturer) + " " + nameof(Products.Type);
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Description");
             return View();
         }
 
@@ -66,13 +67,19 @@ namespace motoShop.Controllers
                 {
                     productImg.ImageFile.CopyTo(ms);
                     productImg.Image = ms.ToArray();
+                    var Prd = _context.Products.Where(p => p.Id == productImg.ProductId);
+                    foreach (var product in Prd)
+                    {
+                        product.Photos.Append(productImg);
+                    }
+                    _context.Add(productImg);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                _context.Add(productImg);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Discriminator", productImg.ProductId);
-            return View(productImg);
+                ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Discriminator", productImg.ProductId);
+                return View(productImg);
+            
         }
 
         // GET: ProductImgs/Edit/5
