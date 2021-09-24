@@ -26,10 +26,10 @@
     <thead>
         <tr>
             <th width="100px">
-                Product
+                @*Product*@
             </th>
             <th width="200px">
-                Book Name
+                Product Name
             </th>
             <th class="center-tr">
                 More Details
@@ -55,13 +55,13 @@
             var _Total = Subtotal;
 <tr>
     <td>
-        //<img class="img-responsive" src="@item.Product.Description" alt="prewiew">
+        @*<img class="img-responsive" src="@item.Product." alt="prewiew"> need to see how to shop the pic*@
     </td>
     <td>
-        <strong>"@item.Product.Description</strong>
+        <strong>@item.Product.Description</strong>
     </td>
     <td class="center-td">
-        <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Product.Id"><i class="fa fa-info-circle"></i></a>
+        <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Product.Id"><i class="fa fa-info-circle"></i></a>
     </td>
     <td class="center-td">
         @item.Product.Price$
