@@ -29,31 +29,31 @@ namespace motoShop.Controllers
             switch (Sorting_Order)
             {
                 case "Man_Up":
-                    return View(await _context.Motorcycle.OrderBy(a => a.Manufacturer).ToListAsync());
+                    return View(await _context.Motorcycle.OrderBy(a => a.Manufacturer).Include(m => m.Branch).ToListAsync());
                 case "Man_Down":
-                    return View(await _context.Motorcycle.OrderByDescending(a => a.Manufacturer).ToListAsync());
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.Manufacturer).Include(m => m.Branch).ToListAsync());
                 case "Date_Up":
-                    return View(await _context.Motorcycle.OrderByDescending(a => a.EntryDate).ToListAsync());
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.EntryDate).Include(m => m.Branch).ToListAsync());
                 case "Date_Down":
-                    return View(await _context.Motorcycle.OrderBy(a => a.EntryDate).ToListAsync());
+                    return View(await _context.Motorcycle.OrderBy(a => a.EntryDate).Include(m => m.Branch).ToListAsync());
                 case "Year_Up":
-                    return View(await _context.Motorcycle.OrderBy(a => a.Year).ToListAsync());
+                    return View(await _context.Motorcycle.OrderBy(a => a.Year).Include(m => m.Branch).ToListAsync());
                 case "Year_Down":
-                    return View(await _context.Motorcycle.OrderByDescending(a => a.Year).ToListAsync());
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.Year).Include(m => m.Branch).ToListAsync());
                 case "Engine_Up":
-                    return View(await _context.Motorcycle.OrderBy(a => a.EngineSize).ToListAsync());
+                    return View(await _context.Motorcycle.OrderBy(a => a.EngineSize).Include(m => m.Branch).ToListAsync());
                 case "Engine_Down":
-                    return View(await _context.Motorcycle.OrderByDescending(a => a.EngineSize).ToListAsync());
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.EngineSize).Include(m => m.Branch).ToListAsync());
                 case "Price_Up":
-                    return View(await _context.Motorcycle.OrderBy(a => a.Price).ToListAsync());
+                    return View(await _context.Motorcycle.OrderBy(a => a.Price).Include(m => m.Branch).ToListAsync());
                 case "Price_Down":
-                    return View(await _context.Motorcycle.OrderByDescending(a => a.Price).ToListAsync());
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.Price).Include(m => m.Branch).ToListAsync());
                 default:
-                    return View(await _context.Motorcycle.OrderByDescending(a => a.EntryDate).ToListAsync());
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.EntryDate).Include(m => m.Branch).ToListAsync());
             }
-            return View(await _context.Motorcycle.ToListAsync());
+            /*return View(await _context.Motorcycle.ToListAsync());
             var motoShopContext = _context.Motorcycle.Include(m => m.Branch);
-            return View(await motoShopContext.ToListAsync());
+            return View(await motoShopContext.ToListAsync());*/
         }
 
         // GET: Motorcycles/Details/5
@@ -63,9 +63,9 @@ namespace motoShop.Controllers
             {
                 return NotFound();
             }
-            var motorcycle = await _context.Motorcycle.Include(x => x.Photos)
+            //var motorcycle = await _context.Motorcycle.Include(x => x.Photos);
             var motorcycle = await _context.Motorcycle
-                .Include(m => m.Branch)
+                .Include(m => m.Branch).Include(x => x.Photos)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (motorcycle == null)
             {

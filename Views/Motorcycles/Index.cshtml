@@ -12,9 +12,9 @@
         <a asp-action="Create">Create New</a>
     }
 </p>
-<table class="table" style="font-size: 90%">
+<table class="table" >
     <thead>
-        <tr>
+        <tr style="font-size: 80%">
             <th>
                 @Html.DisplayNameFor(model => model.Manufacturer)
                 @Html.ActionLink("↑", "Index", new { Sorting_Order = "Man_Up" })
@@ -117,40 +117,37 @@
             </td>
             @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
             {
-            <td>
-                @Html.DisplayFor(modelItem => item.UnitsSold)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitsSold)
+                </td>
             }
             <td>
                 @Html.DisplayFor(modelItem => item.EntryDate)
             </td>
             @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
             {
-            <td>
-                @Html.DisplayFor(modelItem => item.Sale)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sale)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
             }
+            <td>
+                @Html.DisplayFor(modelItem => item.Branch.BranchName)
+            </td>
             <td>
                 @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                 {
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                 }
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                @if (User.IsInRole("Admin")|| User.IsInRole("Employee"))
+                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                 {
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 }
-                @Html.DisplayFor(modelItem => item.Branch.Address)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-            
+
         </tr>
 }
     </tbody>
