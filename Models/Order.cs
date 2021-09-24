@@ -14,7 +14,12 @@ namespace motoShop.Models
 
         public int BuyerId { get; set; }
 
-        public IEnumerable<Quantity> ProductsList { get; set; }
+        
+        //public Users User{ get; set; } //insted of BuyerId, use User and UserId for an optional join query
+        //public int UserId{ get; set; }
+
+        // should be Product
+        public IEnumerable<Quantity> ProductsList { get; set; } // consider removing this
 
         public int TotalPrice { get; set; }
 

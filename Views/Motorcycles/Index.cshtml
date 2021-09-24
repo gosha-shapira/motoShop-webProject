@@ -1,101 +1,142 @@
-﻿@model IEnumerable<Motorcycle>
+﻿@model MotorCycleViewModel
+@*@model IEnumerable<Products>*@
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Motorcycles</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-action="Search">
+    <input placeholder="Search.." name="title" />
+    <select name="branchId">
+        <option value="-1">Select Branch</option>
+        @foreach (var branch in Model.Branches)
+        {
+            @Html.Raw("<option value='" + branch.ID + "' " + (branch.ID == Model.SelectedBranch ? "selected='selected'" : "") + ">" + branch.BranchName + "</option>")
+        }
+    </select>
+    <input name="Search" type="submit" value="Search" />
+</form>
+
+
+@*<div>
+    <input placeholder="Search.." name="title" />
+    <select name="branchId">
+        <option value="-1">Select Branch</option>
+        @foreach (var branch in Model.Branches)
+        {
+            @Html.Raw("<option value='" + branch.ID + "' " + (branch.ID == Model.SelectedBranch ? "selected='selected'" : "") + ">" + branch.BranchName + "</option>")
+        }
+    </select>
+    <input class="btn-search btn-primary" name="Search" type="submit" value="Search" />
+</div>*@
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Model)
+                @Html.DisplayNameFor(model => model.Motorcycles.First().Model)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Year)
+                @Html.DisplayNameFor(model => model.Motorcycles.First().Year)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EngineSize)
+                @Html.DisplayNameFor(model => model.Motorcycles.First().EngineSize)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LicenseType)
+                @Html.DisplayNameFor(model => model.Motorcycles.First().LicenseType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Manufacturer)
+                @Html.DisplayNameFor(model => model.Motorcycles.First().Manufacturer)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                @Html.DisplayNameFor(model => model.Motorcycles.First().Type)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @Html.DisplayNameFor(model => model.Motorcycles.First().Price)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.Motorcycles.First().Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UnitsSold)
+                @Html.DisplayNameFor(model => model.Motorcycles.First().UnitsSold)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EntryDate)
+                @Html.DisplayNameFor(model => model.Motorcycles.First().EntryDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sale)
+                @Html.DisplayNameFor(model => model.Motorcycles.First().Sale)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Stock)
+                @Html.DisplayNameFor(model => model.Motorcycles.First().Stock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Motorcycles.First().Branch)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EngineSize)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LicenseType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manufacturer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnitsSold)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EntryDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sale)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Motorcycles)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EngineSize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LicenseType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Manufacturer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitsSold)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EntryDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sale)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <th>
+                    @Html.DisplayFor(modelItem => item.Branch.BranchName)
+                </th>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@section Scripts{
+    <script src="~/js/search.js"></script>
+
+
+}
