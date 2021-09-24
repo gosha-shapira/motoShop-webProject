@@ -16,6 +16,7 @@ using motoShop.Models;
 namespace motoShop.Controllers
 {
     
+    [Authorize(Roles = "Admin")] // <-----------------------
     public class UsersController : Controller
     {
         private readonly motoShopContext _context;
@@ -26,13 +27,16 @@ namespace motoShop.Controllers
         }
 
 
-        [Authorize (Roles = "Admin")] // <-----------------------
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            
-            return View(await _context.Users.ToListAsync()); 
+            if (User.IsInRole("Admin"))
+            {
+                return View(await _context.Users.ToListAsync());
+            }
+            return RedirectToAction(nameof(AccessDenied));
         }
-
+        
         // GET: Users/Details/5
         public async Task<IActionResult> Details(string? username)
         {
@@ -74,13 +78,14 @@ namespace motoShop.Controllers
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction(nameof(Login));
         }
 
-
+        [AllowAnonymous]
         // GET: Users Registration
         public IActionResult Register()
         {
@@ -90,6 +95,7 @@ namespace motoShop.Controllers
         // POST: Users Registration
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([Bind("Username,Password,FirstName,LastName,Adress")] Users users)
@@ -105,12 +111,13 @@ namespace motoShop.Controllers
                 await _context.SaveChangesAsync();
 
                 loginUser(users.Username, UserType.Client);
-                return RedirectToAction(nameof(Index));
+                return Redirect("~/Home/Index");
             }
             return View(users);
         }
 
         // GET: Users Login
+        [AllowAnonymous]
         public IActionResult Login(string ReturnUrl)
         {
             return View();
@@ -119,6 +126,7 @@ namespace motoShop.Controllers
         // POST: Users Login
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([Bind("Username,Password,FirstName,LastName,Adress")] Users users)
@@ -133,7 +141,15 @@ namespace motoShop.Controllers
                 {
                     loginUser(q.First().Username, q.First().Type);
                     //return RedirectToAction(nameof(Register));
-                    return RedirectToAction("Index");
+                    //return RedirectToAction("Index");
+                    if (User.IsInRole("Admin"))
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        return Redirect("~/Home/Index");
+                    }
                 }
                 else
                 {
@@ -152,10 +168,14 @@ namespace motoShop.Controllers
             }
 
             var users = await _context.Users.FindAsync(username);
+
             if (users == null)
             {
                 return NotFound();
             }
+
+            //ViewData["Type"] = new SelectList(_context.Set<Users>(), "Type", "Type", users.Type);
+            ViewBag.Type = new SelectList(Enum.GetNames(typeof(UserType)).ToList());
             return View(users);
         }
 
@@ -227,7 +247,7 @@ namespace motoShop.Controllers
         {
             return _context.Users.Any(e => e.Username == username);
         }
-
+        [AllowAnonymous]
         public IActionResult AccessDenied()
         {
             return View();
