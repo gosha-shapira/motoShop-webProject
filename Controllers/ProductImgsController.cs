@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -48,7 +49,7 @@ namespace motoShop.Controllers
         // GET: ProductImgs/Create
         public IActionResult Create()
         {
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Discriminator");
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id");
             return View();
         }
 
@@ -57,10 +58,15 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Image,ProductId")] ProductImg productImg)
+        public async Task<IActionResult> Create([Bind("Id,ImageFile,ProductId")] ProductImg productImg)
         {
             if (ModelState.IsValid)
             {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    productImg.ImageFile.CopyTo(ms);
+                    productImg.Image = ms.ToArray();
+                }
                 _context.Add(productImg);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
