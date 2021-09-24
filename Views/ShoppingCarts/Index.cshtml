@@ -52,7 +52,7 @@
         @foreach (var item in Model.ShoppingCart.Items)
         {
             var Subtotal = item.Product.Price * item.Quantity;
-            var Total = Subtotal;
+            var _Total = Subtotal;
 <tr>
     <td>
         //<img class="img-responsive" src="@item.Product.Description" alt="prewiew">
@@ -83,9 +83,9 @@
 <hr />
 <!--Cart Products End -->
 <!--Cart Summary Begin-->
-@{ var GrandSubtotals = Math.Round(Model.ShoppingCartTotal, 2);
-                var Tax = Math.Round(GrandSubtotals * 0.17, 2);
-                var GradnTotal = Math.Round(GrandSubtotals + Tax, 2);
+@{ var Subtotals = Math.Round(Model.ShoppingCartTotal, 2);
+   var Tax = Math.Round(Subtotals * 0.17, 2);
+   var Total = Math.Round(Subtotals + Tax, 2);
 
     <section class="bottom-right">
         <table>
@@ -98,7 +98,7 @@
             <tbody>
                 <tr>
                     <th> Subtotal </th>
-                    <td> @GrandSubtotals$</td>
+                    <td> @Subtotals$</td>
                 <tr>
                     <th> Tax (17%) </th>
                     <td> @Tax$</td>
@@ -106,8 +106,8 @@
                     <th> Shipping </th>
                     <td> Free </td>
                 <tr>
-                    <th> Grand Total </th>
-                    <td> @GradnTotal$</td>
+                    <th> Total </th>
+                    <td> @Total$</td>
                 </tr>
         </table> <br />
         <a href="/Orders/Checkout">
