@@ -59,10 +59,10 @@ namespace motoShop.Controllers
         // POST: Orders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("OrderId,BuyerId,TotalPrice,ShippingAdress")] Order order, string userId)
+        public IActionResult Create([Bind("OrderId,UserId,TotalPrice")] Order order, string userId)
         {
             _shoppingCart.Items = GetShoppingCartItems();
 
@@ -167,7 +167,7 @@ namespace motoShop.Controllers
 
         // ------------------------------ Private Functions ------------------------------
 
-        public List<ShoppingCartItem> GetShoppingCartItems()
+        private List<ShoppingCartItem> GetShoppingCartItems()
         {
             return _shoppingCart.Items = _shoppingCart.Items ?? (_shoppingCart.Items = _context.ShoppingCartItems
                 .Where(c => c.ShoppingCartId == _shoppingCart.ShoppingCartId)
@@ -175,19 +175,19 @@ namespace motoShop.Controllers
                 .ToList());
         }
 
-        public void CreateOrder(Order order)
+        private void CreateOrder(Order order)
         {
+            var usr = _context.Users.Find(User.Identity.Name);
+
+            order.UserId = User.Identity.Name;
+            order.ShippingAdress = usr.Address;
             order.OrderDate = DateTime.Now;
             order.TotalPrice = GetShoppingCartITotal();
             _context.Order.Add(order);
             _context.SaveChanges();
-
-            var shoppingCartItems = GetShoppingCartItems();
-
-            _context.SaveChanges();
         }
 
-        public double GetShoppingCartITotal()
+        private double GetShoppingCartITotal()
         {
             var total = _context.ShoppingCartItems
                 .Where(c => c.ShoppingCartId == _shoppingCart.ShoppingCartId)
@@ -196,14 +196,14 @@ namespace motoShop.Controllers
             return total;
         }
 
-        public void ClearCart(Order order)
+        private void ClearCart(Order order)
         {
             var cartItems = _context.ShoppingCartItems.Where(c => c.ShoppingCartId == _shoppingCart.ShoppingCartId);
 
-            foreach (var item in cartItems)
+            /*foreach (var item in cartItems)
             {
-                var result = new ProductsController(_context).Delete(item.ShoppingCartItemId);
-            }
+                RedirectToAction("Delete", "Products", item.ShoppingCartItemId); // Need to Update the Stock 
+            }*/
 
             _context.ShoppingCartItems.RemoveRange(cartItems);
             _context.SaveChanges();
@@ -213,7 +213,7 @@ namespace motoShop.Controllers
         {
             ClearCart(order); 
             ViewBag.CheckoutCompleteMessage = "Thank you for your order.";
-            ViewBag.OrderNumber = ("Your order number is {0}", order.OrderId);
+            ViewBag.OrderNumber = order.OrderId;
             return View();
         }
     }

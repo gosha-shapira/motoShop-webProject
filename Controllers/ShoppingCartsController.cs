@@ -17,12 +17,15 @@ namespace motoShop.Controllers
         public ShoppingCartsController(motoShopContext context, ShoppingCart shoppingCart)
         {
             _context = context;
+
             _shoppingCart = shoppingCart;
+
         }
 
         // GET: ShoppingCarts
         public async Task<IActionResult> Index()
         {
+            
             // Get from data base and View All the Products of the current Cart
             _shoppingCart.Items = (_shoppingCart.Items ??= await _context.ShoppingCartItems
                 .Where(c => c.ShoppingCartId.Equals(_shoppingCart.ShoppingCartId))
@@ -34,7 +37,7 @@ namespace motoShop.Controllers
                 ShoppingCart = _shoppingCart,
                 ShoppingCartTotal = await GetShoppingCartITotal()
             };
-
+            
             return View(shoppingCartViewModel);
 
         }
@@ -161,23 +164,6 @@ namespace motoShop.Controllers
             return localAmount;
         }
 
-        //Adds an Item (Product) From the Cart and Save Changes in the Data Base, ShoppingCartItems table
-        /*public async Task<int> AddToCart(Products prod)
-        {
-            var shoppingCartItem = await _context.ShoppingCartItems.SingleOrDefaultAsync
-                (s => s.Product.Id == prod.Id && s.ShoppingCartId == _shoppingCart.ShoppingCartId);
-
-            var localAmount = 0;
-
-            if (shoppingCartItem.Quantity >= 1)
-            {
-                shoppingCartItem.Quantity++;
-                localAmount = shoppingCartItem.Quantity;
-            }
-
-            await _context.SaveChangesAsync();
-            return localAmount;
-        }*/
 
         //Clears an Item (Product) From the Cart and Save Changes in the Data Base, ShoppingCartItems table
         public async Task<int> ClearFromCart(Products prod)
