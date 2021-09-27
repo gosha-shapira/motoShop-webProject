@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,54 +14,67 @@ namespace motoShop.Controllers
     public class OrdersController : Controller
     {
         private readonly motoShopContext _context;
+        private readonly ShoppingCart _shoppingCart;
 
-        public OrdersController(motoShopContext context)
+        public OrdersController(motoShopContext context, ShoppingCart shoppingCart)
         {
             _context = context;
+            _shoppingCart = shoppingCart;
         }
 
         // GET: Orders
-        public async Task<IActionResult> Index()
+        [Authorize]
+        public IActionResult Checkout()
         {
-            return View(await _context.Order.ToListAsync());
+
+            ViewData["User"] = User.Identity.Name;
+
+            return View();
         }
 
-        // GET: Orders/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        /* // GET: Orders/Details/5
+         public async Task<IActionResult> Details(int? id)
+         {
+             if (id == null)
+             {
+                 return NotFound();
+             }
 
-            var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.OrderId == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
+             var order = await _context.Order
+                 .FirstOrDefaultAsync(m => m.OrderId == id);
+             if (order == null)
+             {
+                 return NotFound();
+             }
 
-            return View(order);
-        }
+             return View(order);
+         }*/
 
-        // GET: Orders/Create
+        /*// GET: Orders/Create
         public IActionResult Create()
         {
             return View();
-        }
+        }*/
 
         // POST: Orders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderId,BuyerId,TotalPrice,ShippingAdress")] Order order)
+        public IActionResult Create([Bind("OrderId,BuyerId,TotalPrice,ShippingAdress")] Order order, string userId)
         {
+            _shoppingCart.Items = GetShoppingCartItems();
+
+            if (_shoppingCart.Items.Count == 0)
+            {
+                return View("NotFound");
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                CreateOrder(order);
+                return RedirectToAction("CheckoutComplete", order);
             }
             return View(order);
         }
@@ -148,6 +162,59 @@ namespace motoShop.Controllers
         private bool OrderExists(int id)
         {
             return _context.Order.Any(e => e.OrderId == id);
+        }
+
+
+        // ------------------------------ Private Functions ------------------------------
+
+        public List<ShoppingCartItem> GetShoppingCartItems()
+        {
+            return _shoppingCart.Items = _shoppingCart.Items ?? (_shoppingCart.Items = _context.ShoppingCartItems
+                .Where(c => c.ShoppingCartId == _shoppingCart.ShoppingCartId)
+                .Include(p => p.Product)
+                .ToList());
+        }
+
+        public void CreateOrder(Order order)
+        {
+            order.OrderDate = DateTime.Now;
+            order.TotalPrice = GetShoppingCartITotal();
+            _context.Order.Add(order);
+            _context.SaveChanges();
+
+            var shoppingCartItems = GetShoppingCartItems();
+
+            _context.SaveChanges();
+        }
+
+        public double GetShoppingCartITotal()
+        {
+            var total = _context.ShoppingCartItems
+                .Where(c => c.ShoppingCartId == _shoppingCart.ShoppingCartId)
+                .Select(c => c.Product.Price * c.Quantity)
+                .Sum();
+            return total;
+        }
+
+        public void ClearCart(Order order)
+        {
+            var cartItems = _context.ShoppingCartItems.Where(c => c.ShoppingCartId == _shoppingCart.ShoppingCartId);
+
+            foreach (var item in cartItems)
+            {
+                var result = new ProductsController(_context).Delete(item.ShoppingCartItemId);
+            }
+
+            _context.ShoppingCartItems.RemoveRange(cartItems);
+            _context.SaveChanges();
+        }
+
+        public IActionResult CheckoutComplete(Order order)
+        {
+            ClearCart(order); 
+            ViewBag.CheckoutCompleteMessage = "Thank you for your order.";
+            ViewBag.OrderNumber = ("Your order number is {0}", order.OrderId);
+            return View();
         }
     }
 }
