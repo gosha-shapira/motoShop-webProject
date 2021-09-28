@@ -19,6 +19,7 @@ namespace motoShop.Models
 
         public List<ShoppingCartItem> Items { get; set; }
 
+
         public ShoppingCart(motoShopContext motoShopContext)
         {
             _motoShopContext = motoShopContext;

@@ -50,14 +50,20 @@ namespace motoShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BuyerId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ShippingAdress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TotalPrice")
-                        .HasColumnType("int");
+                    b.Property<string>("ShoppingCartId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderId");
 
@@ -107,6 +113,9 @@ namespace motoShop.Migrations
                     b.Property<string>("Manufacturer")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
@@ -126,6 +135,8 @@ namespace motoShop.Migrations
 
                     b.HasIndex("BranchId");
 
+                    b.HasIndex("OrderId");
+
                     b.ToTable("Products");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Products");
@@ -141,15 +152,10 @@ namespace motoShop.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Quantity");
                 });
@@ -284,14 +290,11 @@ namespace motoShop.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Branch");
-                });
-
-            modelBuilder.Entity("motoShop.Models.Quantity", b =>
-                {
                     b.HasOne("motoShop.Models.Order", null)
                         .WithMany("ProductsList")
                         .HasForeignKey("OrderId");
+
+                    b.Navigation("Branch");
                 });
 
             modelBuilder.Entity("motoShop.Models.ShoppingCartItem", b =>

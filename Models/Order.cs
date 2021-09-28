@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,19 +11,21 @@ namespace motoShop.Models
     public class Order
     {
         [Key]
+        [Display(Name = "Order ID")]
         public int OrderId { get; set; }
 
-        public int BuyerId { get; set; }
+        [ForeignKey("Usesrs")]
+        public string UserId { get; set; }
 
-        
-        //public Users User{ get; set; } //insted of BuyerId, use User and UserId for an optional join query
-        //public int UserId{ get; set; }
+        public DateTime OrderDate { get; set; }
 
-        // should be Product
-        public IEnumerable<Quantity> ProductsList { get; set; } // consider removing this
+        public List<Products> ProductsList { get; set; } 
 
-        public int TotalPrice { get; set; }
+        public double TotalPrice { get; set; }
 
         public String ShippingAdress { get; set; }
+
+        [ForeignKey("ShopingCart")]
+        public string ShoppingCartId { get; set; }
     }
 }

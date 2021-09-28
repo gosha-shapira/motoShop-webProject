@@ -1,0 +1,114 @@
+﻿@model Order
+
+
+
+<!-- Banner Section Begin -->
+<section class="banner-section set-bg" data-setbg="img/bluebanner.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="banner__text">
+                    <h2>Checkout</h2>
+                    <div class="banner__option">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                        <span>Checkout</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Banner Section End -->
+
+<!--Payment Cpmpletion Begin-->
+<form asp-action="Create" asp-route-userId="@ViewData["UserId"]" method="post" role="form">
+    <div id="wrap">
+	    <div id="grid">
+		    <div class="column column1">
+			    <div class="step" id="step1">
+				    <div class="number">
+					    <span>1</span>
+			    </div>
+			    <div class="title">
+				    <h4 class="checkout_h4">Name</h4>
+			    </div>
+		    </div>
+		    <div class="content" >
+			    <div class="form-group">
+                    <input asp-for="UserId"  type="text" name="Name" value="@ViewData["User"]"  data-type="UserId" placeholder="User Id"disabled />    
+                </div>
+		    </div>
+		    <div class="step" id="step2">
+			    <div class="number">
+				    <span>2</span>
+			    </div>
+			    <div class="title">
+				    <h4 class="checkout_h4">Delivery Info</h4>
+			    </div>
+		    </div>
+	    </div>
+	    <div class="column column2">
+		    <div class="step" id="step3">
+			    <div class="number">
+				    <span>3</span>
+			    </div>
+			    <div class="title">
+				    <h4 class="checkout_h4">Shipping option</h4>
+			    </div>
+		    </div>
+		    <div class="content" id="shipping">
+				<p>	
+				</p>
+		    </div>
+		    <div class="step" id="step4">
+			    <div class="number">
+				    <span>4</span>
+			    </div>
+			    <div class="title">
+				    <h4 class="checkout_h4">Payment method</h4>
+			    </div>
+		    </div>
+			    <div class="content" id="payment label">
+				    <div class="content2" id="shipping">
+						    <p>		
+							    <input type="radio" id="shipping_1" value="1"/><label for="shipping_1">Payment on delivery ONLY <br /> by Credit/Cash</label>
+						    </p>
+				    </div>
+			    </div>
+ 		    </div>
+ 	    </div>
+ 	    <div class="column column3">
+ 		    <div class="step" id="step5">
+			    <div class="number">
+				    <span>5</span>
+			    </div>
+			    <div class="title">
+				    <h4 class="checkout_h4">Order</h4>
+			    </div>
+		    </div>
+		    <div class="content" id="final_products">
+			    <div class="left" id="ordered">
+				        <div class="totals" id="itemsShop" action="/Orders/GetOrderDetails">		    
+                            <span class="subtitle">Subtotal <span class="sub_price" id="order-totalPrice"></span>100</span>
+                            <span class="subtitle">Tax (17%)  <span class="sub_price" id="order-tax"></span>100</span>
+                            <span class="subtitle">Shipping <span class="sub_price">FREE</span>100</span>   
+				        </div>
+				        <div class="final">
+                            <span class="title">Total  <span class="calculated_total" id="order-totalPriceAfterTax"> 100</span></span>
+				        </div>
+			    </div>	
+			    <div class="right" id="reviewed">
+                    <div>
+                         <a href="/ShoppingCarts/Index">
+                            <button type="button" class="site-btn">Edit Cart</button>
+                         </a>
+                    </div>
+				    <div id="complete">
+					    <button type="submit" id="placeOrder" class="button-done">Complete Order</button>
+                     </div>
+			    </div>
+		    </div>
+	    </div>
+    </div>
+</form>
+<!--Payment Completion End-->

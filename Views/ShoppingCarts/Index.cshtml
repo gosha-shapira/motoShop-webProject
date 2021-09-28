@@ -67,7 +67,8 @@
         <a asp-controller="ShoppingCarts" asp-action="RemoveFromShoppingCart" asp-route-id="@item.Product.Id">Delete<i class="fa fa-minus-circle"></i></a> |
         <a asp-controller="ShoppingCarts" asp-action="ClearFromShoppingCart" asp-route-id="@item.Product.Id">Empty<i class="fa fa-trash"></i></a>
     </td>
-</tr>}
+</tr>
+        }
     </tbody>
 </table>
 <hr />
@@ -100,7 +101,7 @@
                     <td> @Total$</td>
                 </tr>
         </table> <br />
-        <a href="/Orders/Checkout">
+        <a asp-controller="Orders" asp-action="Checkout">
             <button type="button" class="site-btn">Procceed To Checkout</button>
         </a>
     </section> }
