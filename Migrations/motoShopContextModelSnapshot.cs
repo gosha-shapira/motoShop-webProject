@@ -56,6 +56,9 @@ namespace motoShop.Migrations
                     b.Property<string>("ShippingAdress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ShoppingCartId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 

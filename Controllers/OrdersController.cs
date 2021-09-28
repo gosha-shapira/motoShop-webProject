@@ -183,6 +183,7 @@ namespace motoShop.Controllers
             order.ShippingAdress = usr.Address;
             order.OrderDate = DateTime.Now;
             order.TotalPrice = GetShoppingCartITotal();
+            order.ShoppingCartId = _shoppingCart.ShoppingCartId;
             _context.Order.Add(order);
             _context.SaveChanges();
         }
@@ -198,12 +199,13 @@ namespace motoShop.Controllers
 
         private void ClearCart(Order order)
         {
-            var cartItems = _context.ShoppingCartItems.Where(c => c.ShoppingCartId == _shoppingCart.ShoppingCartId);
+            var cartItems = GetShoppingCartItems();
 
-            /*foreach (var item in cartItems)
+            foreach (var item in cartItems) // stock updating
             {
-                RedirectToAction("Delete", "Products", item.ShoppingCartItemId); // Need to Update the Stock 
-            }*/
+                var resProd = _context.Products.Find(item.Product.Id);
+                resProd.Stock -= item.Quantity;
+            }
 
             _context.ShoppingCartItems.RemoveRange(cartItems);
             _context.SaveChanges();

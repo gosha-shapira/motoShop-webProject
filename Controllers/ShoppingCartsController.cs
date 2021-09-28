@@ -19,7 +19,12 @@ namespace motoShop.Controllers
             _context = context;
 
             _shoppingCart = shoppingCart;
-
+            var result = _context.ShoppingCart.Find(shoppingCart.ShoppingCartId);
+            if (result == null)
+            {
+                _context.ShoppingCart.Add(_shoppingCart);
+                _context.SaveChanges();
+            }
         }
 
         // GET: ShoppingCarts

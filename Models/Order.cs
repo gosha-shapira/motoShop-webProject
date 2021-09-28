@@ -24,5 +24,8 @@ namespace motoShop.Models
         public double TotalPrice { get; set; }
 
         public String ShippingAdress { get; set; }
+
+        [ForeignKey("ShopingCart")]
+        public string ShoppingCartId { get; set; }
     }
 }
