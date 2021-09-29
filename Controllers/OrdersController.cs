@@ -205,6 +205,7 @@ namespace motoShop.Controllers
             {
                 var resProd = _context.Products.Find(item.Product.Id);
                 resProd.Stock -= item.Quantity;
+                resProd.UnitsSold += item.Quantity;
             }
 
             _context.ShoppingCartItems.RemoveRange(cartItems);

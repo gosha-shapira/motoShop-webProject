@@ -17,14 +17,16 @@ namespace motoShop.Controllers
         public ShoppingCartsController(motoShopContext context, ShoppingCart shoppingCart)
         {
             _context = context;
-
-            _shoppingCart = shoppingCart;
             var result = _context.ShoppingCart.Find(shoppingCart.ShoppingCartId);
+
+            _shoppingCart = result;
+
             if (result == null)
             {
+                _shoppingCart = shoppingCart;
                 _context.ShoppingCart.Add(_shoppingCart);
-                _context.SaveChanges();
             }
+            _context.SaveChanges();
         }
 
         // GET: ShoppingCarts
@@ -61,7 +63,7 @@ namespace motoShop.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<RedirectToActionResult> AddToShoppingCart(int id)
+        public RedirectToActionResult AddToShoppingCart(int id)
         {
             var selectedProduct = GetProduct(id);
 
