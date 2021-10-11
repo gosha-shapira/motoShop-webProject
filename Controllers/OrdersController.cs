@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -74,6 +75,11 @@ namespace motoShop.Controllers
             if (ModelState.IsValid)
             {
                 CreateOrder(order);
+                var shopCart = _context.ShoppingCart.Find(_shoppingCart.ShoppingCartId);
+                shopCart.OrderId = (from orders in _context.Order
+                                    orderby orders.Id descending
+                                    select orders.Id).First();
+                _context.SaveChanges();
                 return RedirectToAction("CheckoutComplete", order);
             }
             return View(order);
@@ -102,7 +108,7 @@ namespace motoShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("OrderId,BuyerId,TotalPrice,ShippingAdress")] Order order)
         {
-            if (id != order.OrderId)
+            if (id != order.Id)
             {
                 return NotFound();
             }
@@ -116,7 +122,7 @@ namespace motoShop.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.OrderId))
+                    if (!OrderExists(order.Id))
                     {
                         return NotFound();
                     }
@@ -139,7 +145,7 @@ namespace motoShop.Controllers
             }
 
             var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.OrderId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
                 return NotFound();
@@ -161,7 +167,7 @@ namespace motoShop.Controllers
 
         private bool OrderExists(int id)
         {
-            return _context.Order.Any(e => e.OrderId == id);
+            return _context.Order.Any(e => e.Id == id);
         }
 
 
@@ -169,6 +175,7 @@ namespace motoShop.Controllers
 
         private List<ShoppingCartItem> GetShoppingCartItems()
         {
+
             return _shoppingCart.Items = _shoppingCart.Items ?? (_shoppingCart.Items = _context.ShoppingCartItems
                 .Where(c => c.ShoppingCartId == _shoppingCart.ShoppingCartId)
                 .Include(p => p.Product)
@@ -185,6 +192,10 @@ namespace motoShop.Controllers
             order.TotalPrice = GetShoppingCartITotal();
             order.ShoppingCartId = _shoppingCart.ShoppingCartId;
             _context.Order.Add(order);
+            /*var shopCart = _context.ShoppingCart.Find(_shoppingCart.ShoppingCartId);
+            shopCart.OrderId = (from orders in _context.Order
+                                orderby orders.Id descending
+                                select orders.Id).First();*/
             _context.SaveChanges();
         }
 
@@ -207,7 +218,9 @@ namespace motoShop.Controllers
                 resProd.Stock -= item.Quantity;
             }
 
-            _context.ShoppingCartItems.RemoveRange(cartItems);
+
+
+            /*_context.ShoppingCartItems.RemoveRange(cartItems); // <-------- need to solve to save the shopping history ! maybe just generate new  empty cart ?*/
             _context.SaveChanges();
         }
 
@@ -215,8 +228,14 @@ namespace motoShop.Controllers
         {
             ClearCart(order); 
             ViewBag.CheckoutCompleteMessage = "Thank you for your order.";
-            ViewBag.OrderNumber = order.OrderId;
+            ViewBag.OrderNumber = order.Id;
+            HttpContext.Session.Clear();
             return View();
+        }
+
+        private void GenerateSessionId()
+        {
+
         }
     }
 }

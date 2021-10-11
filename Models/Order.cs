@@ -12,7 +12,7 @@ namespace motoShop.Models
     {
         [Key]
         [Display(Name = "Order ID")]
-        public int OrderId { get; set; }
+        public int Id { get; set; }
 
         [ForeignKey("Usesrs")]
         public string UserId { get; set; }

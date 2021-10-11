@@ -19,6 +19,8 @@ namespace motoShop.Models
 
         public List<ShoppingCartItem> Items { get; set; }
 
+        [ForeignKey("Order")]
+        public int OrderId { get; set; }
 
         public ShoppingCart(motoShopContext motoShopContext)
         {
