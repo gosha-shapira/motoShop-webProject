@@ -218,9 +218,6 @@ namespace motoShop.Controllers
                 resProd.Stock -= item.Quantity;
             }
 
-
-
-            /*_context.ShoppingCartItems.RemoveRange(cartItems); // <-------- need to solve to save the shopping history ! maybe just generate new  empty cart ?*/
             _context.SaveChanges();
         }
 
@@ -233,9 +230,12 @@ namespace motoShop.Controllers
             return View();
         }
 
-        private void GenerateSessionId()
+        // returns view of all orders mase by the user
+        public IActionResult GetOrderHistory(string? username)
         {
+            var order = _context.Order.Select(o => o.UserId == username);
 
+            return View(order);
         }
     }
 }
