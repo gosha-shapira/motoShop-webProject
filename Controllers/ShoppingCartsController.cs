@@ -119,8 +119,6 @@ namespace motoShop.Controllers
             var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault
                 (s => s.Product.Id == prod.Id && s.ShoppingCartId == _shoppingCart.ShoppingCartId);
 
-
-
             // If the condition is true: We are creating a new instance of ShoppingCartItem with the Product's data (not instance of Shopping Cart)
             if (shoppingCartItem == null)
             {

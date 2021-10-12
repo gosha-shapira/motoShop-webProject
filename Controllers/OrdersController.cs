@@ -33,7 +33,7 @@ namespace motoShop.Controllers
             return View();
         }
 
-        /* // GET: Orders/Details/5
+        /* // GET: Orders/Details/5 //<------ show all the Items for this order
          public async Task<IActionResult> Details(int? id)
          {
              if (id == null)
@@ -231,10 +231,19 @@ namespace motoShop.Controllers
         }
 
         // returns view of all orders mase by the user
-        public IActionResult GetOrderHistory(string? username)
+        public IActionResult OrderHistory(string? username)
         {
-            var order = _context.Order.Select(o => o.UserId == username);
+            var order = from o in _context.Order
+                        join u in _context.Users
+                        on o.UserId equals u.Username
+                        where o.UserId == username
+                        select o;
 
+
+            if (order == null)
+            {
+                return NotFound();
+            }
             return View(order);
         }
     }
