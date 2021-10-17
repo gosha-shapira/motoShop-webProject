@@ -1,0 +1,14 @@
+﻿@model motoShop.Views.Orders.OrderProducts
+
+<div id="product-main-img">
+    @foreach (var item in Model.Products)
+    {
+<div class="details-view" style="margin-bottom: 50px;" productId="@item.Id">
+    <div class="col-md-8" style="float:right">
+        <h2 class="product-name">@item.Description</h2>
+        <h3 class="product-price">@item.Price.ToString("c")</h3>
+        <hr />
+    </div>
+    <div style="clear:both; margin-top:50px;"></div>
+</div>}
+</div>

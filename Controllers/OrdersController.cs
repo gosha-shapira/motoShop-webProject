@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using motoShop.Data;
 using motoShop.Models;
+using motoShop.Views.Orders;
 
 namespace motoShop.Controllers
 {
@@ -33,8 +34,8 @@ namespace motoShop.Controllers
             return View();
         }
 
-        /* // GET: Orders/Details/5 //<------ show all the Items for this order
-         public async Task<IActionResult> Details(int? id)
+        /* <------ show all the Items for this order to write
+         public async Task<IActionResult> OrderDetails(int? id)
          {
              if (id == null)
              {
@@ -230,7 +231,7 @@ namespace motoShop.Controllers
             return View();
         }
 
-        // returns view of all orders mase by the user
+        // returns view of all orders made by the user
         public IActionResult OrderHistory(string? username)
         {
             var order = from o in _context.Order
@@ -245,6 +246,36 @@ namespace motoShop.Controllers
                 return NotFound();
             }
             return View(order);
+        }
+
+        // returns view of all products in order
+        public IActionResult ProductsInOrderHistory(int Id)
+        {
+            // Items in the shopping cart of this order
+            var query = from order in _context.Order
+                        join item in _context.ShoppingCartItems on order.ShoppingCartId equals item.ShoppingCartId 
+                        where order.Id== Id
+                        select item.Product;
+
+
+            if (query == null)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                return View("ProductsInOrderHistory", new OrderProducts
+                {
+                    Products = query
+                });
+            }
+
+
+
+            return RedirectToAction("ProductsInOrderHistory", query);
+
+            //return View(query);
         }
     }
 }
