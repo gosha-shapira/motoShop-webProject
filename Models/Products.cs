@@ -39,6 +39,7 @@ namespace motoShop.Models
         public int Stock { get; set; }
 
         public Branches Branch { get; set; }
+
         public int BranchId { get; set; } // check Controller?
 
 

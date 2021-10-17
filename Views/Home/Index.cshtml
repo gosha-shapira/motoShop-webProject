@@ -1,8 +1,169 @@
-﻿@{
+﻿@model HomeIndexModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
+<script>
+    async function getNewImage() {
+        console.log("In get new image")
+        const requestUrl =
+            'https://api.unsplash.com/search/photos?query=motorcycle&client_id=T-FCIQ-C317KwK9CTjTFtgTnc0fEq13ZwCDt9mZ8ECE';
+        let randomNumber = Math.floor(Math.random() * 10);
+        document.getElementById("unsplash").src =
+            await fetch(requestUrl)
+                .then((response) => response.json())
+                .then((data) => {
+                    let allImages = data.results[randomNumber];
+                    return allImages.urls.regular;
+                });
+        console.log(document.getElementById("unsplash").src);
+    }
+</script>
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+<div>
+    <table class="table" style="text-align:center">
+        <thead>
+            <tr>
+                <th>
+                    Newest Entry
+                </th>
+                <th>
+                    Top Selling
+                </th>
+                <th>
+                    Gallery
+                </th>
+                <th>
+                    Map
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @{
+                        string img;
+                        try { img = Convert.ToBase64String(Model.Products.First().Photos.First().Image); }
+                        catch (InvalidOperationException exc)
+                        {
+                            img = "C:\\Users\\dimav\\source\repos\\motoShop-webProject\\Photos\no-image-available.jpeg";
+                        }
+                    }
+                    <img src="data:image/png;base64,@img" alt="@Model.Products.First().Description" width="360" height="240">
+                </td>
+                <td>
+                    @{
+                        var Top = (from t in Model.Products
+                                   orderby t.UnitsSold descending
+                                   select t).FirstOrDefault();
+                        try { img = Convert.ToBase64String(Top.Photos.First().Image); }
+                        catch (InvalidOperationException exc)
+                        {
+                            img = "C:\\Users\\dimav\\source\repos\\motoShop-webProject\\Photos\no-image-available.jpeg";
+                        }
+
+                    }
+                    <img src="data:image/png;base64,@img" alt="@Top.Description" width="360" height="240">
+                </td>
+                <td>
+                    <script>console.log("before img")</script>
+                    <img id="unsplash" class="imageToDisplay" width="360" height="240" />
+                    <script>
+                        var photo = document.getElementById('image_id');
+                        var img = new Image();
+                        img.addEventListener('load', getNewImage(), false);
+                    </script>
+                    <script>console.log("after img")</script>
+                </td>
+                <td>
+                    <script type='text/javascript'
+                            src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AnPoB1xisi-dPICgb7OAQR7SFlx1_OYF6lZtl3LkXpgjxTl1I7sXr5moOZQ0XQKM'
+                            async defer></script>
+
+                    <script type='text/javascript'>
+                        function GetMap() {
+
+                            var map = new Microsoft.Maps.Map('#myMap');
+
+                            var BranchesTitles = [];
+                            var BranchesSubTitles = [];
+                            var BranchesAdress = [];
+                            var BranchesLat = [];
+                            var BranchesLong = [];
+                            var BranchesIDs = [];
+                            var pins = [];
+
+                            @foreach(var d in Model.Branches)
+                            {
+                                @:BranchesTitles.push("@d.BranchName");
+                                @:BranchesSubTitles.push("@d.BranchName");
+                                @:BranchesAdress.push("@d.Address");
+                                @:BranchesLat.push("@d.BranchName");
+                                @:BranchesLong.push("@d.BranchName");
+                                @:BranchesIDs.push("@d.ID");
+                            }
+                            for (var i = 0; i < BranchesAdress.length; i++)
+                            {
+                                var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(Math.floor(Math.random() * 1) - 5, Math.floor(Math.random() * 5) + 2),
+                                    { title: BranchesIDs[i], subTitle: BranchesSubTitles[i], text: BranchesAdress[i] });
+                                var branchID = BranchesIDs[i];
+                                console.log("i= " + i + "Branch ID = " + branchID);
+
+                                Microsoft.Maps.Events.addHandler(pin, 'click', GotoPage);
+
+                                pins.push(pin)
+                                
+                                
+
+                            }
+                            map.entities.push(pins);
+                            map.setView({
+                                bounds: Microsoft.Maps.LocationRect.fromShapes(pins),
+                                padding: 100 //Add a padding to buffer map to account for pushpin pixel dimensions
+                            });
+                            //Add your post map load code here.
+                        }
+                        function GotoPage(e)
+                        {
+                            console.log("in gotopage")
+                            if (e.target.title) {
+                                console.log(e.target.title)
+                            }
+                           // window.location.href = "/Branches/Details?id=" + branchID
+                        }
+                    </script>
+                    <div id="myMap" style="position:relative;width:360px;height:240px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @{
+                        var Newest = Model.Products.First();
+                        String cont = Newest.Type + "s";
+                    }
+                    <a asp-controller=@cont asp-action="Details" asp-route-id="@Newest.Id">@Newest.Description</a>
+                </td>
+                <td>
+                    @{
+
+                        cont = Top.Type + "s";
+                    }
+                    <a asp-controller=@cont asp-action="Details" asp-route-id="@Top.Id">@Top.Description</a>
+                </td>
+                <td>
+                    Gallery
+                </td>
+                <td>
+                    Map
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
