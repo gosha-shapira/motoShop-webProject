@@ -48,7 +48,6 @@ namespace motoShop.Controllers
         }
 
 
-
         public async Task<RedirectToActionResult> RemoveFromShoppingCart(int id)
         {
             var selectedProduct = GetAllProducts.FirstOrDefault(c => c.Id == id);
@@ -64,6 +63,12 @@ namespace motoShop.Controllers
         public async Task<RedirectToActionResult> AddToShoppingCart(int id)
         {
             var selectedProduct = GetProduct(id);
+
+            if (selectedProduct.Stock <=0)
+            {
+                ViewData["Error"] = "Sorry, no stock from this item.";
+            }
+
 
             if (selectedProduct != null)
             {

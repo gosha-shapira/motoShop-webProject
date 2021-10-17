@@ -34,23 +34,6 @@ namespace motoShop.Controllers
             return View();
         }
 
-        /* <------ show all the Items for this order to write
-         public async Task<IActionResult> OrderDetails(int? id)
-         {
-             if (id == null)
-             {
-                 return NotFound();
-             }
-
-             var order = await _context.Order
-                 .FirstOrDefaultAsync(m => m.OrderId == id);
-             if (order == null)
-             {
-                 return NotFound();
-             }
-
-             return View(order);
-         }*/
 
         /*// GET: Orders/Create
         public IActionResult Create()
@@ -248,7 +231,7 @@ namespace motoShop.Controllers
             return View(order);
         }
 
-        // returns view of all products in order
+        // returns view of all products in order <------ show all the Items for this order 
         public IActionResult ProductsInOrderHistory(int Id)
         {
             // Items in the shopping cart of this order
@@ -270,12 +253,6 @@ namespace motoShop.Controllers
                     Products = query
                 });
             }
-
-
-
-            return RedirectToAction("ProductsInOrderHistory", query);
-
-            //return View(query);
         }
     }
 }
