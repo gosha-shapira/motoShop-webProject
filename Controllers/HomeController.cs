@@ -6,21 +6,31 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using motoShop.Data;
+using motoShop.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Dynamic;
 
 namespace motoShop.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly motoShopContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, motoShopContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            HomeIndexModel HomeContext = new HomeIndexModel();
+            HomeContext.Products = _context.Products.OrderByDescending(a => a.EntryDate).Include(x => x.Photos).ToList<Products>();
+            HomeContext.Branches = _context.Branches.ToList<Branches>();
+
+            return View(HomeContext);
         }
 
         public IActionResult Privacy()
