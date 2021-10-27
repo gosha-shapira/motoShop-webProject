@@ -17,11 +17,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Migrations\motoShopContextLocalMigrations\" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <None Include="wwwroot\Unsplash.js" />
   </ItemGroup>
 </Project>

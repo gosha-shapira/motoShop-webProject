@@ -54,7 +54,7 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Address,BranchName,PhoneNumber")] Branches branches)
+        public async Task<IActionResult> Create([Bind("ID,Address,BranchName,PhoneNumber,Longitude,Latitude")] Branches branches)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Address,BranchName,PhoneNumber")] Branches branches)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Address,BranchName,PhoneNumber,Longitude,Latitude")] Branches branches)
         {
             if (id != branches.ID)
             {

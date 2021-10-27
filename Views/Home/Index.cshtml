@@ -102,38 +102,36 @@
                                 @:BranchesTitles.push("@d.BranchName");
                                 @:BranchesSubTitles.push("@d.BranchName");
                                 @:BranchesAdress.push("@d.Address");
-                                @:BranchesLat.push("@d.BranchName");
-                                @:BranchesLong.push("@d.BranchName");
+                                @:BranchesLat.push("@d.Latitude");
+                                @:BranchesLong.push("@d.Longitude");
                                 @:BranchesIDs.push("@d.ID");
                             }
                             for (var i = 0; i < BranchesAdress.length; i++)
                             {
-                                var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(Math.floor(Math.random() * 1) - 5, Math.floor(Math.random() * 5) + 2),
-                                    { title: BranchesIDs[i], subTitle: BranchesSubTitles[i], text: BranchesAdress[i] });
-                                var branchID = BranchesIDs[i];
-                                console.log("i= " + i + "Branch ID = " + branchID);
+                                /*var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(BranchesLat[i], BranchesLong[i]),
+                                    { title: BranchesIDs[i], subTitle: BranchesAdress[i], text: BranchesSubTitles[i], id: BranchesIDs[i] });
+                                var branchID = BranchesIDs[i];*/
+
+                                var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(BranchesLat[i], BranchesLong[i]), { text: BranchesSubTitles[i]});
+
+                                //Store some metadata with the pushpin.
+                                pin.metadata = {
+                                    title: BranchesIDs[i],
+                                };
 
                                 Microsoft.Maps.Events.addHandler(pin, 'click', GotoPage);
-
                                 pins.push(pin)
-                                
-                                
-
                             }
                             map.entities.push(pins);
                             map.setView({
                                 bounds: Microsoft.Maps.LocationRect.fromShapes(pins),
-                                padding: 100 //Add a padding to buffer map to account for pushpin pixel dimensions
+                                padding: 20 //Add a padding to buffer map to account for pushpin pixel dimensions
                             });
                             //Add your post map load code here.
                         }
                         function GotoPage(e)
                         {
-                            console.log("in gotopage")
-                            if (e.target.title) {
-                                console.log(e.target.title)
-                            }
-                           // window.location.href = "/Branches/Details?id=" + branchID
+                            window.location.href = "/Branches/Details?id=" + e.target.metadata.title;
                         }
                     </script>
                     <div id="myMap" style="position:relative;width:360px;height:240px;"></div>
@@ -142,9 +140,10 @@
             <tr>
                 <td>
                     @{
-                        var Newest = Model.Products.First();
+                        var Newest = Model.Products.First<Products>();
                         String cont = Newest.Type + "s";
                     }
+                    <script>console.log("Newest type = " + '@Newest.Type')</script>
                     <a asp-controller=@cont asp-action="Details" asp-route-id="@Newest.Id">@Newest.Description</a>
                 </td>
                 <td>
@@ -152,6 +151,7 @@
 
                         cont = Top.Type + "s";
                     }
+                    <script>console.log("Top type = " + '@Top.Type')</script>
                     <a asp-controller=@cont asp-action="Details" asp-route-id="@Top.Id">@Top.Description</a>
                 </td>
                 <td>

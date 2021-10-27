@@ -58,7 +58,7 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Gender,Size,Id,Manufacturer,Price,Description,UnitsSold,Sale,Stock,BranchId")] Clothing clothing)
+        public async Task<IActionResult> Create([Bind("Gender,Size,Id,Manufacturer,Price,Description,UnitsSold,Sale,Stock,BranchId,SubType")] Clothing clothing)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Gender,Size,Id,Manufacturer,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId")] Clothing clothing)
+        public async Task<IActionResult> Edit(int id, [Bind("Gender,Size,Id,Manufacturer,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId,SubType")] Clothing clothing)
         {
             if (id != clothing.Id)
             {
@@ -107,6 +107,7 @@ namespace motoShop.Controllers
             {
                 try
                 {
+                    clothing.Type = ProductType.Clothing;
                     _context.Update(clothing);
                     await _context.SaveChangesAsync();
                 }

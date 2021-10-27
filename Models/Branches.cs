@@ -13,12 +13,12 @@ namespace motoShop.Models
 
         [Required]
         public String Address { get; set; }
-        /*
+        
         [Required]
         public double Longitude { get; set; }
         [Required]
         public double Latitude { get; set; }
-        */
+        
         [Required]
         [Display(Name = "Branch Name")]
         public string BranchName { get; set; }

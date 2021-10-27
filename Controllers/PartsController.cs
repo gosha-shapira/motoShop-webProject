@@ -62,7 +62,7 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MotorcycleId,Id,Manufacturer,Price,Description,UnitsSold,Sale,Stock,BranchId")] Part part)
+        public async Task<IActionResult> Create([Bind("MotorcycleId,Id,Manufacturer,Price,Description,UnitsSold,Sale,Stock,BranchId,SubType")] Part part)
         {
             if (ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MotorcycleId,Id,Manufacturer,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId")] Part part)
+        public async Task<IActionResult> Edit(int id, [Bind("MotorcycleId,Id,Manufacturer,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId,SubType")] Part part)
         {
             if (id != part.Id)
             {
@@ -114,6 +114,7 @@ namespace motoShop.Controllers
             {
                 try
                 {
+                    part.Type = ProductType.Part;
                     _context.Update(part);
                     await _context.SaveChangesAsync();
                 }

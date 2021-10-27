@@ -135,6 +135,7 @@ namespace motoShop.Controllers
             {
                 try
                 {
+                    motorcycle.Type = ProductType.Motorcycle;
                     _context.Update(motorcycle);
                     await _context.SaveChangesAsync();
                 }
