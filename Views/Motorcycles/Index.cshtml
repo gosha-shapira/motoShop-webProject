@@ -136,5 +136,11 @@
                 </td>
             </tr>
         }
+            </td>
+            <td>
+                <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">add to shopping cart</a>
+            </td> 
+        </tr>
+}
     </tbody>
 </table>
