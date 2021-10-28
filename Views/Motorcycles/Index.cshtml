@@ -134,22 +134,17 @@
                     }
                     <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">Add to Cart</a>
                 </td>
-            </tr>
-        }
-            </td>
-            <td>
+                <td>
                 @if (item.Stock > 0)
                 {
-                    <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">add to shopping cart</a>
+                    <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">Add to shopping cart</a>
                 }
-                else 
+                else
                 {
                     <h6>Sorry, out of stock </h6>
                 }
-                
-
-            </td> 
-        </tr>
+                </td> 
+            </tr>
 }
     </tbody>
 </table>
