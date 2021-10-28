@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<motoShop.Models.Motorcycle>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Motorcycles";
 }
 
 <h1>Index</h1>
@@ -12,9 +12,12 @@
         <a asp-action="Create">Create New</a>
     }
 </p>
-<table class="table" >
+<table class="table" style="font-size: 80%">
     <thead>
-        <tr style="font-size: 80%">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SubType)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Manufacturer)
                 @Html.ActionLink("↑", "Index", new { Sorting_Order = "Man_Up" })
@@ -37,22 +40,6 @@
                 @Html.DisplayNameFor(model => model.LicenseType)
             </th>
             <th>
-
-                @Html.DisplayNameFor(model => model.SubType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Manufacturer)
-            </th>
-            <th>
-
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-                @Html.ActionLink("↑", "Index", new { Sorting_Order = "Price_Up" })
-                @Html.ActionLink("↓", "Index", new { Sorting_Order = "Price_Down" })
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
@@ -61,94 +48,106 @@
                     @Html.DisplayNameFor(model => model.UnitsSold)
                 </th>
             }
-        <th>
-            @Html.DisplayNameFor(model => model.EntryDate)
-            @Html.ActionLink("↑", "Index", new { Sorting_Order = "Date_Up" })
-            @Html.ActionLink("↓", "Index", new { Sorting_Order = "Date_Down" })
-        </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EntryDate)
+                @Html.ActionLink("↑", "Index", new { Sorting_Order = "Date_Up" })
+                @Html.ActionLink("↓", "Index", new { Sorting_Order = "Date_Down" })
+            </th>
             @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
             {
-            <th>
-                @Html.DisplayNameFor(model => model.Sale)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock)
-            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sale)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stock)
+                </th>
             }
             <th>
                 @Html.DisplayNameFor(model => model.Branch)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+                @Html.ActionLink("↑", "Index", new { Sorting_Order = "Price_Up" })
+                @Html.ActionLink("↓", "Index", new { Sorting_Order = "Price_Down" })
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manufacturer)
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Manufacturer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EngineSize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LicenseType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitsSold)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.EntryDate)
+                </td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sale)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Stock)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Branch.BranchName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <content>|</content>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> <content>|</content>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> <content>|</content>
+                    }
+                    <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">Add to Cart</a>
+                </td>
+            </tr>
+        }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EngineSize)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LicenseType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manufacturer)
-            </td>
+                @if (item.Stock > 0)
+                {
+                    <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">add to shopping cart</a>
+                }
+                else 
+                {
+                    <h6>Sorry, out of stock </h6>
+                }
+                
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-            {
-                <td>
-                    @Html.DisplayFor(modelItem => item.UnitsSold)
-                </td>
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.EntryDate)
-            </td>
-            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-            {
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sale)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Stock)
-                </td>
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.Branch.BranchName)
-            </td>
-            <td>
-                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                {
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                }
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                {
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                }
-            </td>
-            <td>
-                <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">add to shopping cart</a>
             </td> 
         </tr>
 }

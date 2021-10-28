@@ -51,7 +51,8 @@
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-username="@item.Username">Manage User</a> 
+                <a asp-action="Edit" asp-route-username="@item.Username">Manage User</a> |
+                <a asp-controller="Orders" asp-action="OrderHistory" asp-route-username="@item.Username">Order History</a>
                 @*<a asp-action="Details" asp-route-username="@item.Username">Details</a> |
                 <a asp-action="Delete" asp-route-username="@item.Username">Delete</a>*@
             </td>

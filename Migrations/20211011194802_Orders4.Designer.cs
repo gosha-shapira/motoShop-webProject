@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using motoShop.Data;
 
 namespace motoShop.Migrations
 {
     [DbContext(typeof(motoShopContext))]
-    partial class motoShopContextModelSnapshot : ModelSnapshot
+    [Migration("20211011194802_Orders4")]
+    partial class Orders4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,12 +35,6 @@ namespace motoShop.Migrations
                     b.Property<string>("BranchName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Latitude")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Longitude")
-                        .HasColumnType("float");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -176,8 +172,6 @@ namespace motoShop.Migrations
 
                     b.HasKey("ShoppingCartId");
 
-                    b.HasIndex("OrderId");
-
                     b.ToTable("ShoppingCart");
                 });
 
@@ -306,17 +300,6 @@ namespace motoShop.Migrations
                         .HasForeignKey("OrderId");
 
                     b.Navigation("Branch");
-                });
-
-            modelBuilder.Entity("motoShop.Models.ShoppingCart", b =>
-                {
-                    b.HasOne("motoShop.Models.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("motoShop.Models.ShoppingCartItem", b =>

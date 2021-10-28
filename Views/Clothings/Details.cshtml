@@ -4,75 +4,120 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>
+    @Html.DisplayFor(model => model.Description)
+</h1>
 
 <div>
-    <h4>Clothing</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Size)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Size)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Manufacturer)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Manufacturer)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Gender)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Gender)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Size)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Size)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UnitsSold)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UnitsSold)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EntryDate)
+        @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.UnitsSold)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.UnitsSold)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.EntryDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EntryDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Sale)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Sale)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Stock)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Stock)
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Branch)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EntryDate)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Branch.Address)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sale)
+        <dt class="col-sm-2">
+            Gallery
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Sale)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Stock)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Stock)
+        <dd class="col-sm-10">
         </dd>
     </dl>
+    @{
+        if (Model.Photos.Count() != 0)
+        {
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    @{
+                        var first = true;
+                    }
+                    @foreach (var item in Model.Photos)
+                    {
+                        <div class="carousel-item @(first ? Html.Raw("active") : Html.Raw(""))">
+                            @{
+                                string img = Convert.ToBase64String(item.Image);
+                            }
+                            <img src="data:image/png;base64,@img" alt="@item.Product.Manufacturer" width="1200" height="800">
+                        </div>
+                        first = false;
+                    }
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                   data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                   data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        }
+    }
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@Model.Id">Add to Cart</a><content> |</content>
+    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> <content>|</content>
+    }
     <a asp-action="Index">Back to List</a>
 </div>

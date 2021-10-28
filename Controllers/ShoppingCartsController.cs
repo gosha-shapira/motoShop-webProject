@@ -50,7 +50,6 @@ namespace motoShop.Controllers
         }
 
 
-
         public async Task<RedirectToActionResult> RemoveFromShoppingCart(int id)
         {
             var selectedProduct = GetAllProducts.FirstOrDefault(c => c.Id == id);
@@ -66,6 +65,12 @@ namespace motoShop.Controllers
         public RedirectToActionResult AddToShoppingCart(int id)
         {
             var selectedProduct = GetProduct(id);
+
+            if (selectedProduct.Stock <=0)
+            {
+                ViewData["Error"] = "Sorry, no stock from this item.";
+            }
+
 
             if (selectedProduct != null)
             {
@@ -120,8 +125,6 @@ namespace motoShop.Controllers
 
             var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault
                 (s => s.Product.Id == prod.Id && s.ShoppingCartId == _shoppingCart.ShoppingCartId);
-
-
 
             // If the condition is true: We are creating a new instance of ShoppingCartItem with the Product's data (not instance of Shopping Cart)
             if (shoppingCartItem == null)

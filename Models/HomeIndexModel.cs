@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace motoShop.Models
 {
-    public enum PorductTypeEnum
+    public class HomeIndexModel
     {
-        Motorcycle = 1,
-        Clothing = 2,
-        Parts = 3
+        public List<Products> Products { get; set; }
+        public List<Branches> Branches { get; set; }
     }
 }
