@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace motoShop.Controllers
         // GET: Clothings
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Clothing.ToListAsync());
+            return View(await _context.Clothing.Include(m => m.Branch).ToListAsync());
         }
 
         // GET: Clothings/Details/5
@@ -34,6 +35,7 @@ namespace motoShop.Controllers
             }
 
             var clothing = await _context.Clothing
+                .Include(m => m.Branch).Include(x => x.Photos)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (clothing == null)
             {
@@ -44,8 +46,10 @@ namespace motoShop.Controllers
         }
 
         // GET: Clothings/Create
+        [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address");
             return View();
         }
 
@@ -54,18 +58,23 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Gender,Size,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Clothing clothing)
+        public async Task<IActionResult> Create([Bind("Gender,Size,Id,Manufacturer,Price,Description,UnitsSold,Sale,Stock,BranchId,SubType")] Clothing clothing)
         {
             if (ModelState.IsValid)
             {
+                clothing.Photos = new List<ProductImg>();
+                clothing.EntryDate = DateTime.Now;
+                clothing.Type = ProductType.Clothing;
                 _context.Add(clothing);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", clothing.BranchId);
             return View(clothing);
         }
 
         // GET: Clothings/Edit/5
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,6 +87,7 @@ namespace motoShop.Controllers
             {
                 return NotFound();
             }
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", clothing.BranchId);
             return View(clothing);
         }
 
@@ -86,7 +96,7 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Gender,Size,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock")] Clothing clothing)
+        public async Task<IActionResult> Edit(int id, [Bind("Gender,Size,Id,Manufacturer,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId,SubType")] Clothing clothing)
         {
             if (id != clothing.Id)
             {
@@ -97,6 +107,7 @@ namespace motoShop.Controllers
             {
                 try
                 {
+                    clothing.Type = ProductType.Clothing;
                     _context.Update(clothing);
                     await _context.SaveChangesAsync();
                 }
@@ -113,10 +124,12 @@ namespace motoShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", clothing.BranchId);
             return View(clothing);
         }
 
         // GET: Clothings/Delete/5
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,6 +138,7 @@ namespace motoShop.Controllers
             }
 
             var clothing = await _context.Clothing
+                .Include(m => m.Branch)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (clothing == null)
             {

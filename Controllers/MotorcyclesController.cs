@@ -23,9 +23,6 @@ namespace motoShop.Controllers
         // GET: Motorcycles
         public async Task<IActionResult> Index(string Sorting_Order)
         {
-            Console.Out.WriteLine(Sorting_Order);
-            //ViewBag.SortingName = String.IsNullOrEmpty(Sorting_Order) ? "Manufacturer" : "";
-            //ViewBag.SortingDate = Sorting_Order == "Date_Up" ? "Date_Up" : "Date_Down";
             switch (Sorting_Order)
             {
                 case "Man_Up":
@@ -89,12 +86,13 @@ namespace motoShop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Create([Bind("Model,Year,EngineSize,LicenseType,SubType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId")] Motorcycle motorcycle)
+        public async Task<IActionResult> Create([Bind("Model,Year,EngineSize,LicenseType,SubType,Id,Manufacturer,Price,Description,UnitsSold,Sale,Stock,BranchId")] Motorcycle motorcycle)
         {
             if (ModelState.IsValid)
             {
                 motorcycle.Photos = new List<ProductImg>();
                 motorcycle.EntryDate = DateTime.Now;
+                motorcycle.Type = ProductType.Motorcycle;
                 _context.Add(motorcycle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -126,7 +124,7 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Model,Year,EngineSize,LicenseType,SubType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId")] Motorcycle motorcycle)
+        public async Task<IActionResult> Edit(int id, [Bind("Model,Year,EngineSize,LicenseType,SubType,Id,Manufacturer,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId")] Motorcycle motorcycle)
         {
             if (id != motorcycle.Id)
             {
@@ -137,6 +135,7 @@ namespace motoShop.Controllers
             {
                 try
                 {
+                    motorcycle.Type = ProductType.Motorcycle;
                     _context.Update(motorcycle);
                     await _context.SaveChangesAsync();
                 }
