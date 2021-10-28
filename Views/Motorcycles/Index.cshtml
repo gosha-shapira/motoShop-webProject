@@ -132,18 +132,15 @@
                     {
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> <content>|</content>
                     }
-                    <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">Add to Cart</a>
-                </td>
-                <td>
-                @if (item.Stock > 0)
-                {
-                    <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">Add to shopping cart</a>
-                }
-                else
-                {
-                    <h6>Sorry, out of stock </h6>
-                }
-                </td> 
+                    @if (item.Stock > 0)
+                    {
+                        <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">Add to shopping cart</a>
+                    }
+                    else
+                    {
+                        <content> Sorry, out of stock </content>
+                    }
+</td> 
             </tr>
 }
     </tbody>
