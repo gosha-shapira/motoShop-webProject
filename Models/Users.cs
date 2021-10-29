@@ -25,10 +25,13 @@ namespace motoShop.Models
         [DataType(DataType.Password)]
         public String Password { get; set; }
 
+        [Required]
         public String FirstName { get; set; }
 
+        [Required]
         public String LastName { get; set; }
 
+        [Required]
         public String Address { get; set; }
     }
 }
