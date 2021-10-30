@@ -44,7 +44,14 @@ namespace motoShop.Controllers
                 ShoppingCart = _shoppingCart,
                 ShoppingCartTotal = await GetShoppingCartITotal()
             };
-            
+
+            // shopping cart is empty
+            if (_shoppingCart.Items.Count == 0)
+            {
+                ViewData["Error"] = "Cart is Empty!";
+                return View(shoppingCartViewModel);
+            }
+
             return View(shoppingCartViewModel);
 
         }

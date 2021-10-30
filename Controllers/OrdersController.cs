@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using motoShop.Data;
 using motoShop.Models;
 using motoShop.Views.Orders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace motoShop.Controllers
 {
@@ -28,9 +26,7 @@ namespace motoShop.Controllers
         [Authorize]
         public IActionResult Checkout()
         {
-
             ViewData["User"] = User.Identity.Name;
-
             return View();
         }
 
@@ -208,7 +204,7 @@ namespace motoShop.Controllers
 
         public IActionResult CheckoutComplete(Order order)
         {
-            ClearCart(order); 
+            ClearCart(order);
             ViewBag.CheckoutCompleteMessage = "Thank you for your order.";
             ViewBag.OrderNumber = order.Id;
             HttpContext.Session.Clear();
@@ -237,8 +233,8 @@ namespace motoShop.Controllers
         {
             // Items in the shopping cart of this order
             var query = from order in _context.Order
-                        join item in _context.ShoppingCartItems on order.ShoppingCartId equals item.ShoppingCartId 
-                        where order.Id== Id
+                        join item in _context.ShoppingCartItems on order.ShoppingCartId equals item.ShoppingCartId
+                        where order.Id == Id
                         select item.Product;
 
 
