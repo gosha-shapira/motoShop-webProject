@@ -11,6 +11,7 @@ using motoShop.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Dynamic;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Web;
 
 namespace motoShop.Controllers
 {
@@ -27,16 +28,25 @@ namespace motoShop.Controllers
 
         public IActionResult Index()
         {
-            //var Types = from m in _context.Products
-            //            group m by m.Type into grp
-            //            select new { Type = grp.Key};
-            var Types = ((from m in _context.Products
-                        select m).Distinct()).ToList();
+            List<String> Types = new List<String>();
+            List<String> SubTypes = new List<String>();
+            List<String> Manufacturers = new List<String>();
 
-            //ViewData["Type"] = new SelectList(_context.Products, "Id", "Type");
-            ViewData["Type"] = Types;
-            ViewData["SubType"] = new SelectList(_context.Products, "Id", "SubType");
-            ViewData["Manufacturer"] = new SelectList(_context.Products, "Id", "Manufacturer");
+            foreach (Products row in _context.Products)
+            {
+                Types.Add(row.Type.ToString());
+                SubTypes.Add(row.SubType.ToString());
+                Manufacturers.Add(row.Manufacturer.ToString());
+            }
+
+            Types = Types.Distinct().ToList();
+            SubTypes = SubTypes.Distinct().ToList();
+            Manufacturers = Manufacturers.Distinct().ToList();
+
+            ViewData["Type"] = new SelectList(Types);
+            ViewData["SubType"] = new SelectList(SubTypes);
+            ViewData["Manufacturer"] = new SelectList(Manufacturers);
+
             HomeIndexModel HomeContext = new HomeIndexModel();
             HomeContext.Products = _context.Products.OrderByDescending(a => a.EntryDate).Include(x => x.Photos).ToList<Products>();
             HomeContext.Branches = _context.Branches.ToList<Branches>();

@@ -23,11 +23,11 @@
     <h1 class="display-4">Welcome</h1>
 </div>
 <div class="text-center">
-    <form asp-controller="Home" asp-action="Search">
-        <select asp-for="Products" class="form-control" asp-items="ViewBag.Type"></select>
-        <select asp-for="Products" class="form-control" asp-items="ViewBag.SubType"></select>
-        <select asp-for="Products" class="form-control" asp-items="ViewBag.Manufacturer"></select>
-        <input type="submit" value="Create" class="btn btn-primary" />
+    <form method="post" asp-controller="Home" asp-action="Search">
+        <select id="Type" asp-for="Products" class="form-control" asp-items="ViewBag.Type"></select>
+        <select id="SubType" asp-for="Products" class="form-control" asp-items="ViewBag.SubType"></select>
+        <select id="Manu" asp-for="Products" class="form-control" asp-items="ViewBag.Manufacturer"></select>
+        <input type="submit" value="Search" class="btn btn-primary" />
 
     </form>
 </div>
