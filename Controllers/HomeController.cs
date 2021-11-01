@@ -33,7 +33,8 @@ namespace motoShop.Controllers
             var Types = ((from m in _context.Products
                         select m).Distinct()).ToList();
 
-            ViewData["Type"] = new SelectList(_context.Products, "Id", "Type");
+            //ViewData["Type"] = new SelectList(_context.Products, "Id", "Type");
+            ViewData["Type"] = Types;
             ViewData["SubType"] = new SelectList(_context.Products, "Id", "SubType");
             ViewData["Manufacturer"] = new SelectList(_context.Products, "Id", "Manufacturer");
             HomeIndexModel HomeContext = new HomeIndexModel();
