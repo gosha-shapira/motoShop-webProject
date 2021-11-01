@@ -1,0 +1,20 @@
+﻿@model motoShop.Views.Home.ProductList
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div id="product-main-img">
+
+    @foreach (var product in Model.Products)
+    {
+        <div class="details-view" style="margin-bottom: 50px;" productId="@product.Id">
+            <div class="col-md-8" style="float:right">
+                <h2 class="product-name">@product.Type</h2>
+                <h3 class="product-price">@product.Price.ToString()</h3>
+                <p>@product.Description</p>
+                <hr />
+            </div>
+            <div style="clear:both; margin-top:50px;"></div>
+        </div>}
+</div>

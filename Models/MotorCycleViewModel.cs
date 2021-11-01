@@ -10,5 +10,7 @@ namespace motoShop.Models
         public List<Branches> Branches { get; set; }
         public int SelectedBranch { get; set; }
         public IEnumerable<Motorcycle> Motorcycles { get; set; }
+        //public IEnumerable<Part> Parts { get; set; }
+        //public IEnumerable<Clothing> Clothes { get; set; }
     }
 }

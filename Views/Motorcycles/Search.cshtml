@@ -1,0 +1,198 @@
+﻿
+@model IEnumerable<motoShop.Models.Motorcycle>
+@*@model MotorCycleViewModel*@
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+
+<p>
+    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+    {
+        <a asp-action="Create">Create New</a>
+    }
+</p>
+
+<form asp-action="Search">
+        <input placeholder="Search.." name="title" />
+        <select name="branchId">
+            <option value="-1">Select Branch</option>
+            @*@foreach (var branch in Model.Branches)
+            {
+                @Html.Raw("<option value='" + branch.ID + "' " +
+                     (branch.ID == Model.SelectedBranch ? "selected='selected'" : "") + ">" + branch.BranchName + "</option>")
+            }*@
+        </select>
+        <input name="Search" type="submit" value="Search" />
+  </form>
+
+
+@*use jquery and Ajax*@
+@*<div>
+    <input placeholder="Search.." name="title" id="inpSearch" />
+    <select id="searchList" name="branchId">
+        <option value="-1">Select Branch</option>
+        @foreach (var branch in Model.Branches)
+        {
+            @Html.Raw("<option value='" + branch.ID + "' " + (branch.ID == Model.SelectedBranch ? "selected='selected'" : "") + ">" + branch.BranchName + "</option>")
+        }
+    </select>
+    <input id="inpSearch" class="btn-search btn-primary" name="Search" type="submit" value="Search" />
+    <button class="btnSearch btn btn-primary">Search</button>*@
+@*</div>*@
+
+
+
+
+
+<!--<table class="table">
+    <thead>
+        <tr style="font-size: 80%">
+            <th>
+                @Html.DisplayNameFor(model => model.Manufacturer)
+                @Html.ActionLink("↑", "Index", new { Sorting_Order = "Man_Up" })
+                @Html.ActionLink("↓", "Index", new { Sorting_Order = "Man_Down" })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+                @Html.ActionLink("↑", "Index", new { Sorting_Order = "Year_Up" })
+                @Html.ActionLink("↓", "Index", new { Sorting_Order = "Year_Down" })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EngineSize)
+                @Html.ActionLink("↑", "Index", new { Sorting_Order = "Engine_Up" })
+                @Html.ActionLink("↓", "Index", new { Sorting_Order = "Engine_Down" })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LicenseType)
+            </th>
+            <th>
+
+                @Html.DisplayNameFor(model => model.SubType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Manufacturer)
+            </th>
+            <th>
+
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+                @Html.ActionLink("↑", "Index", new { Sorting_Order = "Price_Up" })
+                @Html.ActionLink("↓", "Index", new { Sorting_Order = "Price_Down" })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitsSold)
+                </th>
+            }
+            <th>
+                @Html.DisplayNameFor(model => model.EntryDate)
+                @Html.ActionLink("↑", "Index", new { Sorting_Order = "Date_Up" })
+                @Html.ActionLink("↓", "Index", new { Sorting_Order = "Date_Down" })
+            </th>
+            Q            {
+            <th>
+                @Html.DisplayNameFor(model => model.Sale)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            }
+            <th>
+                @Html.DisplayNameFor(model => model.Branch)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Manufacturer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EngineSize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LicenseType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Manufacturer)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitsSold)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.EntryDate)
+                </td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sale)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Stock)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Branch.BranchName)
+                </td>
+                <td>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">add to shopping cart</a>
+                </td> main
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script src="~/wwwroot/js/search.js"></script>
+
+}-->

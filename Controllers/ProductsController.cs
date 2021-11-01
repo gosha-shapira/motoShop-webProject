@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using motoShop.Data;
 using motoShop.Models;
+using motoShop.Views.Home;
 
 namespace motoShop.Controllers
 {
@@ -25,12 +26,108 @@ namespace motoShop.Controllers
             return View(await _context.Products.ToListAsync());
         }
 
-        //public async Task<IActionResult> Search()
-        //{
-        //    ViewData["Products"] = new SelectList(await _context.Products.ToListAsync(), nameof(Products.Branch.ID), nameof(Products.Branch.BranchName));
 
-        //    return View(await _context.Products.ToListAsync());
-        //}
+        public IActionResult SearchMotorcycle(string searchTerm)
+        {
+            var query = from p in _context.Motorcycle
+                        where p.Model.Contains(searchTerm)
+                        select p;
+
+            if (!query.Any())
+            {
+                return View("NotFound");
+            }
+
+            else
+            {
+                return View("List", new ProductList
+                {
+                    Products = query
+
+                });
+            }
+        }
+
+
+        public IActionResult SearchByType(string typeId)
+        {
+
+            ProductType pType = (ProductType)Enum.Parse(typeof(ProductType), typeId);
+
+            var query = from p in _context.Products
+                        where p.Type.Equals(pType)
+                        select p;
+
+            if (!query.Any() || string.IsNullOrEmpty(typeId))
+            {
+                return View("NotFound");
+            }
+            else
+            {
+
+
+
+                return View("SearchIndex", new ProductList
+                {
+                    Products = query
+
+                });
+            }
+
+            // return View(await _context.Motorcycle.OrderByDescending(a => a.EntryDate).Include(m => m.Branch).ToListAsync());
+        }
+
+
+        // used for grouping by manufacturer the motorcycle search result 
+        //public async Task<IActionResult> GroupByManu(string manufacturer)
+        //{
+
+        //    var query = from p in _context.Products
+        //                where p.Manufacturer.Equals(manufacturer)
+        //                select p;
+
+        //    if (!query.Any() || manufacturer == null)
+        //    {
+        //        return View("NotFound");
+        //    }
+        //    else
+        //    {
+
+
+
+        //        return View("SearchIndex", new ProductList
+        //        {
+        //            Products = query
+
+        //        });
+
+        //    }
+
+        //// used for grouping clothing by subType in search result 
+        //public async Task<IActionResult> GroupBySubType(string subType)
+        //{
+        //        var query = from p in _context.Products
+        //                    where p.
+        //                    select p;
+
+        //        if (!query.Any() || manufacturer == null)
+        //        {
+        //            return View("NotFound");
+        //        }
+        //        else
+        //        {
+
+
+
+        //            return View("SearchIndex", new ProductList
+        //            {
+        //                Products = query
+
+        //            });
+
+
+
+        //        }
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -12,5 +12,6 @@ namespace motoShop.Models
 
         public IEnumerable<Motorcycle> Compatibility { get; set; }
 
+        
     }
 }

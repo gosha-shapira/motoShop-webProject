@@ -56,6 +56,74 @@ namespace motoShop.Controllers
             return View(await motoShopContext.ToListAsync());*/
         }
 
+
+        // connecting to twitter api
+        public static async Task<String> PostMessageToTwitter(string description)
+        {
+            string ConsumerKey = "WAzkTTosR6FdgkeShYiHuUpwS";
+            string ConsumerKeySecret = "MIX118Byu1l1wmKnTvKr2f5Y5NMrwVx6UOdkmvJDIPE1qc250i";
+            string AccessToken = "1383107089816518666-ekU8DOS6z9vVfRs5AE0x2I0MCCQPxP";
+            string AccessTokenSecret = "uxsyBJ9anTcn2wAQw2yqvDS2ckfS3uvjLzO9mgDiwhfeU";
+
+            var twitter = new TwitterAPI(ConsumerKey,
+                ConsumerKeySecret, AccessToken, AccessTokenSecret);
+
+            string message = "A new motorcycle has been added to our store, we are proud to introduce the new " +
+                  description +  ", come check it out!";
+
+            var response = await twitter.Tweet(message);
+            Console.WriteLine(response);
+
+            return response;
+        }
+
+        //serach method
+        public async Task<IActionResult> Search(string title, int branchId)
+        {
+            var query = await _context.Motorcycle
+                                .Where(k => k.BranchId == branchId)
+                                .ToListAsync();
+
+            // GET THE LIST OF THE BRANCHES
+            var branches = _context.Branches.ToList();
+
+            MotorCycleViewModel viewModel = new MotorCycleViewModel()
+            {
+                Branches = branches,
+                SelectedBranch = branchId,
+                Motorcycles = query
+            };
+
+            
+            return View("Search", viewModel);
+        }
+
+
+        //search Json
+        public async Task<IActionResult> SearchJson(string title, int branchId)
+        {
+            var query = await _context.Motorcycle
+                                .Where(k => k.BranchId == branchId)
+                                .ToListAsync();
+
+            // GET THE LIST OF THE BRANCHES
+            var branches = _context.Branches.ToList();
+
+            MotorCycleViewModel viewModel = new MotorCycleViewModel()
+            {
+                Branches = branches,
+                SelectedBranch = branchId,
+                Motorcycles = query
+            };
+
+
+
+            return Json(viewModel.Branches.ToList());
+
+        }
+
+
+
         // GET: Motorcycles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -91,12 +159,14 @@ namespace motoShop.Controllers
 
         public async Task<IActionResult> Create([Bind("Model,Year,EngineSize,LicenseType,SubType,Id,Manufacturer,Type,Price,Description,UnitsSold,EntryDate,Sale,Stock,BranchId")] Motorcycle motorcycle)
         {
+
             if (ModelState.IsValid)
             {
                 motorcycle.Photos = new List<ProductImg>();
                 motorcycle.EntryDate = DateTime.Now;
                 _context.Add(motorcycle);
                 await _context.SaveChangesAsync();
+                PostMessageToTwitter(motorcycle.Description).Wait(); // use Twitter API when a new motorcycle is added
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);

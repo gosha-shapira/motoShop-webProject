@@ -10,9 +10,10 @@ namespace motoShop.Models
     public enum ProductType
     {
         Motorcycle = 1,
-        Part = 2,
+        Parts = 2,
         Clothing = 3
     }
+
     public class Products
     {
         [Key]
@@ -41,7 +42,7 @@ namespace motoShop.Models
         public Branches Branch { get; set; }
         public int BranchId { get; set; } // check Controller?
 
-
+        public String SubType { get; set; } 
 
 
     }

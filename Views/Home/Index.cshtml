@@ -3,6 +3,47 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+     <h1 class="display-4">Welcome</h1>
+     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>SubType</th>
+                <th>Manufacturer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <form id="form1" method="get" asp-action="SearchByType" asp-controller="Products">
+                <td>
+                    <select id="product" name="typeId">
+                        <option value="Motorcycle">Motorcycle</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Parts">Parts</option>
+                    </select>
+                </td>
+
+                <td>
+                    <input name="Search" type="submit" value="Search" />
+                </td>
+                </form>
+            </tr>
+        </tbody>
+    </table>
+
+    @*<b>Search Products:</b>
+    <form id="form1" method="get" asp-action="SearchByType" asp-controller="Products">
+        <select id="product" name="typeId">
+            <option value="Motorcycle">Motorcycle</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Parts">Parts</option>
+        </select>
+        <input name="Search" type="submit" value="Search" />
+    </form>*@
+
+
 </div>
+
+
+
