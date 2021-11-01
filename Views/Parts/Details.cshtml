@@ -70,7 +70,14 @@
             Compatible With
         </dt>
         <dd class="col-sm-10">
+            @if (Model.MotorcycleId == -1)
+            {
+                <p>Universal</p>
+            }
+            else
+            {
             <a asp-controller="Motorcycles" asp-action="Details" asp-route-id="@Model.MotorcycleId">@Model.Compatibility.First().Description</a>
+            }
         </dd>
         <dt class="col-sm-2">
             Gallery

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -45,9 +46,5 @@ namespace motoShop.Models
         public int BranchId { get; set; } // check Controller?
 
         public String SubType { get; set; }
-
-
-
-
     }
 }

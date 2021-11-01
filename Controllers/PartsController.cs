@@ -38,8 +38,11 @@ namespace motoShop.Controllers
                 .Include(x => x.Compatibility)
                 .Include(m => m.Branch).Include(x => x.Photos)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            Motorcycle m = _context.Motorcycle.Single(x => x.Id == part.MotorcycleId);
-            part.Compatibility = part.Compatibility.Append<Motorcycle>(m);
+            if (part.MotorcycleId != -1)
+            {
+                Motorcycle m = _context.Motorcycle.Single(x => x.Id == part.MotorcycleId);
+                part.Compatibility = part.Compatibility.Append<Motorcycle>(m);
+            }
             if (part == null)
             {
                 return NotFound();
@@ -53,7 +56,7 @@ namespace motoShop.Controllers
         public IActionResult Create()
         {
             ViewData["MotorcycleId"] = new SelectList(_context.Motorcycle, "Id", "Description");
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address");
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName");
             return View();
         }
 
@@ -70,13 +73,16 @@ namespace motoShop.Controllers
                 part.Compatibility = new List<Motorcycle>();
                 part.EntryDate = DateTime.Now;
                 part.Type = ProductType.Part;
-                Motorcycle m = _context.Motorcycle.Single(x => x.Id == part.MotorcycleId);
-                part.Compatibility = part.Compatibility.Append<Motorcycle>(m);
+                if (part.MotorcycleId != -1)
+                {
+                    Motorcycle m = _context.Motorcycle.Single(x => x.Id == part.MotorcycleId);
+                    part.Compatibility = part.Compatibility.Append<Motorcycle>(m).ToList<Motorcycle>();
+                }
                 _context.Add(part);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", part.BranchId);
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", part.BranchId);
             return View(part);
         }
 
@@ -94,7 +100,8 @@ namespace motoShop.Controllers
             {
                 return NotFound();
             }
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", part.BranchId);
+            ViewData["MotorcycleId"] = new SelectList(_context.Motorcycle, "Id", "Description");
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", part.BranchId);
             return View(part);
         }
 

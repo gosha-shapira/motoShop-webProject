@@ -76,7 +76,7 @@ namespace motoShop.Controllers
         [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address");
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName");
             return View();
         }
 
@@ -97,7 +97,7 @@ namespace motoShop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", motorcycle.BranchId);
             return View(motorcycle);
         }
 
@@ -115,7 +115,7 @@ namespace motoShop.Controllers
             {
                 return NotFound();
             }
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", motorcycle.BranchId);
             return View(motorcycle);
         }
 
@@ -152,7 +152,7 @@ namespace motoShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", motorcycle.BranchId);
             return View(motorcycle);
         }
 
