@@ -95,7 +95,10 @@ namespace motoShop.Controllers
                 motorcycle.Type = ProductType.Motorcycle;
                 _context.Add(motorcycle);
                 await _context.SaveChangesAsync();
-                PostMessageToTwitter(motorcycle.Description).Wait(); // use Twitter API when a new motorcycle is added
+
+                if (!MotorcycleExists(motorcycle.Id))
+                    PostMessageToTwitter(motorcycle.Description).Wait(); // use Twitter API when a new motorcycle is added
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);
@@ -193,7 +196,7 @@ namespace motoShop.Controllers
             return _context.Motorcycle.Any(e => e.Id == id);
         }
 
-
+     
         public static async Task<String> PostMessageToTwitter(string description)
         {
             string ConsumerKey = "WAzkTTosR6FdgkeShYiHuUpwS";
