@@ -72,5 +72,21 @@ namespace motoShop.Controllers
             //return View(HomeContext);
             return View(await _context.Products.Include(m => m.Branch).ToListAsync());
         }
+        [HttpPost]
+        public IActionResult Search(String Type,String SubType, String Manu)
+        {
+            Debug.WriteLine("////////////    Tpye="+Type+" SubType="+SubType+" Manu="+Manu);
+            ProductType PType = ProductType.Motorcycle;
+            if (Type != null)
+            {
+                if (Type.Equals("Motorcycle"))
+                    PType = ProductType.Motorcycle;
+                if (Type.Equals("Clothing"))
+                    PType = ProductType.Clothing;
+                if (Type.Equals("Part"))
+                    PType = ProductType.Part;
+            }
+            return View(_context.Products.Where(x => x.Type == PType && x.SubType.Equals(SubType) && x.Manufacturer.Equals(Manu)).Include(m => m.Branch).ToList());
+        }
     }
 }

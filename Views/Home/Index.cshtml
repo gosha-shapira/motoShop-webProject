@@ -23,13 +23,14 @@
     <h1 class="display-4">Welcome</h1>
 </div>
 <div class="text-center">
-    <form method="post" asp-controller="Home" asp-action="Search">
-        <select id="Type" asp-for="Products" class="form-control" asp-items="ViewBag.Type"></select>
-        <select id="SubType" asp-for="Products" class="form-control" asp-items="ViewBag.SubType"></select>
-        <select id="Manu" asp-for="Products" class="form-control" asp-items="ViewBag.Manufacturer"></select>
-        <input type="submit" value="Search" class="btn btn-primary" />
 
-    </form>
+    @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+    {
+        <select name="Type" asp-for="Products" class="form-control" asp-items="ViewBag.Type"></select>
+        <select name="SubType" asp-for="Products" class="form-control" asp-items="ViewBag.SubType"></select>
+        <select name="Manu" asp-for="Products" class="form-control" asp-items="ViewBag.Manufacturer"></select>
+        <button type="submit">OK</button>
+    }
 </div>
 <div>
     <table class="table" style="text-align:center">
