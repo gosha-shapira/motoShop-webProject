@@ -20,17 +20,42 @@
 
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">
+        <img src="~/LOGO.PNG"/>
+    </h1>
 </div>
 <div class="text-center">
-
-    @using (Html.BeginForm("Search", "Home", FormMethod.Post))
-    {
-        <select name="Type" asp-for="Products" class="form-control" asp-items="ViewBag.Type"></select>
-        <select name="SubType" asp-for="Products" class="form-control" asp-items="ViewBag.SubType"></select>
-        <select name="Manu" asp-for="Products" class="form-control" asp-items="ViewBag.Manufacturer"></select>
-        <button type="submit">OK</button>
-    }
+    <table class="table" align="center">
+        <tr>
+            @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+            {
+                <td>
+                    <select name="Type" asp-for="Products" class="form-control" asp-items="ViewBag.Type" style="max-height: 27px;"></select>
+                </td>
+                <td>
+                    <select name="SubType" asp-for="Products" class="form-control" asp-items="ViewBag.SubType" style="max-height: 27px;"></select>
+                </td>
+                <td>
+                    <select name="Manu" asp-for="Products" class="form-control" asp-items="ViewBag.Manufacturer" style="max-height: 27px;"></select>
+                </td>
+                <td>
+                    <button type="submit" style="align-self:center; vertical-align:middle">Search</button>
+                </td>
+            }
+            <td>
+                Or
+            </td>
+            @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+            {
+                <td>
+                    <input name="text" />
+                </td>
+                <td>
+                    <button type="submit" style="align-self:center; vertical-align:middle">Search</button>
+                </td>
+            }
+        </tr>
+    </table>
 </div>
 <div>
     <table class="table" style="text-align:center">
@@ -108,14 +133,6 @@
                             <span class="sr-only">Next</span>
                         </a>
                     </div>
-
-                    <!--------------------------------------------------------------------->
-                    @*<img id="unsplash" class="imageToDisplay" width="360" height="240" />
-                        <script>
-                            var photo = document.getElementById('image_id');
-                            var img = new Image();
-                            img.addEventListener('load', getNewImage(), false);
-                        </script>*@
                 </td>
                 <td>
                     <script type='text/javascript'

@@ -73,20 +73,47 @@ namespace motoShop.Controllers
             return View(await _context.Products.Include(m => m.Branch).ToListAsync());
         }
         [HttpPost]
-        public IActionResult Search(String Type,String SubType, String Manu)
+        public IActionResult Search(String Type, String SubType, String Manu, String text)
         {
-            Debug.WriteLine("////////////    Tpye="+Type+" SubType="+SubType+" Manu="+Manu);
+            Debug.WriteLine("////////////    Tpye=" + Type + " SubType=" + SubType + " Manu=" + Manu+" Text="+text);
             ProductType PType = ProductType.Motorcycle;
-            if (Type != null)
+            if (text == null)
             {
-                if (Type.Equals("Motorcycle"))
-                    PType = ProductType.Motorcycle;
-                if (Type.Equals("Clothing"))
-                    PType = ProductType.Clothing;
-                if (Type.Equals("Part"))
-                    PType = ProductType.Part;
+                if (Type != null)
+                {
+                    if (Type.Equals("Motorcycle"))
+                        PType = ProductType.Motorcycle;
+                    if (Type.Equals("Clothing"))
+                        PType = ProductType.Clothing;
+                    if (Type.Equals("Part"))
+                        PType = ProductType.Part;
+                    if ((SubType != null) && (Manu != null))
+                        return View(_context.Products.Where(x => x.Type == PType && x.SubType.Equals(SubType) && x.Manufacturer.Equals(Manu)).Include(m => m.Branch).ToList());
+                    if ((SubType != null) && (Manu == null))
+                        return View(_context.Products.Where(x => x.Type == PType && x.SubType.Equals(SubType)).Include(m => m.Branch).ToList());
+                    if ((SubType == null) && (Manu != null))
+                        return View(_context.Products.Where(x => x.Type == PType && x.Manufacturer.Equals(Manu)).Include(m => m.Branch).ToList());
+                    if ((SubType == null) && (Manu == null))
+                        return View(_context.Products.Where(x => x.Type == PType).Include(m => m.Branch).ToList());
+                }
+                else
+                {
+                    if ((SubType != null) && (Manu != null))
+                        return View(_context.Products.Where(x => x.SubType.Equals(SubType) && x.Manufacturer.Equals(Manu)).Include(m => m.Branch).ToList());
+                    if ((SubType != null) && (Manu == null))
+                        return View(_context.Products.Where(x => x.SubType.Equals(SubType)).Include(m => m.Branch).ToList());
+                    if ((SubType == null) && (Manu != null))
+                        return View(_context.Products.Where(x => x.Manufacturer.Equals(Manu)).Include(m => m.Branch).ToList());
+                    if ((SubType == null) && (Manu == null))
+                        return View(_context.Products.Include(m => m.Branch).ToList());
+                }
             }
-            return View(_context.Products.Where(x => x.Type == PType && x.SubType.Equals(SubType) && x.Manufacturer.Equals(Manu)).Include(m => m.Branch).ToList());
+            else
+            {
+                return View(_context.Products.Where(x => x.Description.Contains(text)).Include(m => m.Branch).ToList());
+            }
+            return View();
+
         }
     }
 }
