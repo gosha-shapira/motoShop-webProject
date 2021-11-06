@@ -15,4 +15,6 @@ document.onreadystatechange = function () {
 };
 
 
-
+$(window).on('load', function () {
+	$('#loader').hide();
+})
