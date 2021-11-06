@@ -10,5 +10,9 @@ document.onreadystatechange = function () {
 		document.querySelector("#loader").style.display = "none";
 		document.querySelector("body").style.visibility = "visible";
 	}
+
+
 };
+
+
 
