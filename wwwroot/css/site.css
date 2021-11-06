@@ -12,6 +12,26 @@ a {
   color: #0366d6;
 }
 
+.navy-blue {
+    color: #18121E;
+    background-color: #18121E;
+}
+
+.gunmetal {
+    color: #233237;
+    background-color: #233237;
+}
+
+.rusty-red {
+    color: #984B43;
+    background-color: #984B43;
+}
+
+.warm-yellow {
+    color: #EAC67A;
+    background-color: #EAC67A;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
@@ -73,7 +93,8 @@ body {
 
 
 
-
+/* Loader
+-------------------------------------------------- */
 #loader {
     border: 12px solid #f3f3f3;
     border-radius: 50%;
