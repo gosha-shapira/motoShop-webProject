@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using motoShop.Data;
-using motoShop.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Dynamic;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -66,10 +65,6 @@ namespace motoShop.Controllers
         }
         public async Task<IActionResult> SearchAsync()
         {
-            //HomeIndexModel HomeContext = new HomeIndexModel();
-            //HomeContext.Products = _context.Products.OrderByDescending(a => a.EntryDate).Include(x => x.Photos).ToList<Products>();
-            //HomeContext.Branches = _context.Branches.ToList<Branches>();
-            //return View(HomeContext);
             return View(await _context.Products.Include(m => m.Branch).ToListAsync());
         }
         [HttpPost]
@@ -88,29 +83,29 @@ namespace motoShop.Controllers
                     if (Type.Equals("Part"))
                         PType = ProductType.Part;
                     if ((SubType != null) && (Manu != null))
-                        return View(_context.Products.Where(x => x.Type == PType && x.SubType.Equals(SubType) && x.Manufacturer.Equals(Manu)).Include(m => m.Branch).ToList());
+                        return View(_context.Products.Where(x => x.Type == PType && x.SubType.Equals(SubType) && x.Manufacturer.Equals(Manu)).Include(m => m.Branch).Include(m => m.Photos).ToList());
                     if ((SubType != null) && (Manu == null))
-                        return View(_context.Products.Where(x => x.Type == PType && x.SubType.Equals(SubType)).Include(m => m.Branch).ToList());
+                        return View(_context.Products.Where(x => x.Type == PType && x.SubType.Equals(SubType)).Include(m => m.Branch).Include(m => m.Photos).ToList());
                     if ((SubType == null) && (Manu != null))
-                        return View(_context.Products.Where(x => x.Type == PType && x.Manufacturer.Equals(Manu)).Include(m => m.Branch).ToList());
+                        return View(_context.Products.Where(x => x.Type == PType && x.Manufacturer.Equals(Manu)).Include(m => m.Branch).Include(m => m.Photos).ToList());
                     if ((SubType == null) && (Manu == null))
-                        return View(_context.Products.Where(x => x.Type == PType).Include(m => m.Branch).ToList());
+                        return View(_context.Products.Where(x => x.Type == PType).Include(m => m.Branch).Include(m => m.Photos).ToList());
                 }
                 else
                 {
                     if ((SubType != null) && (Manu != null))
-                        return View(_context.Products.Where(x => x.SubType.Equals(SubType) && x.Manufacturer.Equals(Manu)).Include(m => m.Branch).ToList());
+                        return View(_context.Products.Where(x => x.SubType.Equals(SubType) && x.Manufacturer.Equals(Manu)).Include(m => m.Branch).Include(m => m.Photos).ToList());
                     if ((SubType != null) && (Manu == null))
-                        return View(_context.Products.Where(x => x.SubType.Equals(SubType)).Include(m => m.Branch).ToList());
+                        return View(_context.Products.Where(x => x.SubType.Equals(SubType)).Include(m => m.Branch).Include(m => m.Photos).ToList());
                     if ((SubType == null) && (Manu != null))
-                        return View(_context.Products.Where(x => x.Manufacturer.Equals(Manu)).Include(m => m.Branch).ToList());
+                        return View(_context.Products.Where(x => x.Manufacturer.Equals(Manu)).Include(m => m.Branch).Include(m => m.Photos).ToList());
                     if ((SubType == null) && (Manu == null))
-                        return View(_context.Products.Include(m => m.Branch).ToList());
+                        return View(_context.Products.Include(m => m.Branch).Include(m => m.Photos).ToList());
                 }
             }
             else
             {
-                return View(_context.Products.Where(x => x.Description.Contains(text)).Include(m => m.Branch).ToList());
+                return View(_context.Products.Where(x => x.Description.Contains(text)).Include(m => m.Branch).Include(m => m.Photos).ToList());
             }
             return View();
 

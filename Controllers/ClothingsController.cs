@@ -23,7 +23,7 @@ namespace motoShop.Controllers
         // GET: Clothings
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Clothing.Include(m => m.Branch).ToListAsync());
+            return View(await _context.Clothing.Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
         }
 
         // GET: Clothings/Details/5

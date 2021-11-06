@@ -10,6 +10,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Photos)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Type)
             </th>
             <th>
@@ -51,6 +54,12 @@
 {
         <tr>
             <td>
+                @{
+                    string img = Convert.ToBase64String(item.Photos.First().Image);
+                }
+                <img src="data:image/png;base64,@img" alt="@item.Manufacturer" width="120" height="80">
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
@@ -87,8 +96,8 @@
                 @{
                     var cont = item.Type + "s";
                 }
-                    <a asp-controller="@cont" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                
+                <a asp-controller="@cont" asp-action="Details" asp-route-id="@item.Id">Details</a>
+
             </td>
         </tr>
 }

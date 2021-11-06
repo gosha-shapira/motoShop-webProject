@@ -23,7 +23,7 @@ namespace motoShop.Controllers
         // GET: Parts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Part.Include(m => m.Branch).ToListAsync());
+            return View(await _context.Part.Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
         }
 
         // GET: Parts/Details/5

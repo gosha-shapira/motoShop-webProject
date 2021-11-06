@@ -16,6 +16,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Photos)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.SubType)
             </th>
             <th>
@@ -56,6 +59,12 @@
         @foreach (var item in Model)
         {
         <tr>
+            <td>
+                @{
+                    string img = Convert.ToBase64String(item.Photos.First().Image);
+                }
+                <img class="zoom" src="data:image/png;base64,@img" alt="@item.Manufacturer" width="120" height="80" object-fit:scale-down>
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SubType)
             </td>

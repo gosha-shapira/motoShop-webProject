@@ -30,7 +30,9 @@
             @using (Html.BeginForm("Search", "Home", FormMethod.Post))
             {
                 <td>
-                    <select name="Type" asp-for="Products" class="form-control" asp-items="ViewBag.Type" style="max-height: 27px;"></select>
+                    <span class="dropdown">
+                        <select name="Type" asp-for="Products" class="form-control" asp-items="ViewBag.Type" style="max-height: 27px;"></select>
+                    </span>
                 </td>
                 <td>
                     <select name="SubType" asp-for="Products" class="form-control" asp-items="ViewBag.SubType" style="max-height: 27px;"></select>
@@ -68,10 +70,10 @@
                     Top Selling
                 </th>
                 <th>
-                    Gallery
+                    Customers Photos
                 </th>
                 <th>
-                    Map
+                    Find a Local Store
                 </th>
             </tr>
         </thead>
@@ -163,13 +165,8 @@
                             }
                             for (var i = 0; i < BranchesAdress.length; i++)
                             {
-                                /*var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(BranchesLat[i], BranchesLong[i]),
-                                    { title: BranchesIDs[i], subTitle: BranchesAdress[i], text: BranchesSubTitles[i], id: BranchesIDs[i] });
-                                var branchID = BranchesIDs[i];*/
 
                                 var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(BranchesLat[i], BranchesLong[i]), { text: BranchesSubTitles[i]});
-
-                                //Store some metadata with the pushpin.
                                 pin.metadata = {
                                     title: BranchesIDs[i],
                                 };
@@ -180,9 +177,8 @@
                             map.entities.push(pins);
                             map.setView({
                                 bounds: Microsoft.Maps.LocationRect.fromShapes(pins),
-                                padding: 20 //Add a padding to buffer map to account for pushpin pixel dimensions
+                                padding: 20
                             });
-                            //Add your post map load code here.
                         }
                         function GotoPage(e)
                         {
