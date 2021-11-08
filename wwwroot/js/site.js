@@ -10,5 +10,11 @@ document.onreadystatechange = function () {
 		document.querySelector("#loader").style.display = "none";
 		document.querySelector("body").style.visibility = "visible";
 	}
+
+
 };
 
+
+$(window).on('load', function () {
+	$('#loader').hide();
+})

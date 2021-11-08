@@ -43,7 +43,7 @@ namespace motoShop.Controllers
         //[Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("OrderId,UserId,TotalPrice")] Order order, string userId)
+        public IActionResult Create([Bind("OrderId,UserId,TotalPrice,ShippingAdress")] Order order, string userId)
         {
             _shoppingCart.Items = GetShoppingCartItems();
 
@@ -61,6 +61,11 @@ namespace motoShop.Controllers
                                     select orders.Id).First();
                 _context.SaveChanges();
                 return RedirectToAction("CheckoutComplete", order);
+            }
+            else if (order.ShippingAdress == null)
+            {
+                ViewData["Error"] = "must enter an address";
+                return View("Error");
             }
             return View(order);
         }
@@ -167,15 +172,11 @@ namespace motoShop.Controllers
             var usr = _context.Users.Find(User.Identity.Name);
 
             order.UserId = User.Identity.Name;
-            order.ShippingAdress = usr.Address;
+            /*order.ShippingAdress = order.ShippingAdress;*/
             order.OrderDate = DateTime.Now;
             order.TotalPrice = GetShoppingCartITotal();
             order.ShoppingCartId = _shoppingCart.ShoppingCartId;
             _context.Order.Add(order);
-            /*var shopCart = _context.ShoppingCart.Find(_shoppingCart.ShoppingCartId);
-            shopCart.OrderId = (from orders in _context.Order
-                                orderby orders.Id descending
-                                select orders.Id).First();*/
             _context.SaveChanges();
         }
 

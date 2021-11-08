@@ -20,7 +20,7 @@
 
 function loadIncomeByBranchGraph(element, data) {
 
-    var colors = ['#1E29E1', '#DA790d', '#23702B'];
+    var colors = ['#155765', '#57652A', '#AB9353'];
     var margin = ({ top: 50, right: 0, bottom: 50, left: 100 });
     var height = 350;
     var width = 700;
@@ -74,7 +74,7 @@ function loadIncomeByBranchGraph(element, data) {
 
 function loadOrdersByProductTypeGraph(element, data) {
 
-    var colors = ['#4DD0E1', '#DA790d', '#23702B', '#E1341E', '#E0B11F', '#B6DE21', '#23DC95', '#1ECBE1'];
+    var colors = ['#414141', '#6E7376', '#4ABDAC', '#675682', '#CDA34F', '#636B46', '#23DC95', '#1ECBE1'];
     var margin = ({ top: 20, right: 0, bottom: 30, left: 100 });
     var height = 350;
     var width = 700;
