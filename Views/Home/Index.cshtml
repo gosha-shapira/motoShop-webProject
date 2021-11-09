@@ -3,28 +3,64 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+
 <script>
-    async function getNewImage() {
-        console.log("In get new image")
+    async function getSpecificImage() {
         const requestUrl =
-            'https://api.unsplash.com/search/photos?query=motorcycle&client_id=T-FCIQ-C317KwK9CTjTFtgTnc0fEq13ZwCDt9mZ8ECE';
-        let randomNumber = Math.floor(Math.random() * 10);
-        document.getElementById("unsplash").src =
-            await fetch(requestUrl)
+            'https://api.unsplash.com/search/photos?orientation=landscape&query=motorcycle&client_id=T-FCIQ-C317KwK9CTjTFtgTnc0fEq13ZwCDt9mZ8ECE';
+        for (var i = 0; i < 10; i++) {
+            document.getElementById("test" + i).src = await fetch(requestUrl)
                 .then((response) => response.json())
                 .then((data) => {
-                    let allImages = data.results[randomNumber];
+                    let allImages = data.results[i];
                     return allImages.urls.regular;
                 });
-        console.log(document.getElementById("unsplash").src);
+        }
     }
 </script>
 
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">
+        <img src="~/LOGO.PNG"/>
+    </h1>
 </div>
-<div>
+<div class="text-center container-xl">
+    <table class="table" align="center">
+        <tr>
+            @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+            {
+                <td>
+                    <span class="dropdown">
+                        <select name="Type" asp-for="Products" class="form-control" asp-items="ViewBag.Type" style="max-height: 27px;"></select>
+                    </span>
+                </td>
+                <td>
+                    <select name="SubType" asp-for="Products" class="form-control" asp-items="ViewBag.SubType" style="max-height: 27px;"></select>
+                </td>
+                <td>
+                    <select name="Manu" asp-for="Products" class="form-control" asp-items="ViewBag.Manufacturer" style="max-height: 27px;"></select>
+                </td>
+                <td>
+                    <button type="submit" style="align-self:center; vertical-align:middle">Search</button>
+                </td>
+            }
+            <td>
+                Or
+            </td>
+            @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+            {
+                <td>
+                    <input name="text" />
+                </td>
+                <td>
+                    <button type="submit" style="align-self:center; vertical-align:middle">Search</button>
+                </td>
+            }
+        </tr>
+    </table>
+</div>
+<div class="text-center container-fluid">
     <table class="table" style="text-align:center">
         <thead>
             <tr>
@@ -35,10 +71,7 @@
                     Top Selling
                 </th>
                 <th>
-                    Gallery
-                </th>
-                <th>
-                    Map
+                    Find a Local Store
                 </th>
             </tr>
         </thead>
@@ -53,7 +86,7 @@
                             img = "C:\\Users\\dimav\\source\repos\\motoShop-webProject\\Photos\no-image-available.jpeg";
                         }
                     }
-                    <img src="data:image/png;base64,@img" alt="@Model.Products.First().Description" width="360" height="240">
+                    <img src="data:image/png;base64,@img" alt="@Model.Products.First().Description" width="360" height="240" style="width:360; height:240; object-fit:scale-down ">
                 </td>
                 <td>
                     @{
@@ -67,17 +100,7 @@
                         }
 
                     }
-                    <img src="data:image/png;base64,@img" alt="@Top.Description" width="360" height="240">
-                </td>
-                <td>
-                    <script>console.log("before img")</script>
-                    <img id="unsplash" class="imageToDisplay" width="360" height="240" />
-                    <script>
-                        var photo = document.getElementById('image_id');
-                        var img = new Image();
-                        img.addEventListener('load', getNewImage(), false);
-                    </script>
-                    <script>console.log("after img")</script>
+                    <img src="data:image/png;base64,@img" alt="@Top.Description" width="360" height="240" style="width:360; height:240; object-fit:scale-down ">
                 </td>
                 <td>
                     <script type='text/javascript'
@@ -108,13 +131,8 @@
                             }
                             for (var i = 0; i < BranchesAdress.length; i++)
                             {
-                                /*var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(BranchesLat[i], BranchesLong[i]),
-                                    { title: BranchesIDs[i], subTitle: BranchesAdress[i], text: BranchesSubTitles[i], id: BranchesIDs[i] });
-                                var branchID = BranchesIDs[i];*/
 
                                 var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(BranchesLat[i], BranchesLong[i]), { text: BranchesSubTitles[i]});
-
-                                //Store some metadata with the pushpin.
                                 pin.metadata = {
                                     title: BranchesIDs[i],
                                 };
@@ -125,9 +143,8 @@
                             map.entities.push(pins);
                             map.setView({
                                 bounds: Microsoft.Maps.LocationRect.fromShapes(pins),
-                                padding: 20 //Add a padding to buffer map to account for pushpin pixel dimensions
+                                padding: 20
                             });
-                            //Add your post map load code here.
                         }
                         function GotoPage(e)
                         {
@@ -155,14 +172,58 @@
                     <a asp-controller=@cont asp-action="Details" asp-route-id="@Top.Id">@Top.Description</a>
                 </td>
                 <td>
-                    Gallery
-                </td>
-                <td>
                     Map
                 </td>
             </tr>
         </tbody>
     </table>
+    <table class="table" align="center" style="text-align:center; width:max-content; border-spacing:0px; max-width:1296px">
+        <tr>
+            <th>
+                Customers Photos
+            </th>
+            <th>
+                Video Promos
+            </th>
+        </tr>
+        <tr>
+            <td style="width: 50vw; max-width: 648px;">
+
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        @{
+                            var first = true;
+                        }
+                        @for (var i = 0; i < 10; i++)
+                        {
+                            <div class="carousel-item @(first ? Html.Raw("active") : Html.Raw(""))">
+                                @{String id = "test" + i;}
+                                <img id=@id style="object-fit: scale-down; width:50vw; max-width:648px">
+                            </div>
+                            first = false;
+                        }
+                        <script>
+                            var img = new Image();
+                            img = addEventListener('load', getSpecificImage(), false);
+                        </script>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                       data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                       data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </td>
+            <td>
+                <iframe style="width: 50vw; height:33vh; max-width: 648px; max-height: 432px; padding:0px" src="@ViewBag.YouTube" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </td>
+        </tr>
+        </table>
 </div>
 
 

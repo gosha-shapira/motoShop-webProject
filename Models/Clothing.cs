@@ -9,8 +9,8 @@ namespace motoShop.Models
     public class Clothing : Products
     {
         public String Gender { get; set; }
-
-        public int Size { get; set; }
+        
+        public int? Size { get; set; }
 
     }
 }

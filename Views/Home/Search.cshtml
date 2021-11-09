@@ -1,22 +1,19 @@
-﻿@model IEnumerable<Part>
+﻿@model IEnumerable<motoShop.Models.Products>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Search";
 }
 
-<h1>Parts</h1>
-<a asp-action="CardView">Switch to Card View</a>
-<p>
-    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-    {
-        <a asp-action="Create">Create New</a>
-    }
-</p>
+<h1>Search</h1>
+
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Photos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.SubType)
@@ -28,14 +25,13 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @Html.DisplayNameFor(model => model.EntryDate)
             </th>
             @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
             {
                 <th>
                     @Html.DisplayNameFor(model => model.UnitsSold)
                 </th>
-
                 <th>
                     @Html.DisplayNameFor(model => model.Sale)
                 </th>
@@ -44,23 +40,27 @@
                 </th>
             }
             <th>
-                @Html.DisplayNameFor(model => model.Branch)
+                @Html.DisplayNameFor(model => model.Price)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EntryDate)
+                @Html.DisplayNameFor(model => model.Branch)
             </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
+@foreach (var item in Model)
+{
         <tr>
             <td>
                 @{
                     string img = Convert.ToBase64String(item.Photos.First().Image);
                 }
-                <img src="data:image/png;base64,@img" alt="@item.Manufacturer" width="120" height="80" object-fit:scale-down>
+                <img src="data:image/png;base64,@img" alt="@item.Manufacturer" width="120" height="80">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SubType)
@@ -72,14 +72,13 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                @Html.DisplayFor(modelItem => item.EntryDate)
             </td>
             @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
             {
                 <td>
                     @Html.DisplayFor(modelItem => item.UnitsSold)
                 </td>
-
                 <td>
                     @Html.DisplayFor(modelItem => item.Sale)
                 </td>
@@ -88,24 +87,23 @@
                 </td>
             }
             <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Branch.BranchName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EntryDate)
-            </td>
-            <td>
-                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                {
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <content>|</content>
+                @{
+                    var cont = item.Type + "s";
                 }
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> <content>|</content>
-                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                {
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> <content>|</content>
-                }
-                <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">Add to Cart</a>
+                <a asp-controller="@cont" asp-action="Details" asp-route-id="@item.Id">Details</a>
+
             </td>
         </tr>
-        }
+}
     </tbody>
 </table>
+@if(Model.Count()==0)
+            {
+                <h1>No items found</h1>
+            }
