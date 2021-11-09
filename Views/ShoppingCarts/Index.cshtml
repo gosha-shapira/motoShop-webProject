@@ -101,9 +101,16 @@
                     <td> @Total$</td>
                 </tr>
         </table> <br />
-        <a asp-controller="Orders" asp-action="Checkout">
-            <button type="button" class="site-btn">Procceed To Checkout</button>
-        </a>
+    @if (Model.ShoppingCart.Items.Count != 0)
+    { 
+    <a asp-controller="Orders" asp-action="Checkout">
+        <button type="button" class="site-btn">Procceed To Checkout</button>
+    </a>
+    }
+        else if (!String.IsNullOrEmpty(ViewBag.Error))
+        {
+            <div class="text-danger text-center">@ViewBag.Error</div>
+        }
     </section> }
 
 <!--Cart Summary End-->

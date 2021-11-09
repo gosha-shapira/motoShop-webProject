@@ -98,7 +98,7 @@ namespace motoShop.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([Bind("Username,Password,FirstName,LastName,Adress")] Users users)
+        public async Task<IActionResult> Register([Bind("Username,Password,FirstName,LastName,Address")] Users users)
         {
             if (ModelState.IsValid)
             {
@@ -129,13 +129,15 @@ namespace motoShop.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([Bind("Username,Password,FirstName,LastName,Adress")] Users users)
+        public async Task<IActionResult> Login([Bind("Username,Password")] Users users)
         {
-            if (ModelState.IsValid)
+            if (users.Username != null && users.Password != null)
             {
                 var q = from u in _context.Users
                         where u.Username == users.Username && u.Password == users.Password
                         select u;
+
+                //var qu = _context.Users.First(u => u.Username == users.Username);
 
                 if (!q.Any())
                 {

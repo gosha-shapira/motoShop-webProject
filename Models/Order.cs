@@ -12,7 +12,7 @@ namespace motoShop.Models
     {
         [Key]
         [Display(Name = "Order ID")]
-        public int OrderId { get; set; }
+        public int Id { get; set; }
 
         [ForeignKey("Usesrs")]
         public string UserId { get; set; }
@@ -23,6 +23,8 @@ namespace motoShop.Models
 
         public double TotalPrice { get; set; }
 
+        [Required]
+        [Display(Name = "Shipping Address")]
         public String ShippingAdress { get; set; }
 
         [ForeignKey("ShopingCart")]

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using motoShop.Data;
 using motoShop.Models;
+using motoShop.Views.Orders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace motoShop.Controllers
 {
@@ -26,29 +26,10 @@ namespace motoShop.Controllers
         [Authorize]
         public IActionResult Checkout()
         {
-
             ViewData["User"] = User.Identity.Name;
-
             return View();
         }
 
-        /* // GET: Orders/Details/5
-         public async Task<IActionResult> Details(int? id)
-         {
-             if (id == null)
-             {
-                 return NotFound();
-             }
-
-             var order = await _context.Order
-                 .FirstOrDefaultAsync(m => m.OrderId == id);
-             if (order == null)
-             {
-                 return NotFound();
-             }
-
-             return View(order);
-         }*/
 
         /*// GET: Orders/Create
         public IActionResult Create()
@@ -62,7 +43,7 @@ namespace motoShop.Controllers
         //[Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("OrderId,UserId,TotalPrice")] Order order, string userId)
+        public IActionResult Create([Bind("OrderId,UserId,TotalPrice,ShippingAdress")] Order order, string userId)
         {
             _shoppingCart.Items = GetShoppingCartItems();
 
@@ -74,7 +55,17 @@ namespace motoShop.Controllers
             if (ModelState.IsValid)
             {
                 CreateOrder(order);
+                var shopCart = _context.ShoppingCart.Find(_shoppingCart.ShoppingCartId);
+                shopCart.OrderId = (from orders in _context.Order
+                                    orderby orders.Id descending
+                                    select orders.Id).First();
+                _context.SaveChanges();
                 return RedirectToAction("CheckoutComplete", order);
+            }
+            else if (order.ShippingAdress == null)
+            {
+                ViewData["Error"] = "must enter an address";
+                return View("Error");
             }
             return View(order);
         }
@@ -102,7 +93,7 @@ namespace motoShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("OrderId,BuyerId,TotalPrice,ShippingAdress")] Order order)
         {
-            if (id != order.OrderId)
+            if (id != order.Id)
             {
                 return NotFound();
             }
@@ -116,7 +107,7 @@ namespace motoShop.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.OrderId))
+                    if (!OrderExists(order.Id))
                     {
                         return NotFound();
                     }
@@ -139,7 +130,7 @@ namespace motoShop.Controllers
             }
 
             var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.OrderId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
                 return NotFound();
@@ -161,7 +152,7 @@ namespace motoShop.Controllers
 
         private bool OrderExists(int id)
         {
-            return _context.Order.Any(e => e.OrderId == id);
+            return _context.Order.Any(e => e.Id == id);
         }
 
 
@@ -169,6 +160,7 @@ namespace motoShop.Controllers
 
         private List<ShoppingCartItem> GetShoppingCartItems()
         {
+
             return _shoppingCart.Items = _shoppingCart.Items ?? (_shoppingCart.Items = _context.ShoppingCartItems
                 .Where(c => c.ShoppingCartId == _shoppingCart.ShoppingCartId)
                 .Include(p => p.Product)
@@ -180,7 +172,7 @@ namespace motoShop.Controllers
             var usr = _context.Users.Find(User.Identity.Name);
 
             order.UserId = User.Identity.Name;
-            order.ShippingAdress = usr.Address;
+            /*order.ShippingAdress = order.ShippingAdress;*/
             order.OrderDate = DateTime.Now;
             order.TotalPrice = GetShoppingCartITotal();
             order.ShoppingCartId = _shoppingCart.ShoppingCartId;
@@ -205,18 +197,60 @@ namespace motoShop.Controllers
             {
                 var resProd = _context.Products.Find(item.Product.Id);
                 resProd.Stock -= item.Quantity;
+                resProd.UnitsSold += item.Quantity;
             }
 
-            _context.ShoppingCartItems.RemoveRange(cartItems);
             _context.SaveChanges();
         }
 
         public IActionResult CheckoutComplete(Order order)
         {
-            ClearCart(order); 
+            ClearCart(order);
             ViewBag.CheckoutCompleteMessage = "Thank you for your order.";
-            ViewBag.OrderNumber = order.OrderId;
+            ViewBag.OrderNumber = order.Id;
+            HttpContext.Session.Clear();
             return View();
+        }
+
+        // returns view of all orders made by the user
+        public IActionResult OrderHistory(string? username)
+        {
+            var order = from o in _context.Order
+                        join u in _context.Users
+                        on o.UserId equals u.Username
+                        where o.UserId == username
+                        select o;
+
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return View(order);
+        }
+
+        // returns view of all products in order <------ show all the Items for this order 
+        public IActionResult ProductsInOrderHistory(int Id)
+        {
+            // Items in the shopping cart of this order
+            var query = from order in _context.Order
+                        join item in _context.ShoppingCartItems on order.ShoppingCartId equals item.ShoppingCartId
+                        where order.Id == Id
+                        select item.Product;
+
+
+            if (query == null)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                return View("ProductsInOrderHistory", new OrderProducts
+                {
+                    Products = query
+                });
+            }
         }
     }
 }

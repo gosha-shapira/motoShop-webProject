@@ -94,6 +94,10 @@ namespace motoShop.Controllers
                 motorcycle.Type = ProductType.Motorcycle;
                 _context.Add(motorcycle);
                 await _context.SaveChangesAsync();
+
+                if (!MotorcycleExists(motorcycle.Id))
+                    PostMessageToTwitter(motorcycle.Description).Wait(); // use Twitter API when a new motorcycle is added
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", motorcycle.BranchId);
@@ -190,5 +194,26 @@ namespace motoShop.Controllers
         {
             return _context.Motorcycle.Any(e => e.Id == id);
         }
+
+     
+        public static async Task<String> PostMessageToTwitter(string description)
+        {
+            string ConsumerKey = "WAzkTTosR6FdgkeShYiHuUpwS";
+            string ConsumerKeySecret = "MIX118Byu1l1wmKnTvKr2f5Y5NMrwVx6UOdkmvJDIPE1qc250i";
+            string AccessToken = "1383107089816518666-ekU8DOS6z9vVfRs5AE0x2I0MCCQPxP";
+            string AccessTokenSecret = "uxsyBJ9anTcn2wAQw2yqvDS2ckfS3uvjLzO9mgDiwhfeU";
+
+            var twitter = new TwitterAPI(ConsumerKey,
+                ConsumerKeySecret, AccessToken, AccessTokenSecret);
+
+            string message = "A new motorcycle has been added to our store, we are proud to introduce the new " +
+                  description + ", come check it out!";
+
+            var response = await twitter.Tweet(message);
+            Console.WriteLine(response);
+
+            return response;
+        }
+
     }
 }

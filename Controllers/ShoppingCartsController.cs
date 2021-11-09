@@ -17,14 +17,16 @@ namespace motoShop.Controllers
         public ShoppingCartsController(motoShopContext context, ShoppingCart shoppingCart)
         {
             _context = context;
-
-            _shoppingCart = shoppingCart;
             var result = _context.ShoppingCart.Find(shoppingCart.ShoppingCartId);
+
+            _shoppingCart = result;
+
             if (result == null)
             {
+                _shoppingCart = shoppingCart;
                 _context.ShoppingCart.Add(_shoppingCart);
-                _context.SaveChanges();
             }
+            _context.SaveChanges();
         }
 
         // GET: ShoppingCarts
@@ -42,11 +44,17 @@ namespace motoShop.Controllers
                 ShoppingCart = _shoppingCart,
                 ShoppingCartTotal = await GetShoppingCartITotal()
             };
-            
+
+            // shopping cart is empty
+            if (_shoppingCart.Items.Count == 0)
+            {
+                ViewData["Error"] = "Cart is Empty!";
+                return View(shoppingCartViewModel);
+            }
+
             return View(shoppingCartViewModel);
 
         }
-
 
 
         public async Task<RedirectToActionResult> RemoveFromShoppingCart(int id)
@@ -61,9 +69,15 @@ namespace motoShop.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<RedirectToActionResult> AddToShoppingCart(int id)
+        public RedirectToActionResult AddToShoppingCart(int id)
         {
             var selectedProduct = GetProduct(id);
+
+            if (selectedProduct.Stock <=0)
+            {
+                ViewData["Error"] = "Sorry, no stock from this item.";
+            }
+
 
             if (selectedProduct != null)
             {
@@ -118,8 +132,6 @@ namespace motoShop.Controllers
 
             var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault
                 (s => s.Product.Id == prod.Id && s.ShoppingCartId == _shoppingCart.ShoppingCartId);
-
-
 
             // If the condition is true: We are creating a new instance of ShoppingCartItem with the Product's data (not instance of Shopping Cart)
             if (shoppingCartItem == null)
