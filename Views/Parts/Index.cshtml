@@ -4,8 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
+<h1>Parts</h1>
+<a asp-action="CardView">Switch to Card View</a>
 <p>
     @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
     {

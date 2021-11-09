@@ -48,11 +48,11 @@ namespace motoShop.Controllers
                 default:
                     return View(await _context.Motorcycle.OrderByDescending(a => a.EntryDate).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
             }
-            /*return View(await _context.Motorcycle.ToListAsync());
-            var motoShopContext = _context.Motorcycle.Include(m => m.Branch);
-            return View(await motoShopContext.ToListAsync());*/
         }
-
+        public async Task<IActionResult> CardView()
+        {
+            return View(await _context.Motorcycle.OrderBy(a => a.Manufacturer).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
+        }
         // GET: Motorcycles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -60,7 +60,6 @@ namespace motoShop.Controllers
             {
                 return NotFound();
             }
-            //var motorcycle = await _context.Motorcycle.Include(x => x.Photos);
             var motorcycle = await _context.Motorcycle
                 .Include(m => m.Branch).Include(x => x.Photos)
                 .FirstOrDefaultAsync(m => m.Id == id);

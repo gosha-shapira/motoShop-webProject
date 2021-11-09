@@ -30,6 +30,15 @@ namespace motoShop.Controllers
             List<String> Types = new List<String>();
             List<String> SubTypes = new List<String>();
             List<String> Manufacturers = new List<String>();
+            List<String> YouTube = new List<String>();
+            YouTube.Add("https://www.youtube.com/embed/hQOYCgTwqpg");
+            YouTube.Add("https://www.youtube.com/embed/yXB4eXXD0wI");
+            YouTube.Add("https://www.youtube.com/embed/LHTGf7rJlCU");
+            YouTube.Add("https://www.youtube.com/embed/1bNpStS0Xsk");
+            YouTube.Add("https://www.youtube.com/embed/inzO_V_Erzg");
+            Random rnd = new Random();
+            int Rand = rnd.Next(5);
+            ViewData["YouTube"] = YouTube.ElementAt(Rand);
 
             foreach (Products row in _context.Products)
             {

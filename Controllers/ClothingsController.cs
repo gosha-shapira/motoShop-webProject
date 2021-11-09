@@ -25,6 +25,10 @@ namespace motoShop.Controllers
         {
             return View(await _context.Clothing.Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
         }
+        public async Task<IActionResult> CardView()
+        {
+            return View(await _context.Clothing.Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
+        }
 
         // GET: Clothings/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+
 <script>
     async function getSpecificImage() {
         const requestUrl =
@@ -24,7 +25,7 @@
         <img src="~/LOGO.PNG"/>
     </h1>
 </div>
-<div class="text-center">
+<div class="text-center container-xl">
     <table class="table" align="center">
         <tr>
             @using (Html.BeginForm("Search", "Home", FormMethod.Post))
@@ -59,7 +60,7 @@
         </tr>
     </table>
 </div>
-<div>
+<div class="text-center container-fluid">
     <table class="table" style="text-align:center">
         <thead>
             <tr>
@@ -68,9 +69,6 @@
                 </th>
                 <th>
                     Top Selling
-                </th>
-                <th>
-                    Customers Photos
                 </th>
                 <th>
                     Find a Local Store
@@ -103,38 +101,6 @@
 
                     }
                     <img src="data:image/png;base64,@img" alt="@Top.Description" width="360" height="240" style="width:360; height:240; object-fit:scale-down ">
-                </td>
-                <td>
-
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            @{
-                                var first = true;
-                            }
-                            @for (var i = 0; i < 10; i++)
-                            {
-                                <div class="carousel-item @(first ? Html.Raw("active") : Html.Raw(""))">
-                                    @{String id = "test" + i;}
-                                    <img id=@id width="360" height="240" style="width:360; height:240; object-fit:scale-down ">
-                                </div>
-                                first = false;
-                            }
-                            <script>
-                                var img = new Image();
-                                img = addEventListener('load', getSpecificImage(), false);
-                            </script>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
-                           data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
-                           data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
                 </td>
                 <td>
                     <script type='text/javascript'
@@ -206,14 +172,58 @@
                     <a asp-controller=@cont asp-action="Details" asp-route-id="@Top.Id">@Top.Description</a>
                 </td>
                 <td>
-                    Gallery
-                </td>
-                <td>
                     Map
                 </td>
             </tr>
         </tbody>
     </table>
+    <table class="table" align="center" style="text-align:center; width:max-content; border-spacing:0px; max-width:1296px">
+        <tr>
+            <th>
+                Customers Photos
+            </th>
+            <th>
+                Video Promos
+            </th>
+        </tr>
+        <tr>
+            <td style="width: 50vw; max-width: 648px;">
+
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        @{
+                            var first = true;
+                        }
+                        @for (var i = 0; i < 10; i++)
+                        {
+                            <div class="carousel-item @(first ? Html.Raw("active") : Html.Raw(""))">
+                                @{String id = "test" + i;}
+                                <img id=@id style="object-fit: scale-down; width:50vw; max-width:648px">
+                            </div>
+                            first = false;
+                        }
+                        <script>
+                            var img = new Image();
+                            img = addEventListener('load', getSpecificImage(), false);
+                        </script>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                       data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                       data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </td>
+            <td>
+                <iframe style="width: 50vw; height:33vh; max-width: 648px; max-height: 432px; padding:0px" src="@ViewBag.YouTube" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </td>
+        </tr>
+        </table>
 </div>
 
 
