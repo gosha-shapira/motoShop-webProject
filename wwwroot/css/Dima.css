@@ -26,6 +26,8 @@
     .card button:hover {
         opacity: 0.7;
     }
+
+
 .geeks {
     width: 300px;
     height: 300px;
@@ -35,7 +37,7 @@
 
     .geeks img {
         width: 100%;
-        transition: 0.5s all ease-in-out;
+        transition: 5s all ease-in-out;
     }
 
     .geeks:hover img {
