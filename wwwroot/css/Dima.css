@@ -1,4 +1,6 @@
 ﻿.card {
+    width:300px;
+    height:541px;
     color: black;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;
@@ -35,16 +37,20 @@
     color: #edc709;
 }
 
-.geeks {
-    background-color:white;
+.zoom {
+    background-color: white;
     margin: 0 auto;
+    border-width: 1px;
+    border-color: black;
 }
 
-    .geeks img {
+    .zoom img {
+        border-width:1px;
+        border-color:black;
         background-color:white;
         transition: 1s all ease-in-out;
     }
 
-    .geeks:hover img {
+    .zoom:hover img {
         transform: scale(5);
     }
