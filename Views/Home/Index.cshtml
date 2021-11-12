@@ -1,5 +1,5 @@
 ﻿@model HomeIndexModel
-<link rel="stylesheet" href="~/css/Carousel.css" />
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -22,7 +22,7 @@
 
 <div class="text-center">
     <h1 class="display-4">
-        <img src="~/LOGO.PNG" />
+        <img src="~/LOGO.PNG"/>
     </h1>
 </div>
 <div class="text-center container-xl">
@@ -31,16 +31,18 @@
             @using (Html.BeginForm("Search", "Home", FormMethod.Post))
             {
                 <td>
-                        <select name="Type" asp-for="Products" class="form-control" asp-items="ViewBag.Type" style="max-height: 27px;"></select>
+                    <span class="dropdown">
+                        <select name="Type" asp-for="Products" class="form-control" asp-items="ViewBag.Type" style="max-height: 55px;"></select>
+                    </span>
                 </td>
                 <td>
-                    <select name="SubType" asp-for="Products" class="form-control" asp-items="ViewBag.SubType" style="max-height: 27px;"></select>
+                    <select name="SubType" asp-for="Products" class="form-control" asp-items="ViewBag.SubType" style="max-height: 55px;"></select>
                 </td>
                 <td>
-                    <select name="Manu" asp-for="Products" class="form-control" asp-items="ViewBag.Manufacturer" style="max-height: 27px;"></select>
+                    <select name="Manu" asp-for="Products" class="form-control" asp-items="ViewBag.Manufacturer" style="max-height: 55px;"></select>
                 </td>
                 <td>
-                    <button type="submit" style="align-self:center; vertical-align:middle">Search</button>
+                    <button type="submit" style="align-self:center; vertical-align:middle; max-height:55px">Search</button>
                 </td>
             }
             <td>
@@ -49,10 +51,10 @@
             @using (Html.BeginForm("Search", "Home", FormMethod.Post))
             {
                 <td>
-                    <input name="text" />
+                    <input name="text" style="max-height: 55px"/>
                 </td>
                 <td>
-                    <button type="submit" style="align-self:center; vertical-align:middle">Search</button>
+                    <button type="submit" style="align-self: center; vertical-align: middle; max-height: 55px">Search</button>
                 </td>
             }
         </tr>
@@ -186,38 +188,42 @@
         </tr>
         <tr>
             <td style="width: 50vw; max-width: 648px;">
-                <div class="slideshow-container">
-                    @for (var i = 0; i < 10; i++)
-                    {
-                        <div class="mySlides">
-                            @{String id = "test" + i;}
-                            <img id=@id style="object-fit: scale-down; max-height:426px; width:50vw; max-width:648px">
-                        </div>
-                    }
-                    <script>
-                        var img = new Image();
-                        img = addEventListener('load', getSpecificImage(), false);
-                    </script>
-                    <!-- Next and previous buttons -->
-                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
-                </div>
-                <br>
 
-                <!-- The dots/circles -->
-                <div style="text-align:center">
-                    @for (var i = 0; i < 10; i++)
-                    {
-                        <span class="dot" onclick="currentSlide(@i)"></span>
-                    }
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        @{
+                            var first = true;
+                        }
+                        @for (var i = 0; i < 10; i++)
+                        {
+                            <div class="carousel-item @(first ? Html.Raw("active") : Html.Raw(""))">
+                                @{String id = "test" + i;}
+                                <img id=@id style="object-fit: scale-down; width:50vw; max-width:648px">
+                            </div>
+                            first = false;
+                        }
+                        <script>
+                            var img = new Image();
+                            img = addEventListener('load', getSpecificImage(), false);
+                        </script>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                       data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                       data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
-                <script src="@Url.Content("~/Scripts/Carousel.js")"></script>
             </td>
             <td>
                 <iframe style="width: 50vw; height:33vh; max-width: 648px; max-height: 432px; padding:0px" src="@ViewBag.YouTube" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </td>
         </tr>
-    </table>
+        </table>
 </div>
 
 

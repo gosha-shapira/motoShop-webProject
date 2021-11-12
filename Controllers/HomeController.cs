@@ -51,6 +51,10 @@ namespace motoShop.Controllers
             SubTypes = SubTypes.Distinct().ToList();
             Manufacturers = Manufacturers.Distinct().ToList();
 
+            Types.Sort();
+            SubTypes.Sort();
+            Manufacturers.Sort();
+
             ViewData["Type"] = new SelectList(Types);
             ViewData["SubType"] = new SelectList(SubTypes);
             ViewData["Manufacturer"] = new SelectList(Manufacturers);
