@@ -58,60 +58,69 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @{
-                    string img = Convert.ToBase64String(item.Photos.First().Image);
-                }
-                <img class="zoom" src="data:image/png;base64,@img" alt="@item.Manufacturer" width="120" height="80" object-fit:scale-down>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Size)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-            {
+            <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UnitsSold)
+                    <div class="zoom">
+                        @{
+                            string img = Convert.ToBase64String(item.Photos.First().Image);
+                        }
+                        <img src="data:image/png;base64,@img" alt="@item.Manufacturer" width="120" height="80" object-fit:scale-down>
+                    </div>
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Size)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitsSold)
+                    </td>
 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sale)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Stock)
+                    </td>
+                }
                 <td>
-                    @Html.DisplayFor(modelItem => item.Sale)
+                    @Html.DisplayFor(modelItem => item.Branch.BranchName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Stock)
+                    @Html.DisplayFor(modelItem => item.EntryDate)
                 </td>
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.Branch.BranchName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EntryDate)
-            </td>
-            <td>
-                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                {
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <content>|</content>
-                }
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                {
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> <content>|</content>
-                }
-                <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">Add to Cart</a>
-            </td>
-        </tr>
+                <td>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <content>|</content>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> <content>|</content>
+                    }
+                    @if (item.Stock > 0)
+                    {
+                        <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@item.Id">Add to shopping cart</a>
+                    }
+                    else
+                    {
+                        <content> Sorry, out of stock </content>
+                    }
+                </td>
+            </tr>
         }
     </tbody>
 </table>

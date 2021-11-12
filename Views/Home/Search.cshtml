@@ -50,60 +50,62 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model)
-{
-        <tr>
-            <td>
-                @{
-                    string img = Convert.ToBase64String(item.Photos.First().Image);
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="zoom">
+                        @{
+                            string img = Convert.ToBase64String(item.Photos.First().Image);
+                        }
+                        <img src="data:image/png;base64,@img" alt="@item.Manufacturer" width="120" height="80">
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Manufacturer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EntryDate)
+                </td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitsSold)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sale)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Stock)
+                    </td>
                 }
-                <img src="data:image/png;base64,@img" alt="@item.Manufacturer" width="120" height="80">
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manufacturer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EntryDate)
-            </td>
-            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.UnitsSold)
+                    @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Sale)
+                    @Html.DisplayFor(modelItem => item.Branch.BranchName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Stock)
-                </td>
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Branch.BranchName)
-            </td>
-            <td>
-                @{
-                    var cont = item.Type + "s";
-                }
-                <a asp-controller="@cont" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    @{
+                        var cont = item.Type + "s";
+                    }
+                    <a asp-controller="@cont" asp-action="Details" asp-route-id="@item.Id">Details</a>
 
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-@if(Model.Count()==0)
-            {
-                <h1>No items found</h1>
-            }
+@if (Model.Count() == 0)
+{
+    <h1>No items found</h1>
+}

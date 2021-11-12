@@ -19,7 +19,7 @@
             @for (int i = 0, count = 1; i < Model.Count(); i++, count++)
             {
 
-                <div class="card" style="display:inline-block">
+                <div class="card" style="display:inline-block; width:300px; height:541px;">
                     @{
                         string img = Convert.ToBase64String(Model.ElementAt(i).Photos.First().Image);
                     }
