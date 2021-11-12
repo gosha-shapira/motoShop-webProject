@@ -16,7 +16,7 @@
 <body>
     <div id="loader" class="center"></div>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 gunmetal">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="~/LOGO2.PNG" width="97" height="46"/>
@@ -25,14 +25,14 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between ">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Motorcycles" asp-action="CardView"><i class="fas fa-motorcycle"></i> Motorcycles</a>
+                            <a class="nav-link text-dark " asp-area="" asp-controller="Motorcycles" asp-action="CardView" style="color: #EAC67A"><i class="fas fa-motorcycle"></i> Motorcycles</a>
 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Clothings" asp-action="CardView"><i class="fas fa-vest-patches"></i> Clothing</a>
+                            <a class="nav-link text-dark " asp-area="" asp-controller="Clothings" asp-action="CardView"><i class="fas fa-vest-patches"></i> Clothing</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="CardView"><i class="fas fa-tools"></i> Parts</a>
@@ -46,11 +46,11 @@
                         @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Branches" asp-action="Index"><i class="fas fa-code-branch"></i> Branches</a>
+                                <a class="nav-link text-dark " asp-area="" asp-controller="Branches" asp-action="Index"><i class="fas fa-code-branch"></i> Branches</a>
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCarts" asp-action="Index"><i class="fas fa-shopping-cart"></i> Cart</a>
+                            <a class="nav-link text-dark " asp-area="" asp-controller="ShoppingCarts" asp-action="Index"><i class="fas fa-shopping-cart"></i> Cart</a>
                         </li>
                     </ul>
 
@@ -60,10 +60,10 @@
                             if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index"><i class="fas fa-user-cog"></i> Manage Users</a>
+                                    <a class="nav-link text-dark " asp-area="" asp-controller="Users" asp-action="Index"><i class="fas fa-user-cog"></i> Manage Users</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Statistics" asp-action="Index"><i class="far fa-chart-bar"></i> Show Statistics</a>
+                                    <a class="nav-link text-dark " asp-area="" asp-controller="Statistics" asp-action="Index"><i class="far fa-chart-bar"></i> Show Statistics</a>
                                 </li>
                             }
                         }
@@ -93,8 +93,8 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
+    <footer class="border-top footer text-muted gunmetal">
+        <div class="container ">
             &copy; 2021 - motoShop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>

@@ -37,14 +37,14 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var products = await _context.Products
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (products == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(products);
@@ -77,13 +77,13 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var products = await _context.Products.FindAsync(id);
             if (products == null)
             {
-                return NotFound();
+                return View("Error");
             }
             return View(products);
         }
@@ -97,7 +97,7 @@ namespace motoShop.Controllers
         {
             if (id != products.Id)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -111,7 +111,7 @@ namespace motoShop.Controllers
                 {
                     if (!ProductsExists(products.Id))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -128,14 +128,14 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var products = await _context.Products
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (products == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(products);

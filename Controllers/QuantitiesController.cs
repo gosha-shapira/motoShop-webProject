@@ -30,14 +30,14 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var quantity = await _context.Quantity
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (quantity == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(quantity);
@@ -70,13 +70,13 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var quantity = await _context.Quantity.FindAsync(id);
             if (quantity == null)
             {
-                return NotFound();
+                return View("Error");
             }
             return View(quantity);
         }
@@ -90,7 +90,7 @@ namespace motoShop.Controllers
         {
             if (id != quantity.Id)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -104,7 +104,7 @@ namespace motoShop.Controllers
                 {
                     if (!QuantityExists(quantity.Id))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -121,14 +121,14 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var quantity = await _context.Quantity
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (quantity == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(quantity);

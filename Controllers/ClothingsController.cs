@@ -35,7 +35,7 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var clothing = await _context.Clothing
@@ -43,7 +43,7 @@ namespace motoShop.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (clothing == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(clothing);
@@ -83,13 +83,13 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var clothing = await _context.Clothing.FindAsync(id);
             if (clothing == null)
             {
-                return NotFound();
+                return View("Error");
             }
             ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", clothing.BranchId);
             return View(clothing);
@@ -104,7 +104,7 @@ namespace motoShop.Controllers
         {
             if (id != clothing.Id)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -119,7 +119,7 @@ namespace motoShop.Controllers
                 {
                     if (!ClothingExists(clothing.Id))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -138,7 +138,7 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var clothing = await _context.Clothing
@@ -146,7 +146,7 @@ namespace motoShop.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (clothing == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(clothing);

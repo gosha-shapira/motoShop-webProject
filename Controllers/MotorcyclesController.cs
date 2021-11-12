@@ -58,14 +58,14 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
             var motorcycle = await _context.Motorcycle
                 .Include(m => m.Branch).Include(x => x.Photos)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (motorcycle == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(motorcycle);
@@ -110,13 +110,13 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var motorcycle = await _context.Motorcycle.FindAsync(id);
             if (motorcycle == null)
             {
-                return NotFound();
+                return View("Error");
             }
             ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", motorcycle.BranchId);
             return View(motorcycle);
@@ -131,7 +131,7 @@ namespace motoShop.Controllers
         {
             if (id != motorcycle.Id)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -146,7 +146,7 @@ namespace motoShop.Controllers
                 {
                     if (!MotorcycleExists(motorcycle.Id))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -165,7 +165,7 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var motorcycle = await _context.Motorcycle
@@ -173,7 +173,7 @@ namespace motoShop.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (motorcycle == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(motorcycle);

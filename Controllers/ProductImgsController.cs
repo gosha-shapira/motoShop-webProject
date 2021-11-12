@@ -32,7 +32,7 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var productImg = await _context.ProductImg
@@ -40,7 +40,7 @@ namespace motoShop.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (productImg == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(productImg);
@@ -87,13 +87,13 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var productImg = await _context.ProductImg.FindAsync(id);
             if (productImg == null)
             {
-                return NotFound();
+                return View("Error");
             }
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Discriminator", productImg.ProductId);
             return View(productImg);
@@ -108,7 +108,7 @@ namespace motoShop.Controllers
         {
             if (id != productImg.Id)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -122,7 +122,7 @@ namespace motoShop.Controllers
                 {
                     if (!ProductImgExists(productImg.Id))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -140,7 +140,7 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var productImg = await _context.ProductImg
@@ -148,7 +148,7 @@ namespace motoShop.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (productImg == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(productImg);
