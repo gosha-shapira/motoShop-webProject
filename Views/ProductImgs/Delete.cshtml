@@ -8,20 +8,22 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>ProductImg</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Image)
+            @{
+                string img = Convert.ToBase64String(Model.Image);
+            }
+            <img src="data:image/png;base64,@img" alt="Model.Product.Manufacturer" width="600" height="400">
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Product)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Id)
+            @Html.DisplayFor(model => model.Product.Description)
         </dd>
     </dl>
 
