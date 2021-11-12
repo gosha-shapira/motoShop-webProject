@@ -35,7 +35,7 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var part = await _context.Part
@@ -49,7 +49,7 @@ namespace motoShop.Controllers
             }
             if (part == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(part);
@@ -96,13 +96,13 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var part = await _context.Part.FindAsync(id);
             if (part == null)
             {
-                return NotFound();
+                return View("Error");
             }
             ViewData["MotorcycleId"] = new SelectList(_context.Motorcycle, "Id", "Description");
             ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", part.BranchId);
@@ -118,7 +118,7 @@ namespace motoShop.Controllers
         {
             if (id != part.Id)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -133,7 +133,7 @@ namespace motoShop.Controllers
                 {
                     if (!PartExists(part.Id))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -151,7 +151,7 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var part = await _context.Part
@@ -159,7 +159,7 @@ namespace motoShop.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (part == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(part);

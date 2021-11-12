@@ -1,29 +1,11 @@
-﻿
+﻿<br />
 <br />
 <br />
 <br />
 <br />
-<br />
-<div class="section">
-    <div class='container'>
-        <div class='row' style='padding-top:25px; padding-bottom:25px;'>
-            <div class='col-md-12'>
-                <div id='mainContentWrapper'>
-                    <div class="col-md-8 col-md-offset-2">
-                        <h1 style="text-align: center;">
-                            @ViewBag.CheckoutCompleteMessage
-                        </h1>
-                    </div>
-                    <div class="col-md-8 col-md-offset-2">
-                        <h1 style="text-align: center;">
-                            Your Order Id is: @ViewBag.OrderNumber
-                        </h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<h1 class="text-center"> @ViewBag.CheckoutCompleteMessage </h1>
+<h1 class="text-center"> Your Order Id is: @ViewBag.OrderNumber <br /> </h1>
+<h6 class="text-center"><a asp-action="Index" asp-controller="Home"> click here to go to the home page </a></h6>
 <br />
 <br />
 <br />

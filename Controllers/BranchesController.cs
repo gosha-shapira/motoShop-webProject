@@ -33,14 +33,14 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var branches = await _context.Branches
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (branches == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(branches);
@@ -76,13 +76,13 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var branches = await _context.Branches.FindAsync(id);
             if (branches == null)
             {
-                return NotFound();
+                return View("Error");
             }
             return View(branches);
         }
@@ -97,7 +97,7 @@ namespace motoShop.Controllers
         {
             if (id != branches.ID)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -111,7 +111,7 @@ namespace motoShop.Controllers
                 {
                     if (!BranchesExists(branches.ID))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -129,14 +129,14 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var branches = await _context.Branches
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (branches == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(branches);

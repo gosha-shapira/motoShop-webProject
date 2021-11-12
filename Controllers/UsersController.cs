@@ -42,14 +42,14 @@ namespace motoShop.Controllers
         {
             if (username == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var users = await _context.Users
                 .FirstOrDefaultAsync(m => m.Username == username);
             if (users == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(users);
@@ -166,14 +166,14 @@ namespace motoShop.Controllers
         {
             if (username == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var users = await _context.Users.FindAsync(username);
 
             if (users == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             //ViewData["Type"] = new SelectList(_context.Set<Users>(), "Type", "Type", users.Type);
@@ -190,7 +190,7 @@ namespace motoShop.Controllers
         {
             if (username != users.Username)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -204,7 +204,7 @@ namespace motoShop.Controllers
                 {
                     if (!UsersExists(users.Username))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -221,14 +221,14 @@ namespace motoShop.Controllers
         {
             if (username == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var users = await _context.Users
                 .FirstOrDefaultAsync(m => m.Username == username);
             if (users == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(users);

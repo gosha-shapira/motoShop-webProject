@@ -49,7 +49,7 @@ namespace motoShop.Controllers
 
             if (_shoppingCart.Items.Count == 0)
             {
-                return View("NotFound");
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -75,13 +75,13 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var order = await _context.Order.FindAsync(id);
             if (order == null)
             {
-                return NotFound();
+                return View("Error");
             }
             return View(order);
         }
@@ -95,7 +95,7 @@ namespace motoShop.Controllers
         {
             if (id != order.Id)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -109,7 +109,7 @@ namespace motoShop.Controllers
                 {
                     if (!OrderExists(order.Id))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -126,14 +126,14 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var order = await _context.Order
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(order);
@@ -224,7 +224,7 @@ namespace motoShop.Controllers
 
             if (order == null)
             {
-                return NotFound();
+                return View("Error");
             }
             return View(order);
         }
@@ -241,7 +241,7 @@ namespace motoShop.Controllers
 
             if (query == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             else
