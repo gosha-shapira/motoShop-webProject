@@ -83,6 +83,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    background-color: whitesmoke;
 }
 
 .footer {
@@ -90,6 +91,42 @@ body {
     bottom: 0;
     width: 100%;
     white-space: nowrap;
+    line-height: 60px;
+    Vertically center the text there height: 2.5rem;
+}
+
+.gunmetal {
+    background-color: #233237;
+}
+
+/*.container-1 {
+    background-color:  #233237;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    border: 2px solid black;
+}*/
+
+.flex-box
+{
+    display: flex;
+    border: 1px solid black;
+    padding: 10px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+
+aside {
+    width: 30%;
+    padding-left: 15px;
+    margin-left: 15px;
+    float: right;
+    font-style: italic;
+    background-color: lightgray;
+}
+=======
     line-height: 60px; /* Vertically center the text there */
 }
 
@@ -177,3 +214,4 @@ body {
     .zoom:hover img {
         transform: scale(5);
     }
+
