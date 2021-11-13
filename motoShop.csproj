@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\css\Photos\twitter.png" />
-    <None Include="wwwroot\Unsplash.js" />
     <None Include="wwwroot\Scripts\Carousel.js" />
   </ItemGroup>
 </Project>
