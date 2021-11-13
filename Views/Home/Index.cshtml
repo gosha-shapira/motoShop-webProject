@@ -42,7 +42,7 @@
                     <select name="Manu" asp-for="Products" class="form-control" asp-items="ViewBag.Manufacturer" style="max-height: 55px;"></select>
                 </td>
                 <td>
-                    <button type="submit" style="align-self:center; vertical-align:middle; max-height:55px">Search</button>
+                    <button  class="btn btn-warning"  type="submit" style="align-self:center; vertical-align:middle; max-height:55px">Search</button>
                 </td>
             }
             <td>
@@ -51,10 +51,10 @@
             @using (Html.BeginForm("Search", "Home", FormMethod.Post))
             {
                 <td>
-                    <input name="text" style="max-height: 55px"/>
+                    <input name="text" placeholder="Search..." style="max-height: 55px"/>
                 </td>
                 <td>
-                    <button type="submit" style="align-self: center; vertical-align: middle; max-height: 55px">Search</button>
+                    <button class="btn btn-warning"   type="submit" style="align-self: center; vertical-align: middle; max-height: 55px;">Search</button>
                 </td>
             }
         </tr>
