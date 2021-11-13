@@ -16,17 +16,16 @@
         </div>
     </div>
 </section>
+<br />
+<br />
 <!-- Banner Section End -->
 <!--Payment Cpmpletion Begin-->
 <form asp-action="Create" asp-route-userId="@ViewData["UserId"]" method="post" role="form">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div id="wrap">
         <div id="grid">
-            <div class="column column1">
+            <div class="column column1 text-center">
                 <div class="step" id="step1">
-                    <div class="number">
-                        <span>1</span>
-                    </div>
                     <div class="title">
                         <h4 class="checkout_h4">Name</h4>
                     </div>
@@ -37,9 +36,6 @@
                     </div>
                 </div>
                 <div class="step" id="step2">
-                    <div class="number">
-                        <span>2</span>
-                    </div>
                     <div class="title">
                         <h4 class="checkout_h4">Delivery Info</h4>
                     </div>
@@ -63,11 +59,8 @@
                     </div>
                 </div>
             </div>
-            <div class="column column2">
+            <div class="column column2 text-center">
                 <div class="step" id="step3">
-                    <div class="number">
-                        <span>3</span>
-                    </div>
                     <div class="title">
                         <h4 class="checkout_h4">Shipping</h4>
                     </div>
@@ -78,9 +71,6 @@
                     </p>
                 </div>
                 <div class="step" id="step4">
-                    <div class="number">
-                        <span>4</span>
-                    </div>
                     <div class="title">
                         <h4 class="checkout_h4">Payment</h4>
                     </div>
@@ -94,11 +84,8 @@
                 </div>
             </div>
         </div>
-        <div class="column column3">
+        <div class="column column3 text-center">
             <div class="step" id="step5">
-                <div class="number">
-                    <span>5</span>
-                </div>
                 <div class="title">
                     <h4 class="checkout_h4">Order</h4>
                 </div>
@@ -107,11 +94,11 @@
                 <div class="right" id="reviewed">
                     <div>
                         <a href="/ShoppingCarts/Index">
-                            <button type="button" class="site-btn">Edit Cart</button>
+                            <button class="btn btn-warning" type="button" style="margin: 5px">Edit Cart</button>
                         </a>
                     </div>
                     <div id="complete">
-                        <button type="submit" id="placeOrder" class="button-done">Complete Order</button>
+                        <button class="btn btn-warning" type="submit" id="placeOrder" style="margin: 5px">Complete Order</button>
                     </div>
                 </div>
             </div>
