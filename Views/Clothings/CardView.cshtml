@@ -21,7 +21,9 @@
 
                 <div class="card" style="display: inline-block; width: 300px; height: 541px;">
                     @{
-                        string img = Convert.ToBase64String(Model.ElementAt(i).Photos.First().Image);
+                        string img;
+                        try {img = Convert.ToBase64String(Model.ElementAt(i).Photos.First().Image); }
+                        catch { img = "C:\\Users\\dimav\\source\repos\\motoShop-webProject\\Photos\no-image-available.jpeg"; }
                     }
                     <img src="data:image/png;base64,@img" alt="@Model.ElementAt(i).Manufacturer" object-fit:scale-down width="298" height="198">
                     <h4>@Html.DisplayFor(modelItem => Model.ElementAt(i).Description)</h4>
