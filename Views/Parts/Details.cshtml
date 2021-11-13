@@ -70,7 +70,14 @@
             Compatible With
         </dt>
         <dd class="col-sm-10">
-            <a asp-controller="Motorcycles" asp-action="Details" asp-route-id="@Model.MotorcycleId">@Model.Compatibility.First().Description</a>
+            @if (Model.MotorcycleId == -1)
+            {
+                <p>Universal</p>
+            }
+            else
+            {
+                <a asp-controller="Motorcycles" asp-action="Details" asp-route-id="@Model.MotorcycleId">@Model.Compatibility.First().Description</a>
+            }
         </dd>
         <dt class="col-sm-2">
             Gallery
@@ -81,39 +88,45 @@
     @{
         if (Model.Photos.Count() != 0)
         {
-            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    @{
-                        var first = true;
-                    }
-                    @foreach (var item in Model.Photos)
-                    {
-                        <div class="carousel-item @(first ? Html.Raw("active") : Html.Raw(""))">
-                            @{
-                                string img = Convert.ToBase64String(item.Image);
-                            }
-                            <img src="data:image/png;base64,@img" alt="@item.Product.Manufacturer" width="1200" height="800">
-                        </div>
-                        first = false;
-                    }
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
-                   data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleControls" role="button"
-                   data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+            <div class="slideshow-container">
+                @foreach (var item in Model.Photos)
+                {
+                    <div class="mySlides">
+                        @{
+                            string img = Convert.ToBase64String(item.Image);
+                        }
+                        <img src="data:image/png;base64,@img" alt="@item.Product.Manufacturer" width="600" height="400">
+                    </div>
+                }
+                <!-- Next and previous buttons -->
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
             </div>
+            <br>
+
+            <!-- The dots/circles -->
+            <div style="text-align:center">
+                @{var i = 0; }
+                @foreach (var item in Model.Photos)
+                {
+                    <span class="dot" onclick="currentSlide(@i)"></span>
+                    i++;
+                }
+            </div>
+            <script src="@Url.Content("~/Scripts/Carousel.js")"></script>
         }
     }
 
 </div>
 <div>
-    <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@Model.Id">Add to Cart</a><content> |</content>
+    @if (Model.Stock > 0)
+    {
+        <a asp-controller="ShoppingCarts" asp-action="AddToShoppingCart" asp-route-id="@Model.Id">Add to shopping cart</a>
+    }
+    else
+    {
+        <content> Sorry, out of stock </content>
+    }<content> |</content>
     @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
     {
         <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> <content>|</content>

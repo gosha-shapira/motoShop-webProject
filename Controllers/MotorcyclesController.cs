@@ -26,47 +26,46 @@ namespace motoShop.Controllers
             switch (Sorting_Order)
             {
                 case "Man_Up":
-                    return View(await _context.Motorcycle.OrderBy(a => a.Manufacturer).Include(m => m.Branch).ToListAsync());
+                    return View(await _context.Motorcycle.OrderBy(a => a.Manufacturer).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
                 case "Man_Down":
-                    return View(await _context.Motorcycle.OrderByDescending(a => a.Manufacturer).Include(m => m.Branch).ToListAsync());
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.Manufacturer).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
                 case "Date_Up":
-                    return View(await _context.Motorcycle.OrderByDescending(a => a.EntryDate).Include(m => m.Branch).ToListAsync());
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.EntryDate).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
                 case "Date_Down":
-                    return View(await _context.Motorcycle.OrderBy(a => a.EntryDate).Include(m => m.Branch).ToListAsync());
+                    return View(await _context.Motorcycle.OrderBy(a => a.EntryDate).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
                 case "Year_Up":
-                    return View(await _context.Motorcycle.OrderBy(a => a.Year).Include(m => m.Branch).ToListAsync());
+                    return View(await _context.Motorcycle.OrderBy(a => a.Year).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
                 case "Year_Down":
-                    return View(await _context.Motorcycle.OrderByDescending(a => a.Year).Include(m => m.Branch).ToListAsync());
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.Year).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
                 case "Engine_Up":
-                    return View(await _context.Motorcycle.OrderBy(a => a.EngineSize).Include(m => m.Branch).ToListAsync());
+                    return View(await _context.Motorcycle.OrderBy(a => a.EngineSize).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
                 case "Engine_Down":
-                    return View(await _context.Motorcycle.OrderByDescending(a => a.EngineSize).Include(m => m.Branch).ToListAsync());
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.EngineSize).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
                 case "Price_Up":
-                    return View(await _context.Motorcycle.OrderBy(a => a.Price).Include(m => m.Branch).ToListAsync());
+                    return View(await _context.Motorcycle.OrderBy(a => a.Price).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
                 case "Price_Down":
-                    return View(await _context.Motorcycle.OrderByDescending(a => a.Price).Include(m => m.Branch).ToListAsync());
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.Price).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
                 default:
-                    return View(await _context.Motorcycle.OrderByDescending(a => a.EntryDate).Include(m => m.Branch).ToListAsync());
+                    return View(await _context.Motorcycle.OrderByDescending(a => a.EntryDate).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
             }
-            /*return View(await _context.Motorcycle.ToListAsync());
-            var motoShopContext = _context.Motorcycle.Include(m => m.Branch);
-            return View(await motoShopContext.ToListAsync());*/
         }
-
+        public async Task<IActionResult> CardView()
+        {
+            return View(await _context.Motorcycle.OrderBy(a => a.Manufacturer).Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
+        }
         // GET: Motorcycles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
-            //var motorcycle = await _context.Motorcycle.Include(x => x.Photos);
             var motorcycle = await _context.Motorcycle
                 .Include(m => m.Branch).Include(x => x.Photos)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (motorcycle == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(motorcycle);
@@ -76,7 +75,7 @@ namespace motoShop.Controllers
         [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address");
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName");
             return View();
         }
 
@@ -101,7 +100,7 @@ namespace motoShop.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", motorcycle.BranchId);
             return View(motorcycle);
         }
 
@@ -111,15 +110,15 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var motorcycle = await _context.Motorcycle.FindAsync(id);
             if (motorcycle == null)
             {
-                return NotFound();
+                return View("Error");
             }
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", motorcycle.BranchId);
             return View(motorcycle);
         }
 
@@ -132,7 +131,7 @@ namespace motoShop.Controllers
         {
             if (id != motorcycle.Id)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -147,7 +146,7 @@ namespace motoShop.Controllers
                 {
                     if (!MotorcycleExists(motorcycle.Id))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -156,7 +155,7 @@ namespace motoShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", motorcycle.BranchId);
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", motorcycle.BranchId);
             return View(motorcycle);
         }
 
@@ -166,7 +165,7 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var motorcycle = await _context.Motorcycle
@@ -174,7 +173,7 @@ namespace motoShop.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (motorcycle == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(motorcycle);

@@ -43,13 +43,13 @@ namespace motoShop.Controllers
         //[Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("OrderId,UserId,TotalPrice")] Order order, string userId)
+        public IActionResult Create([Bind("OrderId,UserId,TotalPrice,ShippingAdress")] Order order, string userId)
         {
             _shoppingCart.Items = GetShoppingCartItems();
 
             if (_shoppingCart.Items.Count == 0)
             {
-                return View("NotFound");
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -62,6 +62,11 @@ namespace motoShop.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("CheckoutComplete", order);
             }
+            else if (order.ShippingAdress == null)
+            {
+                ViewData["Error"] = "must enter an address";
+                return View("Error");
+            }
             return View(order);
         }
 
@@ -70,13 +75,13 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var order = await _context.Order.FindAsync(id);
             if (order == null)
             {
-                return NotFound();
+                return View("Error");
             }
             return View(order);
         }
@@ -90,7 +95,7 @@ namespace motoShop.Controllers
         {
             if (id != order.Id)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -104,7 +109,7 @@ namespace motoShop.Controllers
                 {
                     if (!OrderExists(order.Id))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -121,14 +126,14 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var order = await _context.Order
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(order);
@@ -167,15 +172,11 @@ namespace motoShop.Controllers
             var usr = _context.Users.Find(User.Identity.Name);
 
             order.UserId = User.Identity.Name;
-            order.ShippingAdress = usr.Address;
+            /*order.ShippingAdress = order.ShippingAdress;*/
             order.OrderDate = DateTime.Now;
             order.TotalPrice = GetShoppingCartITotal();
             order.ShoppingCartId = _shoppingCart.ShoppingCartId;
             _context.Order.Add(order);
-            /*var shopCart = _context.ShoppingCart.Find(_shoppingCart.ShoppingCartId);
-            shopCart.OrderId = (from orders in _context.Order
-                                orderby orders.Id descending
-                                select orders.Id).First();*/
             _context.SaveChanges();
         }
 
@@ -223,7 +224,7 @@ namespace motoShop.Controllers
 
             if (order == null)
             {
-                return NotFound();
+                return View("Error");
             }
             return View(order);
         }
@@ -240,7 +241,7 @@ namespace motoShop.Controllers
 
             if (query == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             else

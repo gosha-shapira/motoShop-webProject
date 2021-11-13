@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,30 +21,33 @@ namespace motoShop.Controllers
         }
 
         // GET: Branches
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Branches.ToListAsync());
         }
 
         // GET: Branches/Details/5
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var branches = await _context.Branches
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (branches == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(branches);
         }
 
         // GET: Branches/Create
+        [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +58,7 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Create([Bind("ID,Address,BranchName,PhoneNumber,Longitude,Latitude")] Branches branches)
         {
             if (ModelState.IsValid)
@@ -66,17 +71,18 @@ namespace motoShop.Controllers
         }
 
         // GET: Branches/Edit/5
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var branches = await _context.Branches.FindAsync(id);
             if (branches == null)
             {
-                return NotFound();
+                return View("Error");
             }
             return View(branches);
         }
@@ -86,11 +92,12 @@ namespace motoShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Address,BranchName,PhoneNumber,Longitude,Latitude")] Branches branches)
         {
             if (id != branches.ID)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -104,7 +111,7 @@ namespace motoShop.Controllers
                 {
                     if (!BranchesExists(branches.ID))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -117,18 +124,19 @@ namespace motoShop.Controllers
         }
 
         // GET: Branches/Delete/5
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var branches = await _context.Branches
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (branches == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(branches);
@@ -137,6 +145,7 @@ namespace motoShop.Controllers
         // POST: Branches/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var branches = await _context.Branches.FindAsync(id);

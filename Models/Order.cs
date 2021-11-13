@@ -23,6 +23,8 @@ namespace motoShop.Models
 
         public double TotalPrice { get; set; }
 
+        [Required]
+        [Display(Name = "Shipping Address")]
         public String ShippingAdress { get; set; }
 
         [ForeignKey("ShopingCart")]

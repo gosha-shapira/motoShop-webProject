@@ -23,7 +23,11 @@ namespace motoShop.Controllers
         // GET: Parts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Part.Include(m => m.Branch).ToListAsync());
+            return View(await _context.Part.Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
+        }
+        public async Task<IActionResult> CardView()
+        {
+            return View(await _context.Part.Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
         }
 
         // GET: Parts/Details/5
@@ -31,18 +35,21 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var part = await _context.Part
                 .Include(x => x.Compatibility)
                 .Include(m => m.Branch).Include(x => x.Photos)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            Motorcycle m = _context.Motorcycle.Single(x => x.Id == part.MotorcycleId);
-            part.Compatibility = part.Compatibility.Append<Motorcycle>(m);
+            if (part.MotorcycleId != -1)
+            {
+                Motorcycle m = _context.Motorcycle.Single(x => x.Id == part.MotorcycleId);
+                part.Compatibility = part.Compatibility.Append<Motorcycle>(m);
+            }
             if (part == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(part);
@@ -53,7 +60,7 @@ namespace motoShop.Controllers
         public IActionResult Create()
         {
             ViewData["MotorcycleId"] = new SelectList(_context.Motorcycle, "Id", "Description");
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address");
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName");
             return View();
         }
 
@@ -70,13 +77,16 @@ namespace motoShop.Controllers
                 part.Compatibility = new List<Motorcycle>();
                 part.EntryDate = DateTime.Now;
                 part.Type = ProductType.Part;
-                Motorcycle m = _context.Motorcycle.Single(x => x.Id == part.MotorcycleId);
-                part.Compatibility = part.Compatibility.Append<Motorcycle>(m);
+                if (part.MotorcycleId != -1)
+                {
+                    Motorcycle m = _context.Motorcycle.Single(x => x.Id == part.MotorcycleId);
+                    part.Compatibility = part.Compatibility.Append<Motorcycle>(m).ToList<Motorcycle>();
+                }
                 _context.Add(part);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", part.BranchId);
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", part.BranchId);
             return View(part);
         }
 
@@ -86,15 +96,16 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var part = await _context.Part.FindAsync(id);
             if (part == null)
             {
-                return NotFound();
+                return View("Error");
             }
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", part.BranchId);
+            ViewData["MotorcycleId"] = new SelectList(_context.Motorcycle, "Id", "Description");
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", part.BranchId);
             return View(part);
         }
 
@@ -107,7 +118,7 @@ namespace motoShop.Controllers
         {
             if (id != part.Id)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -122,7 +133,7 @@ namespace motoShop.Controllers
                 {
                     if (!PartExists(part.Id))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -140,7 +151,7 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var part = await _context.Part
@@ -148,7 +159,7 @@ namespace motoShop.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (part == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(part);

@@ -23,7 +23,11 @@ namespace motoShop.Controllers
         // GET: Clothings
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Clothing.Include(m => m.Branch).ToListAsync());
+            return View(await _context.Clothing.Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
+        }
+        public async Task<IActionResult> CardView()
+        {
+            return View(await _context.Clothing.Include(m => m.Branch).Include(m => m.Photos).ToListAsync());
         }
 
         // GET: Clothings/Details/5
@@ -31,7 +35,7 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var clothing = await _context.Clothing
@@ -39,7 +43,7 @@ namespace motoShop.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (clothing == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(clothing);
@@ -49,7 +53,7 @@ namespace motoShop.Controllers
         [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address");
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName");
             return View();
         }
 
@@ -69,7 +73,7 @@ namespace motoShop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", clothing.BranchId);
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", clothing.BranchId);
             return View(clothing);
         }
 
@@ -79,15 +83,15 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var clothing = await _context.Clothing.FindAsync(id);
             if (clothing == null)
             {
-                return NotFound();
+                return View("Error");
             }
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", clothing.BranchId);
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", clothing.BranchId);
             return View(clothing);
         }
 
@@ -100,7 +104,7 @@ namespace motoShop.Controllers
         {
             if (id != clothing.Id)
             {
-                return NotFound();
+                return View("Error");
             }
 
             if (ModelState.IsValid)
@@ -115,7 +119,7 @@ namespace motoShop.Controllers
                 {
                     if (!ClothingExists(clothing.Id))
                     {
-                        return NotFound();
+                        return View("Error");
                     }
                     else
                     {
@@ -124,7 +128,7 @@ namespace motoShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "Address", clothing.BranchId);
+            ViewData["BranchId"] = new SelectList(_context.Branches, "ID", "BranchName", clothing.BranchId);
             return View(clothing);
         }
 
@@ -134,7 +138,7 @@ namespace motoShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             var clothing = await _context.Clothing
@@ -142,7 +146,7 @@ namespace motoShop.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (clothing == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
             return View(clothing);
