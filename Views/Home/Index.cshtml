@@ -83,7 +83,7 @@
                         try { img = Convert.ToBase64String(Model.Products.First().Photos.First().Image); }
                         catch (InvalidOperationException exc)
                         {
-                            img = "C:\\Users\\dimav\\source\repos\\motoShop-webProject\\Photos\no-image-available.jpeg";
+                            img = "";
                         }
                     }
                     <img src="data:image/png;base64,@img" alt="@Model.Products.First().Description" width="360" height="240" style="width:360; height:240; object-fit:scale-down ">

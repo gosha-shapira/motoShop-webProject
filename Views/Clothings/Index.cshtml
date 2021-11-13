@@ -62,7 +62,9 @@
                 <td>
                     <div class="zoom">
                         @{
-                            string img = Convert.ToBase64String(item.Photos.First().Image);
+                            string img;
+                            try { img = Convert.ToBase64String(item.Photos.First().Image); }
+                            catch { img = ""; }
                         }
                         <img src="data:image/png;base64,@img" alt="@item.Manufacturer" width="120" height="80" object-fit:scale-down>
                     </div>

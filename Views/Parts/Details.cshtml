@@ -93,7 +93,9 @@
                 {
                     <div class="mySlides">
                         @{
-                            string img = Convert.ToBase64String(item.Image);
+                            string img;
+                            try { img = Convert.ToBase64String(item.Image); }
+                            catch { img = ""; }
                         }
                         <img src="data:image/png;base64,@img" alt="@item.Product.Manufacturer" width="600" height="400">
                     </div>
