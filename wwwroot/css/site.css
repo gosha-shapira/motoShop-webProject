@@ -83,7 +83,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    background-color: whitesmoke;
+    background-color: white;
 }
 
 .footer {
@@ -98,14 +98,6 @@ body {
 .gunmetal {
     background-color: #233237;
 }
-
-/*.container-1 {
-    background-color:  #233237;
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
-    border: 2px solid black;
-}*/
 
 .flex-box
 {
@@ -125,9 +117,6 @@ aside {
     float: right;
     font-style: italic;
     background-color: lightgray;
-}
-=======
-    line-height: 60px; /* Vertically center the text there */
 }
 
 
@@ -151,7 +140,7 @@ aside {
 }
 
 .center {
-    position: absolute;
+    position: relative;
     top: 0;
     bottom: 0;
     left: 0;
@@ -193,7 +182,7 @@ aside {
     }
 
 .bodystyle {
-    background-color: darkgrey;
+    background-color: white;
     color: #edc709;
 }
 
@@ -215,3 +204,27 @@ aside {
         transform: scale(5);
     }
 
+#loader {
+    background-color: white;
+    border: 12px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 12px solid #444444;
+    width: 100px;
+    height: 100px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.center {
+    position: center;
+    top: 250px;
+    bottom: 250px;
+    left: 250px;
+    right: 250px;
+    margin: auto;
+}

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" class="bg-dark">
+<html lang="en" class="bg-white">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="~/css/Dima.css" />
     <link rel="stylesheet" href="~/css/Carousel.css" />
     <link rel="shortcut icon" type="image/x-icon" href="~/logo.ico" />
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
           integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>MotoShop</title>
     <script src="https://kit.fontawesome.com/217409dbc6.js" crossorigin="anonymous"></script>
@@ -18,12 +18,12 @@
 
 </head>
 <body>
-    <div id="loader" class="center"></div>
+    <div id="loader" class="center" style="background-color:white"></div>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-white border-bottom box-shadow mb-3 gunmetal">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3 gunmetal">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/LOGO2.PNG" width="97" height="46"/>
+                    <img src="~/LOGO2.PNG" width="97" height="46" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -65,10 +65,10 @@
                             if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark " asp-area="" asp-controller="Users" asp-action="Index"><i class="fas fa-user-cog"></i> Manage Users</a>
+                                    <a class="nav-link text-warning " asp-area="" asp-controller="Users" asp-action="Index"><i class="fas fa-user-cog"></i> Manage Users</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark " asp-area="" asp-controller="Statistics" asp-action="Index"><i class="far fa-chart-bar"></i> Show Statistics</a>
+                                    <a class="nav-link text-warning " asp-area="" asp-controller="Statistics" asp-action="Index"><i class="far fa-chart-bar"></i> Show Statistics</a>
                                 </li>
                             }
                         }
@@ -76,7 +76,7 @@
                     @{
                         if (User.Identity.IsAuthenticated)
                         {
-                            <div> <h6> Hello @Context.User.Identity.Name  </h6> </div>
+                            <div class="text-warning "> <h6 style="padding: 10px"> Hello @Context.User.Identity.Name  </h6> </div>
                             <span>
                                 <a class="nav-link text-dark btn btn-warning" asp-area="" asp-controller="Users" asp-action="Logout"> Logout</a>
                             </span>
@@ -92,95 +92,20 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container bg-white" style="height: 1300px">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    @*<footer class="borer-top footer text-muted bg-white p-5">*@
 
-    <footer class="bg-dark  text-white ">
-
-        <div class="container text-center text-md-left">
-
-            <div class="row text-center text-md-left ">
-
-                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-
-                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning ">MotoShop</h5>
-                    <p>
-                        <a href="https://twitter.com/chillin_avocado">
-                            <img src="~/css/Photos/twitter.png" alt="Twiter" style="padding: 3px" />
-                        </a>
-
-                        <a href="https://github.com/gosha-shapira/motoShop-webProject">
-                            <img src="~/css/Photos/github.png" alt="github" style="padding: 3px" />
-                        </a>
-
-                    </p>
-                    <p class="text-md-left">
-                        We are proud to bring the most invovative, stylish and extraordinary motorcycles to our garage.<br />
-                        Hitting the road can be exciting and for those who like the adrenaline-rush dont forget that with great horse-power
-                        comes great responsibilaty.
-                    </p>
-
-                </div>
-
-
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">TEL-AVIV</h5>
-
-                    <p>
-                        <i class="fas fa-home mr-3"> Shoken St 16</i>
-                    </p>
-
-                    <p>
-                        <i class="fas fa-phone mr-3"> 0544545448</i>
-                    </p>
-
-                </div>
-
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Haifa</h5>
-
-                    <p>
-                        <i class="fas fa-home mr-3"> Ha-Namal St 39</i>
-                    </p>
-
-                    <p>
-                        <i class="fas fa-phone mr-3"> 0546338726</i>
-                    </p>
-
-                </div>
-
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Kiryat Gat</h5>
-
-                    <p>
-                        <i class="fas fa-home mr-3">
-                            Adar 6
-                        </i>
-                    </p>
-
-                    <p>
-                        <i class="fas fa-phone mr-3"> 086738994</i>
-                    </p>
-
-                </div>
-
-
-            </div>
-            &copy; 2021 - MOTOSHOP - <a class="text-warning text-uppercase" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-
-    </footer>
+    
 
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    
+
 </body>
 </html>
