@@ -18,9 +18,9 @@
     <header>
 
         <!-- Navbar  -->
-        <nav class="navbar navbar-expand-lg bg-dark navbar-dark  box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">MotoShop</a>
+        <nav class="navbar navbar-expand-lg gunmetal navbar-dark  box-shadow mb-3">
+            <div class="container ">
+                <a class="navbar-brand text-warning" asp-controller="Home" asp-action="Index">MotoShop</a>
                 <button class="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
@@ -30,49 +30,49 @@
                 </button>
 
                 <div class="navbar-collapse collapse " id="navmenu">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 text-warning">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Motorcycles" asp-action="Index">Motorcycles</a>
+                            <a class="nav-link text-warning" asp-area="" asp-controller="Motorcycles" asp-action="Index">Motorcycles</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="Clothings" asp-action="Index">Clothing</a>
+                            <a class="nav-link text-warning" asp-area="" asp-controller="Clothings" asp-action="Index">Clothing</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="Parts" asp-action="Index">Parts</a>
+                            <a class="nav-link text-warning" asp-area="" asp-controller="Parts" asp-action="Index">Parts</a>
                         </li>
                         @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="ProductImgs" asp-action="Index">Product Images</a>
+                                <a class="nav-link text-warning" asp-area="" asp-controller="ProductImgs" asp-action="Index">Product Images</a>
                             </li>
                         }
                         @{
                             if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                                    <a class="nav-link text-warning" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
                                 </li>
                             }
                         }
                         @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Branches" asp-action="Index">Branches</a>
+                                <a class="nav-link text-warning" asp-area="" asp-controller="Branches" asp-action="Index">Branches</a>
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="ShoppingCarts" asp-action="Index">Cart</a>
+                            <a class="nav-link text-warning" asp-area="" asp-controller="ShoppingCarts" asp-action="Index">Cart</a>
                         </li>
                     </ul>
                     @{
                         if (User.Identity.IsAuthenticated)
                         {
                             <div> Hello @Context.User.Identity.Name  </div>
-                            <a class="nav-link text-light btn btn-primary" asp-area="" asp-controller="Users" asp-action="Logout"> Logout</a>
+                            <a class="nav-link text-dark btn btn-warning" asp-area="" asp-controller="Users" asp-action="Logout"> Logout</a>
                         }
                         else
                         {
-                            <a class="nav-link text-light btn btn-primary" asp-area="" asp-controller="Users" asp-action="Login">Login/Register</a>
+                            <a class="nav-link text-dark btn btn-warning" asp-area="" asp-controller="Users" asp-action="Login">Login/Register</a>
                         }
                     }
                 </div>
@@ -87,6 +87,9 @@
         </main>
     </div>
 
+
+
+
     @*<footer class="borer-top footer text-muted bg-white p-5">*@
 
     <footer class="bg-dark  text-white ">
@@ -100,7 +103,11 @@
                     <h5 class="text-uppercase mb-4 font-weight-bold text-warning ">MotoShop</h5>
                     <p>
                         <a href="https://twitter.com/chillin_avocado">
-                            <img src="~/css/Photos/twitter.png" alt="Twiter" />
+                            <img src="~/css/Photos/twitter.png" alt="Twiter" style="padding: 3px" />
+                        </a>
+
+                        <a href="https://github.com/gosha-shapira/motoShop-webProject">
+                            <img src="~/css/Photos/github.png" alt="github" style="padding: 3px" />
                         </a>
 
                     </p>
@@ -115,7 +122,7 @@
 
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                     <h5 class="text-uppercase mb-4 font-weight-bold text-warning">TEL-AVIV</h5>
-                   
+
                     <p>
                         <i class="fas fa-home mr-3"> Shoken St 16</i>
                     </p>
@@ -128,7 +135,7 @@
 
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                     <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Haifa</h5>
-                   
+
                     <p>
                         <i class="fas fa-home mr-3"> Ha-Namal St 39</i>
                     </p>
@@ -141,7 +148,7 @@
 
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                     <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Kiryat Gat</h5>
-                  
+
                     <p>
                         <i class="fas fa-home mr-3">
                             Adar 6
